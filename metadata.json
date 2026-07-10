@@ -1,0 +1,8 @@
+{
+  "name": "Remix: Laoanny \u0026 Gabriel - Casamento",
+  "description": "Site de casamento premium de Laoanny e Gabriel. Inclui confirmação de presença (RSVP), lista de presentes interativa por categorias, área especial dos padrinhos, cotas de lua de mel via Pix/cartão, e painel administrativo para gerenciamento.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
