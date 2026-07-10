@@ -53,7 +53,7 @@ export default function AdminPanel({
   const [editPixKey, setEditPixKey] = useState(honeymoon.pixKey);
   const [editHoneymoonGoal, setEditHoneymoonGoal] = useState(honeymoon.goal);
   const [editHoneymoonDesc, setEditHoneymoonDesc] = useState(honeymoon.description);
-  const [editGodparentsCode, setEditGodparentsCode] = useState(appSettings.godparentsCode || 'padrinho');
+  const [editGodparentsCode, setEditGodparentsCode] = useState(appSettings.godparentsCode || 'especial');
 
   // Stats calculation
   const totalRsvpGuests = rsvps.reduce((acc, curr) => acc + curr.adultsCount + curr.childrenCount, 0);
@@ -68,7 +68,7 @@ export default function AdminPanel({
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === 'admin') {
+    if (password === 'GabrieleAnny25') {
       setIsAuthenticated(true);
       setLoginError(false);
     } else {
@@ -265,13 +265,13 @@ export default function AdminPanel({
               required
               value={password}
               onChange={e => setPassword(e.target.value)}
-              placeholder="Senha de Acesso (Digite: admin)"
+              placeholder="Senha de Acesso"
               className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-rose-500 text-sm text-center"
             />
           </div>
 
           {loginError && (
-            <p className="text-xs text-rose-500 font-semibold italic">Senha incorreta. Digite "admin" para testar.</p>
+            <p className="text-xs text-rose-500 font-semibold italic">Senha incorreta.</p>
           )}
 
           <button
@@ -282,7 +282,6 @@ export default function AdminPanel({
           </button>
         </form>
         
-        <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-4 italic">Utilize a senha de demonstração <span className="font-bold underline">admin</span> para testar todos os relatórios e gerenciar dados.</p>
       </div>
     );
   }

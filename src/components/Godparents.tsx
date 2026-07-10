@@ -19,7 +19,7 @@ export default function Godparents({ godparents, onAddGodparent, settings }: God
 
   const handleVerifyCode = (e: React.FormEvent) => {
     e.preventDefault();
-    const correctCode = (settings.godparentsCode || 'padrinho').trim().toLowerCase();
+    const correctCode = (settings.godparentsCode || 'especial').trim().toLowerCase();
     if (accessCode.trim().toLowerCase() === correctCode) {
       setHasAccess(true);
       setAccessError(false);
@@ -90,7 +90,7 @@ export default function Godparents({ godparents, onAddGodparent, settings }: God
           </form>
         </div>
         
-        <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-4 italic">Dica: A senha padrão de demonstração é <span className="font-bold underline">padrinho</span>.</p>
+        <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-4 italic">Dica: A senha padrão de demonstração é <span className="font-bold underline">especial</span>.</p>
       </div>
     );
   }

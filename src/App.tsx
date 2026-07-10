@@ -69,7 +69,7 @@ export default function App() {
       locationMapUrl: 'https://maps.app.goo.gl/EuzcXbutFQzt9vD48',
       locationMapIframeUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15350.31603525265!2d-48.06456073836102!3d-15.878953185387431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x935a32ec4ef301db%3A0xc67f70b7978b7bd9!2sEspa%C3%A7o%20Villa%20Rose!5e0!3m2!1spt-BR!2sbr!4v1700000000000',
       couplePhotoUrl: 'https://images.unsplash.com/photo-1464518017462-7b4700147cb3?q=80&w=1200',
-      godparentsCode: 'padrinho'
+      godparentsCode: 'especial'
     };
     if (saved) {
       try {
