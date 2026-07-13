@@ -281,6 +281,7 @@ function initReserveModal() {
 
       btnConfirm.disabled = true;
       btnConfirm.textContent = 'Reservando...';
+      try {
 
       const reservation = { isAnonymous: reserveMode === 'anonymous' };
 
@@ -322,12 +323,40 @@ function initReserveModal() {
       const encodedText = encodeURIComponent(text);
       const whatsappUrl = `https://api.whatsapp.com/send?phone=${noivosPhone}&text=${encodedText}`;
       
-      // Abre o WhatsApp e o PIX imediatamente para evitar bloqueador de popups
+      // Abre o PIX e adiciona um botão para o WhatsApp
+      const pixModalBody = document.querySelector('#modal-pix .modal-body');
+      
+      // Remove botão antigo se existir
+      const existingBtn = document.getElementById('btn-whatsapp-notify');
+      if (existingBtn) existingBtn.remove();
+      
+      const whatsappBtn = document.createElement('a');
+      whatsappBtn.id = 'btn-whatsapp-notify';
+      whatsappBtn.className = 'btn btn-outline btn-lg';
+      whatsappBtn.style.cssText = 'border-color: #25D366; color: #25D366; justify-content: center; margin-top: 0.75rem; display: flex; text-decoration: none;';
+      whatsappBtn.href = whatsappUrl;
+      whatsappBtn.target = '_blank';
+      whatsappBtn.rel = 'noopener noreferrer';
+      whatsappBtn.innerHTML = '📱 Avisar os Noivos (WhatsApp)';
+      
+      const btnGroup = pixModalBody.querySelector('div[style*="flex-direction: column"]');
+      if (btnGroup) {
+         btnGroup.appendChild(whatsappBtn);
+      } else {
+         pixModalBody.appendChild(whatsappBtn);
+      }
+
       openModal('modal-pix');
-      window.location.href = whatsappUrl; // Bypasses mobile popup blockers after async await
 
       selectedGiftId = null;
       reserveMode = null;
+      } catch (err) {
+        console.error(err);
+        showToast('Erro ao reservar presente', 'error');
+      } finally {
+        btnConfirm.disabled = false;
+        btnConfirm.textContent = '🎁 Reservar Presente';
+      }
     });
   }
 }
