@@ -11,6 +11,9 @@
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#D4A843" />
 
+  <!-- Preload da imagem da capa para evitar flash -->
+  <link rel="preload" href="./assets/images/capa.jpg" as="image" fetchpriority="high" />
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -53,6 +56,58 @@
     .pix-desc { font-size: 0.875rem; color: var(--text-secondary); text-align: center; line-height: 1.7; margin-bottom: 1.25rem; }
     .pix-modal-btns { display: flex; flex-direction: column; gap: 0.75rem; }
     .pix-modal-btns .btn { justify-content: center; text-align: center; }
+
+    /* ===== HERO IMAGE CRITICAL STYLES ===== */
+    /* Garante exibição perfeita da imagem sem bordas pretas */
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    .hero {
+      position: relative !important;
+      width: 100% !important;
+      height: 100vh !important;
+      height: 100svh !important;
+      overflow: hidden !important;
+      background: #000 !important;
+    }
+    .hero-scene {
+      position: absolute !important;
+      top: -6% !important;
+      left: -4% !important;
+      right: -4% !important;
+      bottom: -6% !important;
+      overflow: hidden !important;
+    }
+    .hero-img-wrapper {
+      position: absolute !important;
+      inset: 0 !important;
+      overflow: hidden !important;
+    }
+    .hero-img {
+      position: absolute !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) scale(1) !important;
+      width: 100% !important;
+      height: 100% !important;
+      min-width: 100% !important;
+      min-height: 100% !important;
+      object-fit: cover !important;
+      object-position: center center !important;
+      animation: kenBurnsSafe 28s ease-in-out infinite !important;
+      will-change: transform !important;
+    }
+    @keyframes kenBurnsSafe {
+      0%   { transform: translate(-50%, -50%) scale(1.00); }
+      25%  { transform: translate(-50%, -50%) scale(1.04); }
+      50%  { transform: translate(-50%, -50%) scale(1.07); }
+      75%  { transform: translate(-50%, -50%) scale(1.04); }
+      100% { transform: translate(-50%, -50%) scale(1.00); }
+    }
+    /* Remove gap between hero e próxima seção */
+    .hero + * { margin-top: 0; }
   </style>
 </head>
 <body>
@@ -115,8 +170,11 @@
           src="./assets/images/capa.jpg"
           alt="Laoanny e Gabriel - Foto de casal na Catedral de Brasília"
           id="hero-img"
+          width="1920"
+          height="1080"
           loading="eager"
           fetchpriority="high"
+          decoding="async"
         />
       </div>
     </div>

@@ -15,8 +15,11 @@ function initParallax() {
   const hero = document.querySelector('.hero');
   if (!hero) return;
 
-  const heroImg = hero.querySelector('.hero-img');
+  const scene = document.getElementById('hero-scene');
   const heroContent = hero.querySelector('.hero-content');
+
+  // Desabilita parallax no mobile para evitar bordas pretas
+  if (window.innerWidth < 768) return;
 
   let ticking = false;
 
@@ -27,14 +30,15 @@ function initParallax() {
       const heroH = hero.offsetHeight;
 
       if (scrollY < heroH * 1.5) {
-        // Parallax na imagem - move mais devagar que o scroll
-        if (heroImg) {
-          heroImg.style.transform = `translateY(${scrollY * 0.35}px)`;
+        // Parallax na cena inteira: apenas 18% do scroll (antes era 35%)
+        // O inset de 5% garante que nenhuma borda preta apareça
+        if (scene) {
+          scene.style.transform = `translateY(${scrollY * 0.18}px)`;
         }
-        // Conteúdo sobe um pouco mais rápido
+        // Conteúdo sobe levemente
         if (heroContent) {
-          heroContent.style.transform = `translateY(${scrollY * 0.15}px)`;
-          heroContent.style.opacity = Math.max(0, 1 - scrollY / (heroH * 0.7));
+          heroContent.style.transform = `translateY(${scrollY * 0.12}px)`;
+          heroContent.style.opacity = Math.max(0, 1 - scrollY / (heroH * 0.75));
         }
       }
       ticking = false;
@@ -80,48 +84,28 @@ function init3DTilt() {
   const scene = document.querySelector('.hero-scene');
   if (!scene) return;
 
-  const heroImg = scene.querySelector('.hero-img');
-  if (!heroImg) return;
+  // Mouse move 3D para desktop — suave e seguro
+  if (window.innerWidth > 1024) {
+    const hero = document.querySelector('.hero');
+    if (!hero) return;
 
-  // Mouse move 3D para desktop
-  if (window.innerWidth > 768) {
-    document.querySelector('.hero')?.addEventListener('mousemove', e => {
-      const rect = scene.getBoundingClientRect();
+    hero.addEventListener('mousemove', e => {
+      const rect = hero.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width - 0.5;
       const y = (e.clientY - rect.top) / rect.height - 0.5;
 
-      const rotX = y * -8;
-      const rotY = x * 8;
-      const translateX = x * 12;
-      const translateY = y * 8;
+      // Rotação máxima de 4 graus para não mostrar bordas
+      const rotX = y * -4;
+      const rotY = x * 4;
 
-      scene.style.transform = `
-        perspective(1000px)
-        rotateX(${rotX}deg)
-        rotateY(${rotY}deg)
-        translate(${translateX}px, ${translateY}px)
-      `;
+      scene.style.transform = `perspective(1200px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
     });
 
-    document.querySelector('.hero')?.addEventListener('mouseleave', () => {
-      scene.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translate(0, 0)';
-      scene.style.transition = 'transform 1s ease';
-      setTimeout(() => scene.style.transition = '', 1000);
+    hero.addEventListener('mouseleave', () => {
+      scene.style.transition = 'transform 1.2s cubic-bezier(0.23,1,0.32,1)';
+      scene.style.transform = 'perspective(1200px) rotateX(0) rotateY(0)';
+      setTimeout(() => { scene.style.transition = ''; }, 1200);
     });
-  }
-
-  // Gyroscope no mobile
-  if (window.DeviceOrientationEvent && window.innerWidth <= 768) {
-    window.addEventListener('deviceorientation', e => {
-      const x = (e.gamma || 0) / 30;
-      const y = ((e.beta || 0) - 40) / 30;
-
-      scene.style.transform = `
-        perspective(800px)
-        rotateX(${Math.max(-5, Math.min(5, y * -5))}deg)
-        rotateY(${Math.max(-5, Math.min(5, x * 5))}deg)
-      `;
-    }, { passive: true });
   }
 }
 
