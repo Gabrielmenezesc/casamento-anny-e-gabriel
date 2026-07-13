@@ -1,70 +1,131 @@
 // ===================================================
-// PRESENTES.JS - Lista de Presentes interativa
+// PRESENTES.JS - Lista de Presentes interativa (Atualizada)
 // ===================================================
 
-// Dados iniciais dos presentes
-const INITIAL_GIFTS_DATA = [
-  {
-    id: 'g001', name: 'Jogo de Panelas Tramontina', category: 'Cozinha',
-    description: 'Conjunto de panelas antiaderentes de alta qualidade com 5 peças.',
-    price: 580, status: 'available', image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop'
-  },
-  {
-    id: 'g002', name: 'Jogo de Cama Queen 600 Fios', category: 'Quarto',
-    description: 'Lençol de percal egípcio, macio e duradouro. Cor: Branco Off-White.',
-    price: 420, status: 'available', image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&h=300&fit=crop'
-  },
-  {
-    id: 'g003', name: 'Air Fryer Digital 5,5L', category: 'Eletrodomésticos',
-    description: 'Fritadeira elétrica sem óleo com tela touch e 12 funções pré-programadas.',
-    price: 650, status: 'available', image: 'https://images.unsplash.com/photo-1585515320310-259814833e62?w=400&h=300&fit=crop'
-  },
-  {
-    id: 'g004', name: 'Jogo de Toalhas Buddemeyer', category: 'Banheiro',
-    description: 'Kit com 8 peças em algodão egípcio premium. Fofas e absorventes.',
-    price: 320, status: 'available', image: 'https://images.unsplash.com/photo-1571864030041-9b5a85caeb0b?w=400&h=300&fit=crop'
-  },
-  {
-    id: 'g005', name: 'Liquidificador Tramontina', category: 'Cozinha',
-    description: 'Potência de 1000W com 5 velocidades e jarra de vidro 2L.',
-    price: 390, status: 'available', image: 'https://images.unsplash.com/photo-1570222094114-d054a817e56b?w=400&h=300&fit=crop'
-  },
-  {
-    id: 'g006', name: 'Smart TV 50" 4K', category: 'Eletrodomésticos',
-    description: 'Televisão com resolução 4K Ultra HD, Wi-Fi, Bluetooth e apps integrados.',
-    price: 2200, status: 'available', image: 'https://images.unsplash.com/photo-1593784991095-a205069470b6?w=400&h=300&fit=crop'
-  },
-  {
-    id: 'g007', name: 'Jogo de Jantar 30 peças', category: 'Mesa Posta',
-    description: 'Serviço completo para 6 pessoas em porcelana premium com bordas douradas.',
-    price: 750, status: 'available', image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=400&h=300&fit=crop'
-  },
-  {
-    id: 'g008', name: 'Máquina de Café Expresso', category: 'Cozinha',
-    description: 'Preparo profissional com moagem e pressão perfeitas para café coado e expresso.',
-    price: 1100, status: 'available', image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop'
-  },
-  {
-    id: 'g009', name: 'Aspirador de Pó Robô', category: 'Eletrodomésticos',
-    description: 'Aspirador robô programável com Wi-Fi, mapeamento inteligente e bateria de longa duração.',
-    price: 1800, status: 'available', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop'
-  },
-  {
-    id: 'g010', name: 'Conjunto de Almofadas', category: 'Sala',
-    description: 'Kit com 6 almofadas decorativas em veludo. Cores: nude, dourado e terracota.',
-    price: 280, status: 'available', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop'
-  },
-  {
-    id: 'g011', name: 'Batedeira Planetária KitchenAid', category: 'Cozinha',
-    description: 'Batedeira profissional 4,8L com 10 velocidades e acessórios completos.',
-    price: 1650, status: 'available', image: 'https://images.unsplash.com/photo-1544233726-9f1d2b27be8b?w=400&h=300&fit=crop'
-  },
-  {
-    id: 'g012', name: 'Jogo de Facas Tramontina', category: 'Cozinha',
-    description: 'Conjunto com 7 facas em aço inox alemão com suporte de madeira.',
-    price: 480, status: 'available', image: 'https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?w=400&h=300&fit=crop'
-  },
+const CATEGORY_IMAGES = {
+  "🏠 Eletrodomésticos e Móveis": "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop",
+  "🍳 Cozinha": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop",
+  "🛏 Quarto": "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&h=300&fit=crop",
+  "🚿 Banheiro": "https://images.unsplash.com/photo-1571864030041-9b5a85caeb0b?w=400&h=300&fit=crop",
+  "🛋 Sala": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop",
+  "🧺 Lavanderia": "https://images.unsplash.com/photo-1582738411706-bfc8e691d1c2?w=400&h=300&fit=crop",
+  "📦 Diversos": "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=400&h=300&fit=crop"
+};
+
+// Generate list of items requested by the user
+const RAW_ITEMS = [
+  // Eletrodomésticos e Móveis
+  { name: "Liquidificador", cat: "🏠 Eletrodomésticos e Móveis" },
+  { name: "Cafeteira", cat: "🏠 Eletrodomésticos e Móveis" },
+  { name: "Sanduicheira", cat: "🏠 Eletrodomésticos e Móveis" },
+  { name: "Batedeira", cat: "🏠 Eletrodomésticos e Móveis" },
+  { name: "Processador de alimentos", cat: "🏠 Eletrodomésticos e Móveis" },
+  { name: "Espremedor de frutas", cat: "🏠 Eletrodomésticos e Móveis" },
+  { name: "Purificador/Filtro de água", cat: "🏠 Eletrodomésticos e Móveis" },
+  { name: "Bebedouro", cat: "🏠 Eletrodomésticos e Móveis" },
+  { name: "Sofá", cat: "🏠 Eletrodomésticos e Móveis" },
+  { name: "Mesa de jantar", cat: "🏠 Eletrodomésticos e Móveis" },
+  { name: "Cadeiras para mesa", cat: "🏠 Eletrodomésticos e Móveis" },
+  { name: "Rack para TV", cat: "🏠 Eletrodomésticos e Móveis" },
+  { name: "Guarda-roupa", cat: "🏠 Eletrodomésticos e Móveis" },
+  { name: "Criado-mudo", cat: "🏠 Eletrodomésticos e Móveis" },
+  { name: "Escrivaninha", cat: "🏠 Eletrodomésticos e Móveis" },
+  { name: "Cadeira de escritório", cat: "🏠 Eletrodomésticos e Móveis" },
+  { name: "Estante", cat: "🏠 Eletrodomésticos e Móveis" },
+  { name: "Aparador", cat: "🏠 Eletrodomésticos e Móveis" },
+  { name: "Sapateira", cat: "🏠 Eletrodomésticos e Móveis" },
+
+  // Cozinha
+  { name: "Jogo de panelas", cat: "🍳 Cozinha" },
+  { name: "Panela de pressão", cat: "🍳 Cozinha" },
+  { name: "Frigideiras", cat: "🍳 Cozinha" },
+  { name: "Assadeiras", cat: "🍳 Cozinha" },
+  { name: "Formas", cat: "🍳 Cozinha" },
+  { name: "Travessas", cat: "🍳 Cozinha" },
+  { name: "Refratários", cat: "🍳 Cozinha" },
+  { name: "Pratos", cat: "🍳 Cozinha" },
+  { name: "Pratos fundos", cat: "🍳 Cozinha" },
+  { name: "Pratos sobremesa", cat: "🍳 Cozinha" },
+  { name: "Tigelas", cat: "🍳 Cozinha" },
+  { name: "Copos", cat: "🍳 Cozinha" },
+  { name: "Taças", cat: "🍳 Cozinha" },
+  { name: "Canecas", cat: "🍳 Cozinha" },
+  { name: "Xícaras", cat: "🍳 Cozinha" },
+  { name: "Faqueiro", cat: "🍳 Cozinha" },
+  { name: "Facas", cat: "🍳 Cozinha" },
+  { name: "Conchas", cat: "🍳 Cozinha" },
+  { name: "Espátulas", cat: "🍳 Cozinha" },
+  { name: "Pegadores", cat: "🍳 Cozinha" },
+  { name: "Tábuas", cat: "🍳 Cozinha" },
+  { name: "Escorredor", cat: "🍳 Cozinha" },
+  { name: "Ralador", cat: "🍳 Cozinha" },
+  { name: "Abridor", cat: "🍳 Cozinha" },
+  { name: "Descascador", cat: "🍳 Cozinha" },
+  { name: "Potes", cat: "🍳 Cozinha" },
+  { name: "Jarras", cat: "🍳 Cozinha" },
+  { name: "Garrafa térmica", cat: "🍳 Cozinha" },
+  { name: "Porta-temperos", cat: "🍳 Cozinha" },
+  { name: "Lixeira", cat: "🍳 Cozinha" },
+
+  // Quarto
+  { name: "Jogo de lençóis", cat: "🛏 Quarto" },
+  { name: "Fronhas", cat: "🛏 Quarto" },
+  { name: "Travesseiros", cat: "🛏 Quarto" },
+  { name: "Edredom", cat: "🛏 Quarto" },
+  { name: "Cobertor", cat: "🛏 Quarto" },
+  { name: "Colcha", cat: "🛏 Quarto" },
+  { name: "Mantas", cat: "🛏 Quarto" },
+  { name: "Cabides", cat: "🛏 Quarto" },
+
+  // Banheiro
+  { name: "Toalhas", cat: "🚿 Banheiro" },
+  { name: "Tapetes", cat: "🚿 Banheiro" },
+  { name: "Cortina Box", cat: "🚿 Banheiro" },
+  { name: "Lixeira", cat: "🚿 Banheiro" },
+  { name: "Porta sabonete", cat: "🚿 Banheiro" },
+  { name: "Porta escovas", cat: "🚿 Banheiro" },
+  { name: "Cesto de roupas", cat: "🚿 Banheiro" },
+
+  // Sala
+  { name: "Cortinas", cat: "🛋 Sala" },
+  { name: "Tapete", cat: "🛋 Sala" },
+  { name: "Almofadas", cat: "🛋 Sala" },
+  { name: "Mesa de centro", cat: "🛋 Sala" },
+  { name: "Mesa lateral", cat: "🛋 Sala" },
+  { name: "Luminária", cat: "🛋 Sala" },
+
+  // Lavanderia
+  { name: "Varal", cat: "🧺 Lavanderia" },
+  { name: "Ferro", cat: "🧺 Lavanderia" },
+  { name: "Tábua", cat: "🧺 Lavanderia" },
+  { name: "Balde", cat: "🧺 Lavanderia" },
+  { name: "Vassoura", cat: "🧺 Lavanderia" },
+  { name: "Rodo", cat: "🧺 Lavanderia" },
+  { name: "Mop", cat: "🧺 Lavanderia" },
+  { name: "Pá", cat: "🧺 Lavanderia" },
+  { name: "Panos", cat: "🧺 Lavanderia" },
+  { name: "Esponjas", cat: "🧺 Lavanderia" },
+
+  // Diversos
+  { name: "Kit Ferramentas", cat: "📦 Diversos" },
+  { name: "Filtro de Linha", cat: "📦 Diversos" },
+  { name: "Extensão", cat: "📦 Diversos" },
+  { name: "Escada", cat: "📦 Diversos" },
+  { name: "Espelho", cat: "📦 Diversos" },
+  { name: "Relógio", cat: "📦 Diversos" },
+  { name: "Organizadores", cat: "📦 Diversos" }
 ];
+
+// Map into the INITIAL_GIFTS_DATA structure
+const INITIAL_GIFTS_DATA = RAW_ITEMS.map((item, idx) => ({
+  id: `g_${String(idx + 1).padStart(3, '0')}`,
+  name: item.name,
+  category: item.cat,
+  description: `Item especial para nossa nova jornada.`,
+  price: 0, // No price required
+  status: 'available',
+  image: CATEGORY_IMAGES[item.cat] || "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+}));
 
 let allGifts = [];
 let currentFilter = 'Todos';
@@ -136,6 +197,24 @@ function renderGiftCard(gift) {
   const status = giftStatusLabel(gift.status);
   const isAvailable = gift.status === 'available';
 
+  // Search links to allow users to purchase or view the product elsewhere
+  const searchName = encodeURIComponent(gift.name);
+  const stores = [
+    { label: "Amazon", url: `https://www.amazon.com.br/s?k=${searchName}` },
+    { label: "Mercado Livre", url: `https://lista.mercadolivre.com.br/${searchName}` },
+    { label: "Shopee", url: `https://shopee.com.br/search?keyword=${searchName}` },
+    { label: "Magalu", url: `https://www.magazineluiza.com.br/busca/${searchName}` }
+  ];
+
+  const storesHTML = isAvailable ? `
+    <div style="margin: 0.75rem 0; text-align: center;">
+      <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem;">Pesquisar lojas online:</p>
+      <div style="display: flex; gap: 4px; justify-content: center; flex-wrap: wrap;">
+        ${stores.map(s => `<a href="${s.url}" target="_blank" rel="noopener noreferrer" style="font-size: 0.6875rem; background: var(--bg-secondary); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--glass-border-strong); color: var(--text-secondary);">${s.label}</a>`).join('')}
+      </div>
+    </div>
+  ` : '';
+
   return `
     <div class="gift-card ${gift.status}" data-aos="fade-up">
       <div class="gift-card-image">
@@ -153,10 +232,7 @@ function renderGiftCard(gift) {
       <div class="gift-card-body">
         <h3 class="gift-card-name">${sanitize(gift.name)}</h3>
         <p class="gift-card-desc">${sanitize(gift.description)}</p>
-        <p class="gift-card-price">
-          <span class="gift-card-price-prefix">Valor aprox.</span>
-          ${formatCurrency(gift.price)}
-        </p>
+        ${storesHTML}
       </div>
       <div class="gift-card-footer">
         <button class="btn-reserve" data-gift-id="${gift.id}" ${!isAvailable ? 'disabled' : ''}>
@@ -173,7 +249,8 @@ function openReserveModal(gift) {
 
   // Popula modal
   document.getElementById('reserve-gift-name').textContent = gift.name;
-  document.getElementById('reserve-gift-price').textContent = formatCurrency(gift.price);
+  const priceDisplay = document.getElementById('reserve-gift-price');
+  if (priceDisplay) priceDisplay.textContent = ""; // Do not show price values
 
   // Reset form
   const form = document.getElementById('reserve-named-form');
@@ -247,8 +324,7 @@ function initReserveModal() {
       // Envia mensagem de WhatsApp automaticamente para o número dos noivos
       const noivosPhone = '5538991621135';
       const guestName = reservation.isAnonymous ? 'Um convidado anônimo' : reservation.reservedBy;
-      const giftValue = formatCurrency(gift.price);
-      let text = `Olá Laoanny e Gabriel! 💒\n\nAcabei de reservar o presente *"${gift.name}"* (Valor: ${giftValue}) no site de vocês!`;
+      let text = `Olá Laoanny e Gabriel! 💒\n\nAcabei de reservar o presente *"${gift.name}"* no site de vocês!`;
       if (reservation.reservationMessage) {
         text += `\n\nRecado: "${reservation.reservationMessage}"`;
       }

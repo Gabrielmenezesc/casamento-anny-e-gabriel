@@ -1,13 +1,14 @@
 // ===================================================
-// ADMIN.JS - Painel Administrativo
+// ADMIN.JS - Painel Administrativo (Atualizado)
 // ===================================================
 
-const ADMIN_PASSWORD = 'casamento2027'; // Trocar para senha segura
+const ADMIN_PASSWORD = 'casamento2027';
 
 let adminLoggedIn = false;
 let currentAdminPanel = 'dashboard';
 let allRSVPs = [];
 let allAdminGifts = [];
+let allAdminGodparents = [];
 
 document.addEventListener('DOMContentLoaded', () => {
   checkAdminSession();
@@ -71,11 +72,13 @@ function adminLogout() {
 async function loadAdminData() {
   allRSVPs = await getRSVPs();
   allAdminGifts = await getGifts();
+  allAdminGodparents = await getGodparents();
   const honeymoon = await getHoneymoonSettings();
 
   renderDashboard(allRSVPs, allAdminGifts, honeymoon);
   renderRSVPTable(allRSVPs);
   renderGiftsTable(allAdminGifts);
+  renderGodparentsTable(allAdminGodparents);
   renderCharts(allRSVPs, allAdminGifts);
 }
 
@@ -109,7 +112,8 @@ function renderDashboard(rsvps, gifts, honeymoon) {
     fill.style.width = progress + '%';
     fill.title = `${progress.toFixed(1)}% da meta`;
   }
-  setEl('pix-goal-text', `${formatCurrency(pixAmount)} de ${formatCurrency(goal)} (${progress.toFixed(1)}%)`);
+  const textVal = document.getElementById('pix-goal-text');
+  if (textVal) textVal.textContent = `${formatCurrency(pixAmount)} de ${formatCurrency(goal)} (${progress.toFixed(1)}%)`;
 }
 
 function setEl(id, value) {
@@ -172,7 +176,7 @@ function renderGiftsTable(gifts, filter = '') {
       <tr>
         <td><strong>${sanitize(g.name)}</strong></td>
         <td>${sanitize(g.category)}</td>
-        <td>${formatCurrency(g.price)}</td>
+        <td>${g.price > 0 ? formatCurrency(g.price) : 'Sem valor'}</td>
         <td><span class="badge ${st.class}">${st.emoji} ${st.label}</span></td>
         <td>
           ${g.reservedBy ? sanitize(g.reservedBy) + (g.isAnonymous ? ' (Anônimo)' : '') : '-'}
@@ -183,6 +187,44 @@ function renderGiftsTable(gifts, filter = '') {
           <div class="admin-table-actions">
             ${g.status === 'reserved' ? `<button class="admin-action-btn admin-action-deliver" onclick="markDelivered('${g.id}')">✅ Entregue</button>` : ''}
             ${g.status !== 'available' ? `<button class="admin-action-btn admin-action-edit" onclick="resetGift('${g.id}')">🔄 Liberar</button>` : ''}
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function renderGodparentsTable(godparents, filter = '') {
+  const tbody = document.getElementById('padrinhos-table-body');
+  if (!tbody) return;
+
+  const filtered = filter
+    ? godparents.filter(g => g.fullName?.toLowerCase().includes(filter.toLowerCase()) || g.phone?.includes(filter))
+    : godparents;
+
+  if (!filtered.length) {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--text-muted)">Nenhum padrinho/madrinha cadastrado.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(g => {
+    const rawPhone = g.phone ? g.phone.replace(/\D/g, '') : '';
+    const waLink = rawPhone ? `https://wa.me/55${rawPhone}` : '';
+    return `
+      <tr>
+        <td><strong>${sanitize(g.fullName || '')}</strong></td>
+        <td>
+          ${sanitize(g.phone || '')}
+          ${waLink ? `<a href="${waLink}" target="_blank" rel="noopener noreferrer" style="color: #25d366; font-size: 1.1rem; margin-left: 6px; text-decoration: none;" title="Conversar no WhatsApp">💬</a>` : ''}
+        </td>
+        <td style="text-align:center"><span class="badge badge-available">${sanitize(g.wearSize)}</span></td>
+        <td style="text-align:center"><span class="badge badge-reserved">${sanitize(g.shoeSize)}</span></td>
+        <td>${sanitize(g.foodRestrictions || '-')}</td>
+        <td>${sanitize(g.companion || '-')}</td>
+        <td>${sanitize(g.message || '-')}</td>
+        <td>
+          <div class="admin-table-actions">
+            <button class="admin-action-btn admin-action-delete" onclick="deleteGodparentRow('${g.id}')">🗑 Excluir</button>
           </div>
         </td>
       </tr>
@@ -246,11 +288,25 @@ async function markDelivered(id) {
 
 async function resetGift(id) {
   if (!confirm('Liberar este presente para outros convidados?')) return;
-  await updateGift(id, { status: 'available', reservedBy: null, reservedPhone: null, reservedAt: null, isAnonymous: false });
+  await updateGift(id, { status: 'available', reservedBy: null, reservedPhone: null, reservedAt: null, isAnonymous: false, reservationMessage: null });
   allAdminGifts = allAdminGifts.map(g => g.id === id ? { ...g, status: 'available', reservedBy: null } : g);
   renderGiftsTable(allAdminGifts);
   renderDashboard(allRSVPs, allAdminGifts, await getHoneymoonSettings());
   showToast('Presente liberado!', 'info');
+}
+
+async function deleteGodparentRow(id) {
+  if (!confirm('Excluir este padrinho/madrinha?')) return;
+  if (firebaseReady && db) {
+    try {
+      const { doc, deleteDoc } = window._fsLib;
+      await deleteDoc(doc(db, 'godparents', id));
+    } catch (e) { console.warn(e); }
+  }
+  allAdminGodparents = allAdminGodparents.filter(g => g.id !== id);
+  Storage.set(STORAGE_KEYS.godparents, allAdminGodparents);
+  renderGodparentsTable(allAdminGodparents);
+  showToast('Padrinho removido.', 'info');
 }
 
 // ===== Admin Nav =====
@@ -278,6 +334,10 @@ function initAdminSearch() {
   if (giftSearch) {
     giftSearch.addEventListener('input', debounce(() => renderGiftsTable(allAdminGifts, giftSearch.value), 300));
   }
+  const padSearch = document.getElementById('padrinhos-search');
+  if (padSearch) {
+    padSearch.addEventListener('input', debounce(() => renderGodparentsTable(allAdminGodparents, padSearch.value), 300));
+  }
 }
 
 // ===== Export =====
@@ -299,7 +359,7 @@ function initExportButtons() {
     exportCSV(allAdminGifts.map(g => ({
       Nome: g.name,
       Categoria: g.category,
-      Valor: g.price,
+      Valor: g.price || '',
       Status: g.status,
       'Reservado por': g.reservedBy || '',
       'Telefone Reserva': g.reservedPhone || '',
@@ -307,6 +367,20 @@ function initExportButtons() {
       'Data Reserva': g.reservedAt ? formatDate(g.reservedAt) : ''
     })), 'presentes_casamento.csv');
     showToast('📊 CSV de presentes exportado!', 'success');
+  });
+
+  document.getElementById('btn-export-padrinhos-csv')?.addEventListener('click', () => {
+    exportCSV(allAdminGodparents.map(g => ({
+      Nome: g.fullName,
+      Telefone: g.phone,
+      'Tamanho Roupa': g.wearSize,
+      'Tamanho Calçado': g.shoeSize,
+      'Restrições Alimentares': g.foodRestrictions,
+      Acompanhante: g.companion,
+      Mensagem: g.message || '',
+      'Data Confirmação': formatDateTime(g.confirmedAt)
+    })), 'padrinhos_casamento.csv');
+    showToast('📊 CSV de Padrinhos exportado!', 'success');
   });
 
   document.getElementById('btn-print')?.addEventListener('click', () => window.print());

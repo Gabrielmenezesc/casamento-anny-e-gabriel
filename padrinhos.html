@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Padrinhos | Laoanny & Gabriel</title>
+  <title>Área dos Padrinhos | Laoanny & Gabriel</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./css/style.css" />
@@ -67,7 +67,7 @@
     }
     .padrinho-name { font-family: var(--font-serif); font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; }
     .padrinho-role { font-size: 0.75rem; color: var(--color-gold); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
-    .padrinhos-groups { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .padrinhos-groups { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 4rem; }
     .padrinhos-group-title {
       font-family: var(--font-serif);
       font-size: 1.5rem;
@@ -77,8 +77,22 @@
       align-items: center;
       gap: 0.5rem;
     }
+    .padrinho-form-container {
+      background: var(--bg-card);
+      border-radius: 24px;
+      padding: 2.5rem;
+      box-shadow: var(--shadow-xl);
+      border: 1px solid var(--glass-border-strong);
+    }
+    .padrinho-form-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .padrinho-form-title { font-family: var(--font-serif); font-size: 1.75rem; color: var(--text-primary); margin-bottom: 0.5rem; }
+    .padrinho-form-sub { font-size: 0.875rem; color: var(--text-secondary); }
     @media (max-width: 768px) {
       .padrinhos-groups { grid-template-columns: 1fr; }
+      .padrinho-form-container { padding: 1.5rem; }
     }
   </style>
 </head>
@@ -112,22 +126,13 @@
   </nav>
 
   <section class="padrinhos-hero">
-    <h1 data-aos="fade-down">🤵 Nossos Padrinhos</h1>
-    <p data-aos="fade-up" data-aos-delay="100">Pessoas especiais que escolhemos para caminhar conosco</p>
+    <h1 data-aos="fade-down">🤵 Área dos Padrinhos</h1>
+    <p data-aos="fade-up" data-aos-delay="100">Espaço exclusivo para quem amamos de forma especial</p>
   </section>
 
   <section class="section">
     <div class="container">
-      <span class="section-subtitle" data-aos="fade-up">Nosso time especial</span>
-      <h2 class="section-title" data-aos="fade-up">Padrinhos & Madrinhas</h2>
-      <div class="section-divider" data-aos="fade-up">♦</div>
-
-      <p style="text-align: center; color: var(--text-secondary); max-width: 600px; margin: 0 auto 3rem; line-height: 1.7;" data-aos="fade-up">
-        Essas pessoas incríveis aceitaram caminhar ao nosso lado neste momento tão especial.
-        São amigos e familiares que fazem parte da nossa história e carregam nosso amor no coração. 💕
-      </p>
-
-      <div class="padrinhos-groups" data-aos="fade-up" data-aos-delay="100">
+      <div class="padrinhos-groups" data-aos="fade-up">
         <div>
           <h3 class="padrinhos-group-title">🤵 Padrinhos do Noivo</h3>
           <div class="padrinhos-grid">
@@ -170,11 +175,90 @@
         </div>
       </div>
 
-      <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: var(--color-gold-pale); border-radius: 16px;" data-aos="fade-up">
-        <p style="color: var(--color-gold-dark); font-size: 1rem; line-height: 1.7; font-family: var(--font-serif); font-style: italic;">
-          "Amigos são a família que escolhemos para nos acompanhar na vida."
-        </p>
+      <!-- Formulário Exclusivo dos Padrinhos -->
+      <div class="container-sm" data-aos="fade-up" data-aos-delay="100">
+        <div class="padrinho-form-container">
+          <div class="padrinho-form-header">
+            <h2 class="padrinho-form-title">Confirmar Detalhes do Padrinho / Madrinha 💕</h2>
+            <p class="padrinho-form-sub">Por favor, preencha suas informações para que possamos organizar tudo perfeitamente!</p>
+          </div>
+
+          <div id="padrinho-form-body">
+            <form id="padrinho-form">
+              <div class="form-input-row">
+                <div class="form-group">
+                  <label class="form-label" for="pad-name">Nome Completo *</label>
+                  <input class="form-input" type="text" id="pad-name" placeholder="Seu nome" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="pad-phone">Telefone / WhatsApp *</label>
+                  <input class="form-input" type="tel" id="pad-phone" placeholder="(61) 99999-0000" required />
+                </div>
+              </div>
+
+              <div class="form-input-row">
+                <div class="form-group">
+                  <label class="form-label" for="pad-wear-size">Tamanho do Terno ou Vestido *</label>
+                  <select class="form-input" id="pad-wear-size" required>
+                    <option value="" disabled selected>Selecione seu tamanho</option>
+                    <option value="PP">PP</option>
+                    <option value="P">P</option>
+                    <option value="M">M</option>
+                    <option value="G">G</option>
+                    <option value="GG">GG</option>
+                    <option value="XG">XG</option>
+                    <option value="Sob Medida">Sob Medida / Alugado fora</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="pad-shoe-size">Número do Calçado *</label>
+                  <select class="form-input" id="pad-shoe-size" required>
+                    <option value="" disabled selected>Selecione o número</option>
+                    <script>
+                      for (let i = 33; i <= 46; i++) {
+                        document.write(`<option value="${i}">${i}</option>`);
+                      }
+                    </script>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-input-row">
+                <div class="form-group">
+                  <label class="form-label" for="pad-food">Restrições Alimentares (Alergias, vegano...)</label>
+                  <input class="form-input" type="text" id="pad-food" placeholder="Nenhuma ou descreva aqui" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="pad-companion">Nome do Acompanhante (Se houver)</label>
+                  <input class="form-input" type="text" id="pad-companion" placeholder="Nome do seu acompanhante" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="pad-message">Mensagem especial para os noivos</label>
+                <textarea class="form-input form-textarea" id="pad-message" placeholder="Deixe seu recado carinhoso para Laoanny e Gabriel..." style="min-height: 90px;"></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-gold btn-lg w-full" style="justify-content: center; margin-top: 1rem;">
+                🤵 Confirmar Informações
+              </button>
+            </form>
+          </div>
+
+          <!-- Padrinho Success Screen -->
+          <div id="padrinho-success" style="display: none; text-align: center; padding: 2rem 0;">
+            <span style="font-size: 4rem; display: block; margin-bottom: 1rem; animation: scaleIn 0.5s ease;">🥂</span>
+            <h3 style="font-family: var(--font-serif); font-size: 1.75rem; color: var(--color-gold-dark); margin-bottom: 0.5rem;">Informações Salvas!</h3>
+            <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 2rem;">
+              Muito obrigado! Suas informações de tamanho de roupa, calçado e restrições foram salvas com sucesso. 
+              Ficamos muito felizes em ter você ao nosso lado como padrinho/madrinha! ❤️
+            </p>
+            <a href="index.html" class="btn btn-outline">🏠 Voltar ao Início</a>
+          </div>
+
+        </div>
       </div>
+
     </div>
   </section>
 
@@ -188,7 +272,66 @@
   <script src="./js/utils.js"></script>
   <script src="./js/firebase.js"></script>
   <script src="./js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      AOS.init({ duration: 700, once: true });
+      await initFirebase();
+      maskPhone(document.getElementById('pad-phone'));
+      document.getElementById('pad-phone').addEventListener('input', function() {
+        maskPhone(this);
+      });
+
+      const form = document.getElementById('padrinho-form');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = form.querySelector('[type="submit"]');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="animate-spin">⏳</span> Salvando...';
+
+        const data = {
+          fullName: document.getElementById('pad-name').value.trim(),
+          phone: document.getElementById('pad-phone').value.trim(),
+          wearSize: document.getElementById('pad-wear-size').value,
+          shoeSize: document.getElementById('pad-shoe-size').value,
+          foodRestrictions: document.getElementById('pad-food').value.trim() || 'Nenhuma',
+          companion: document.getElementById('pad-companion').value.trim() || 'Nenhum',
+          message: document.getElementById('pad-message').value.trim() || '',
+        };
+
+        try {
+          await saveGodparent(data);
+
+          document.getElementById('padrinho-form-body').style.display = 'none';
+          document.getElementById('padrinho-success').style.display = 'block';
+          launchConfetti();
+          showToast('🥂 Confirmado com sucesso!', 'success');
+
+          // Send message directly via WhatsApp to the groom
+          const noivosPhone = '5538991621135';
+          let waText = `Olá Laoanny e Gabriel! 💒\n\nConfirmei meus dados de *Padrinho/Madrinha* pelo site!\n\n`;
+          waText += `👤 *Nome:* ${data.fullName}\n`;
+          waText += `👕 *Tamanho roupa:* ${data.wearSize}\n`;
+          waText += `👞 *Número calçado:* ${data.shoeSize}\n`;
+          waText += `🍏 *Restrição alimentar:* ${data.foodRestrictions}\n`;
+          waText += `👥 *Acompanhante:* ${data.companion}`;
+          if (data.message) {
+            waText += `\n💬 *Recado:* "${data.message}"`;
+          }
+          
+          const encoded = encodeURIComponent(waText);
+          setTimeout(() => {
+            window.open(`https://api.whatsapp.com/send?phone=${noivosPhone}&text=${encoded}`, '_blank');
+          }, 1500);
+
+        } catch (err) {
+          console.error(err);
+          showToast('Erro ao salvar. Tente novamente.', 'error');
+          btn.disabled = false;
+          btn.innerHTML = '🤵 Confirmar Informações';
+        }
+      });
+    });
+  </script>
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-  <script>document.addEventListener('DOMContentLoaded', () => AOS.init({ duration: 700, once: true }));</script>
 </body>
 </html>

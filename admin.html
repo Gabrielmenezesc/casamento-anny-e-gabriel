@@ -64,6 +64,9 @@
           <div class="admin-nav-item" data-panel="honeymoon">
             <span class="admin-nav-icon">💝</span> Lua de Mel
           </div>
+          <div class="admin-nav-item" data-panel="padrinhos">
+            <span class="admin-nav-icon">🤵</span> Padrinhos
+          </div>
           <div class="admin-nav-separator"></div>
           <div class="admin-nav-item" onclick="adminLogout()">
             <span class="admin-nav-icon">🚪</span> Sair
@@ -241,6 +244,38 @@
               </div>
               <div style="margin-top: 1.5rem; padding: 1rem; background: var(--color-gold-pale); border-radius: 12px; font-size: 0.875rem; color: var(--color-gold-dark); line-height: 1.7;">
                 💡 Para adicionar contribuições manualmente, registre um RSVP com o nome "Cota Lua de Mel - [Nome]" e descreva o valor nas observações.
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== PADRINHOS ===== -->
+          <div class="admin-panel" id="panel-padrinhos">
+            <div class="admin-table-card">
+              <div class="admin-table-header">
+                <h2 class="admin-table-title">🤵 Lista de Padrinhos</h2>
+                <div class="admin-search">
+                  <input class="admin-search-input" type="text" id="padrinhos-search" placeholder="Buscar padrinho..." />
+                  <button id="btn-export-padrinhos-csv" class="btn btn-gold btn-sm">📊 Exportar CSV</button>
+                </div>
+              </div>
+              <div style="overflow-x: auto;">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Nome</th>
+                      <th>Telefone</th>
+                      <th>Tamanho Roupa</th>
+                      <th>Calçado</th>
+                      <th>Restrições Alimentares</th>
+                      <th>Acompanhante</th>
+                      <th>Mensagem</th>
+                      <th>Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody id="padrinhos-table-body">
+                    <tr><td colspan="8" style="text-align:center; padding: 3rem; color: var(--text-muted);">Carregando dados...</td></tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
