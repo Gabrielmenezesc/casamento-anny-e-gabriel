@@ -78,13 +78,17 @@ function initPixModal() {
       const pixPayload = generatePixPayload(PIX_KEY, PIX_NAME, PIX_CITY);
       const ok = await copyToClipboard(pixPayload);
       if (ok) {
-        btnCopyPix.innerHTML = '✅ PIX copiado com sucesso!';
+        btnCopyPix.innerHTML = 'Copiado! ✅';
         btnCopyPix.style.background = '#2d8a4e';
-        showToast('✅ PIX copiado com sucesso!', 'success');
+        btnCopyPix.style.color = '#fff';
+        btnCopyPix.style.borderColor = '#2d8a4e';
+        showToast('Chave PIX copiada!', 'success');
         setTimeout(() => {
           btnCopyPix.innerHTML = '📋 Copiar Chave PIX';
           btnCopyPix.style.background = '';
-        }, 3000);
+          btnCopyPix.style.color = '';
+          btnCopyPix.style.borderColor = '';
+        }, 2500);
       } else {
         showToast('Não foi possível copiar. Copie manualmente.', 'error');
       }

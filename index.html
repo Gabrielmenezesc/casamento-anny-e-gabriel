@@ -7,12 +7,12 @@
   <meta name="description" content="Celebre conosco! Laoanny e Gabriel se casam em 25 de Abril de 2027 no Espaço Villa Rose, Samambaia Sul, Brasília - DF." />
   <meta property="og:title" content="Laoanny ❤ Gabriel | Casamento" />
   <meta property="og:description" content="25 de Abril de 2027 • Espaço Villa Rose • Samambaia Sul, Brasília DF" />
-  <meta property="og:image" content="./assets/images/capa.jpg" />
+  <meta property="og:image" content="./assets/images/capa.webp" />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#D4A843" />
 
   <!-- Preload da imagem da capa para evitar flash -->
-  <link rel="preload" href="./assets/images/capa.jpg" as="image" fetchpriority="high" />
+  <link rel="preload" href="./assets/images/capa.webp" as="image" fetchpriority="high" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -176,8 +176,7 @@
         <a href="padrinhos.html"   class="navbar-link">🤵 Padrinhos</a>
         <a href="lua-de-mel.html"  class="navbar-link">💝 Lua de Mel</a>
         <a href="local.html"       class="navbar-link">📍 Local</a>
-        <a href="admin.html"       class="navbar-link">⚙️ Admin</a>
-      </div>
+        </div>
       <div class="navbar-controls">
         <button id="btn-theme" class="btn-icon" title="Alternar tema" aria-label="Mudar tema">🌙</button>
         <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -195,8 +194,7 @@
     <a href="padrinhos.html"   class="navbar-link">🤵 Padrinhos</a>
     <a href="lua-de-mel.html"  class="navbar-link">💝 Lua de Mel</a>
     <a href="local.html"       class="navbar-link">📍 Local</a>
-    <a href="admin.html"       class="navbar-link">⚙️ Admin</a>
-  </nav>
+    </nav>
 
   <!-- ===== HERO ===== -->
   <section class="hero" id="home">
@@ -210,7 +208,7 @@
         <!-- Imagem de fundo espelhada e borrada para preencher a tela -->
         <img
           class="hero-img-blur"
-          src="./assets/images/capa.jpg"
+          src="./assets/images/capa.webp"
           alt=""
           loading="eager"
           fetchpriority="high"
@@ -219,7 +217,7 @@
         <!-- Imagem principal focada no centro -->
         <img
           class="hero-img"
-          src="./assets/images/capa.jpg"
+          src="./assets/images/capa.webp"
           alt="Laoanny e Gabriel - Foto de casal na Catedral de Brasília"
           id="hero-img"
           loading="eager"
@@ -301,7 +299,7 @@
   <!-- ===== COUNTDOWN ===== -->
   <section class="countdown-section" id="countdown-section">
     <p class="countdown-section-title" data-aos="fade-up">Faltam apenas...</p>
-    <div id="countdown" data-aos="fade-up" data-aos-delay="100"></div>
+    <div id="countdown"></div>
     <p style="color: var(--color-gold-light); font-family: var(--font-script); font-size: 1.3rem; margin-top: 1.5rem;" data-aos="fade-up" data-aos-delay="200">
       para o nosso grande dia! 💒
     </p>
@@ -348,7 +346,7 @@
         <div class="story-image-frame reveal-left">
           <img
             class="story-img"
-            src="./assets/images/capa.jpg"
+            src="./assets/images/capa.webp"
             alt="Laoanny e Gabriel na Catedral de Brasília"
             loading="lazy"
           />
@@ -424,7 +422,7 @@
 
         <!-- QR Code -->
         <div class="pix-qr-wrapper">
-          <img id="pix-qrcode" src="" alt="QR Code PIX" width="240" height="240" style="border-radius: 8px;" />
+          <img id="pix-qrcode" src="https://api.qrserver.com/v1/create-qr-code/?data=00020126360014BR.GOV.BCB.PIX0111389916211355204000053039865802BR5911GABRIEL%20MEN6008BRASILIA62070503%2A%2A%2A6304ED15&size=240x240&margin=12&color=2-2-2&bgcolor=255-255-255&ecc=M" alt="QR Code PIX" width="240" height="240" style="border-radius: 8px;" />
         </div>
 
         <!-- Chave PIX -->
