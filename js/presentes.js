@@ -183,6 +183,8 @@ function renderGifts() {
 function renderGiftCard(gift) {
   const status = giftStatusLabel(gift.status);
   const isAvailable = gift.status === 'available';
+  // Force dynamic image to bypass LocalStorage/Firebase cache of the old static URLs
+  gift.image = `https://image.pollinations.ai/prompt/beautiful%20product%20photography%20of%20${encodeURIComponent(gift.name)}%20home%20decor?width=400&height=300&nologo=true`;
 
   // Search links to allow users to purchase or view the product elsewhere
   const searchName = encodeURIComponent(gift.name);
@@ -320,12 +322,9 @@ function initReserveModal() {
       const encodedText = encodeURIComponent(text);
       const whatsappUrl = `https://api.whatsapp.com/send?phone=${noivosPhone}&text=${encodedText}`;
       
-      // Abre o WhatsApp após uma pequena fração de segundo
-      setTimeout(() => {
-        openModal('modal-pix');
-        // O WhatsApp abre em uma nova aba
-        window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-      }, 800);
+      // Abre o WhatsApp e o PIX imediatamente para evitar bloqueador de popups
+      openModal('modal-pix');
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
 
       selectedGiftId = null;
       reserveMode = null;
