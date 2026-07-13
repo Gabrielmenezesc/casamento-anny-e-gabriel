@@ -79,7 +79,26 @@ function initRSVPForm() {
       }
 
       launchConfetti();
-      showToast('✅ Presença confirmada! Até o dia 25/04/2027!', 'success', 5000);
+      showToast('✅ Presença confirmada! Redirecionando para o WhatsApp...', 'success', 5000);
+
+      // Envia confirmação via WhatsApp automaticamente para o número dos noivos
+      const noivosPhone = '5538991621135';
+      let rsvpText = `Olá Laoanny e Gabriel! 💒\n\nConfirmei minha presença no casamento de vocês através do site!\n\n`;
+      rsvpText += `👤 *Nome:* ${rsvp.fullName}\n`;
+      rsvpText += `📞 *Telefone:* ${rsvp.phone}\n`;
+      rsvpText += `👨 *Adultos:* ${rsvp.adultsCount}\n`;
+      rsvpText += `👶 *Crianças:* ${rsvp.childrenCount}`;
+      if (rsvp.notes) {
+        rsvpText += `\n💬 *Observações:* ${rsvp.notes}`;
+      }
+      rsvpText += `\n\nNos vemos no dia 25/04/2027! ✨`;
+
+      const encodedText = encodeURIComponent(rsvpText);
+      const whatsappUrl = `https://api.whatsapp.com/send?phone=${noivosPhone}&text=${encodedText}`;
+
+      setTimeout(() => {
+        window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+      }, 1500);
 
     } catch (err) {
       console.error(err);

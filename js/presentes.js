@@ -235,13 +235,32 @@ function initReserveModal() {
       }
 
       await reserveGift(selectedGiftId, reservation);
+      const gift = allGifts.find(g => g.id === selectedGiftId);
       allGifts = allGifts.map(g => g.id === selectedGiftId ? { ...g, status: 'reserved', ...reservation } : g);
 
       closeModal('modal-reserve');
       renderGifts();
 
-      showToast('🎁 Presente reservado com sucesso! Obrigado!', 'success', 4000);
+      showToast('🎁 Presente reservado com sucesso! Redirecionando para o WhatsApp...', 'success', 4000);
       launchConfetti();
+
+      // Envia mensagem de WhatsApp automaticamente para o número dos noivos
+      const noivosPhone = '5538991621135';
+      const guestName = reservation.isAnonymous ? 'Um convidado anônimo' : reservation.reservedBy;
+      const giftValue = formatCurrency(gift.price);
+      let text = `Olá Laoanny e Gabriel! 💒\n\nAcabei de reservar o presente *"${gift.name}"* (Valor: ${giftValue}) no site de vocês!`;
+      if (reservation.reservationMessage) {
+        text += `\n\nRecado: "${reservation.reservationMessage}"`;
+      }
+      text += `\n\nAbraços, ${guestName}!`;
+
+      const encodedText = encodeURIComponent(text);
+      const whatsappUrl = `https://api.whatsapp.com/send?phone=${noivosPhone}&text=${encodedText}`;
+      
+      // Abre o WhatsApp após uma pequena fração de segundo
+      setTimeout(() => {
+        window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+      }, 1000);
 
       selectedGiftId = null;
       reserveMode = null;

@@ -132,21 +132,28 @@ function renderRSVPTable(rsvps, filter = '') {
     return;
   }
 
-  tbody.innerHTML = filtered.map(r => `
-    <tr>
-      <td><strong>${sanitize(r.fullName || '')}</strong></td>
-      <td>${sanitize(r.phone || '')}</td>
-      <td>${sanitize(r.email || '-')}</td>
-      <td style="text-align:center">${r.adultsCount || 0}</td>
-      <td style="text-align:center">${r.childrenCount || 0}</td>
-      <td>${sanitize(r.notes || '-')}</td>
-      <td>
-        <div class="admin-table-actions">
-          <button class="admin-action-btn admin-action-delete" onclick="deleteRSVPRow('${r.id}')">🗑 Excluir</button>
-        </div>
-      </td>
-    </tr>
-  `).join('');
+  tbody.innerHTML = filtered.map(r => {
+    const rawPhone = r.phone ? r.phone.replace(/\D/g, '') : '';
+    const waLink = rawPhone ? `https://wa.me/55${rawPhone}` : '';
+    return `
+      <tr>
+        <td><strong>${sanitize(r.fullName || '')}</strong></td>
+        <td>
+          ${sanitize(r.phone || '')}
+          ${waLink ? `<a href="${waLink}" target="_blank" rel="noopener noreferrer" style="color: #25d366; font-size: 1.1rem; margin-left: 6px; text-decoration: none;" title="Conversar no WhatsApp">💬</a>` : ''}
+        </td>
+        <td>${sanitize(r.email || '-')}</td>
+        <td style="text-align:center">${r.adultsCount || 0}</td>
+        <td style="text-align:center">${r.childrenCount || 0}</td>
+        <td>${sanitize(r.notes || '-')}</td>
+        <td>
+          <div class="admin-table-actions">
+            <button class="admin-action-btn admin-action-delete" onclick="deleteRSVPRow('${r.id}')">🗑 Excluir</button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
 }
 
 function renderGiftsTable(gifts, filter = '') {
@@ -159,13 +166,18 @@ function renderGiftsTable(gifts, filter = '') {
 
   tbody.innerHTML = filtered.map(g => {
     const st = giftStatusLabel(g.status);
+    const rawPhone = g.reservedPhone ? g.reservedPhone.replace(/\D/g, '') : '';
+    const waLink = rawPhone && !g.isAnonymous ? `https://wa.me/55${rawPhone}` : '';
     return `
       <tr>
         <td><strong>${sanitize(g.name)}</strong></td>
         <td>${sanitize(g.category)}</td>
         <td>${formatCurrency(g.price)}</td>
         <td><span class="badge ${st.class}">${st.emoji} ${st.label}</span></td>
-        <td>${g.reservedBy ? sanitize(g.reservedBy) + (g.isAnonymous ? ' (Anônimo)' : '') : '-'}</td>
+        <td>
+          ${g.reservedBy ? sanitize(g.reservedBy) + (g.isAnonymous ? ' (Anônimo)' : '') : '-'}
+          ${waLink ? `<a href="${waLink}" target="_blank" rel="noopener noreferrer" style="color: #25d366; font-size: 1.1rem; margin-left: 6px; text-decoration: none;" title="Conversar no WhatsApp">💬</a>` : ''}
+        </td>
         <td>${g.reservedAt ? formatDate(g.reservedAt) : '-'}</td>
         <td>
           <div class="admin-table-actions">
@@ -290,6 +302,8 @@ function initExportButtons() {
       Valor: g.price,
       Status: g.status,
       'Reservado por': g.reservedBy || '',
+      'Telefone Reserva': g.reservedPhone || '',
+      'Mensagem Reserva': g.reservationMessage || '',
       'Data Reserva': g.reservedAt ? formatDate(g.reservedAt) : ''
     })), 'presentes_casamento.csv');
     showToast('📊 CSV de presentes exportado!', 'success');
