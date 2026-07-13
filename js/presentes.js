@@ -111,7 +111,7 @@ const INITIAL_GIFTS_DATA = RAW_ITEMS.map((item, idx) => ({
   description: `Item especial para nossa nova jornada.`,
   price: 0, // No price required
   status: 'available',
-  image: CATEGORY_IMAGES[item.cat] || "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+  image: `https://image.pollinations.ai/prompt/beautiful%20product%20photography%20of%20${encodeURIComponent(item.name)}%20home%20decor?width=400&height=300&nologo=true`
 }));
 
 let allGifts = [];
@@ -305,7 +305,7 @@ function initReserveModal() {
       closeModal('modal-reserve');
       renderGifts();
 
-      showToast('🎁 Presente reservado com sucesso! Redirecionando para o WhatsApp...', 'success', 4000);
+      showToast('🎁 Presente reservado! Redirecionando para o PIX...', 'success', 4000);
       launchConfetti();
 
       // Envia mensagem de WhatsApp automaticamente para o número dos noivos
@@ -322,8 +322,10 @@ function initReserveModal() {
       
       // Abre o WhatsApp após uma pequena fração de segundo
       setTimeout(() => {
+        openModal('modal-pix');
+        // O WhatsApp abre em uma nova aba
         window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-      }, 1000);
+      }, 800);
 
       selectedGiftId = null;
       reserveMode = null;
