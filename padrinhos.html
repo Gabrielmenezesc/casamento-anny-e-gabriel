@@ -109,9 +109,13 @@
         <a href="index.html"       class="navbar-link">🏠 Início</a>
         <a href="convidados.html"  class="navbar-link">👨‍👩‍👧 Convidados</a>
         <a href="presentes.html"   class="navbar-link">🎁 Presentes</a>
-        <a href="padrinhos.html"   class="navbar-link active">🤵 Padrinhos</a>
+        
         <a href="lua-de-mel.html"  class="navbar-link">💝 Lua de Mel</a>
         <a href="local.html"       class="navbar-link">📍 Local</a>
+      
+        <div style="width: 1px; height: 20px; background: rgba(255,255,255,0.2); margin: 0 10px;"></div>
+        <a href="admin.html" class="navbar-link">🔒 Noivos</a>
+        <a href="padrinhos.html" class="navbar-link">🔒 Padrinhos</a>
       </div>
       <div class="navbar-controls">
         <button id="btn-theme" class="btn-icon" aria-label="Mudar tema">🌙</button>
@@ -119,9 +123,24 @@
       </div>
     </div>
   </nav>
+
+  <!-- ===== LOGIN SCREEN PADRINHOS ===== -->
+  <div id="padrinhos-login-screen" style="position: fixed; inset: 0; z-index: 2000; background: var(--bg-primary); display: flex; align-items: center; justify-content: center; padding: 1rem;">
+    <div style="background: var(--bg-card); padding: 2rem; border-radius: 20px; box-shadow: var(--shadow-xl); width: 100%; max-width: 400px; text-align: center;">
+      <h1 style="font-family: var(--font-serif); color: var(--text-primary); margin-bottom: 0.5rem;">Área dos Padrinhos</h1>
+      <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.875rem;">Acesso restrito. Digite a senha para entrar.</p>
+      <form id="padrinhos-login-form">
+        <input type="password" id="padrinhos-password" placeholder="Senha" required style="width: 100%; padding: 0.75rem; border: 2px solid var(--glass-border-strong); border-radius: 8px; margin-bottom: 1rem;" />
+        <button type="submit" class="btn btn-gold w-full" style="justify-content: center;">Entrar</button>
+      </form>
+      <div id="padrinhos-login-error" style="color: var(--color-rose); margin-top: 1rem; display: none; font-size: 0.875rem;">Senha incorreta.</div>
+    </div>
+  </div>
+  <div id="padrinhos-content" style="display: none;">
+
   <nav class="mobile-nav" id="mobile-nav">
     <a href="index.html" class="navbar-link">🏠 Início</a>
-    <a href="padrinhos.html" class="navbar-link active">🤵 Padrinhos</a>
+    
     <a href="convidados.html" class="navbar-link">👨‍👩‍👧 Convidados</a>
   </nav>
 
@@ -277,6 +296,7 @@
     <p>25 de Abril de 2027 • Espaço Villa Rose • Brasília - DF</p>
   </footer>
 
+  </div>
   <button class="back-to-top" id="back-to-top" aria-label="Voltar ao topo">↑</button>
 
   <script src="./js/utils.js"></script>
@@ -306,7 +326,30 @@
       }).join('');
     }
     
+    
     document.addEventListener('DOMContentLoaded', async () => {
+      // Padrinhos Login Logic
+      const loginForm = document.getElementById('padrinhos-login-form');
+      const loginScreen = document.getElementById('padrinhos-login-screen');
+      const contentScreen = document.getElementById('padrinhos-content');
+      
+      if(sessionStorage.getItem('padrinhos_session') === 'active') {
+        loginScreen.style.display = 'none';
+        contentScreen.style.display = 'block';
+      }
+      
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const pwd = document.getElementById('padrinhos-password').value;
+        if(pwd === 'adm2027') {
+          sessionStorage.setItem('padrinhos_session', 'active');
+          loginScreen.style.display = 'none';
+          contentScreen.style.display = 'block';
+        } else {
+          document.getElementById('padrinhos-login-error').style.display = 'block';
+        }
+      });
+
       loadConfirmedPadrinhos();
 
       AOS.init({ duration: 700, once: true });

@@ -324,7 +324,7 @@ function initReserveModal() {
       
       // Abre o WhatsApp e o PIX imediatamente para evitar bloqueador de popups
       openModal('modal-pix');
-      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+      window.location.href = whatsappUrl; // Bypasses mobile popup blockers after async await
 
       selectedGiftId = null;
       reserveMode = null;
