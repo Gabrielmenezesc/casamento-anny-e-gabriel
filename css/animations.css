@@ -1,0 +1,250 @@
+/* ===================================================
+   ANIMATIONS - Casamento Premium
+   =================================================== */
+
+/* -------- Keyframes Base -------- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes blurReveal {
+  from { opacity: 0; filter: blur(12px); transform: scale(1.05); }
+  to { opacity: 1; filter: blur(0); transform: scale(1); }
+}
+
+/* -------- Ken Burns - Hero Zoom -------- */
+@keyframes kenBurns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  25% {
+    transform: scale(1.06) translate(-1%, -0.5%);
+  }
+  50% {
+    transform: scale(1.12) translate(0.5%, 1%);
+  }
+  75% {
+    transform: scale(1.08) translate(1%, -0.5%);
+  }
+  100% {
+    transform: scale(1) translate(0, 0);
+  }
+}
+
+/* -------- Hero Text Entry -------- */
+@keyframes heroTitleIn {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+    letter-spacing: 0.3em;
+    filter: blur(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    letter-spacing: normal;
+    filter: blur(0);
+  }
+}
+
+@keyframes heroSubIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* -------- Heartbeat -------- */
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  14% { transform: scale(1.2); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.15); }
+  56% { transform: scale(1); }
+}
+
+/* -------- Float -------- */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* -------- Shimmer Gold -------- */
+@keyframes shimmerGold {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* -------- Spin -------- */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* -------- Pulse -------- */
+@keyframes pulseSoft {
+  0%, 100% { box-shadow: 0 0 0 0 hsla(38, 72%, 55%, 0.4); }
+  50% { box-shadow: 0 0 0 12px hsla(38, 72%, 55%, 0); }
+}
+
+/* -------- Countdown Flip -------- */
+@keyframes flipUp {
+  from { transform: rotateX(-90deg); opacity: 0; }
+  to { transform: rotateX(0deg); opacity: 1; }
+}
+
+/* -------- Confetti -------- */
+@keyframes confettiFall {
+  0% { transform: translateY(-100%) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* -------- Ripple -------- */
+@keyframes ripple {
+  to { transform: scale(4); opacity: 0; }
+}
+
+.ripple-effect {
+  position: relative;
+  overflow: hidden;
+}
+.ripple-effect .ripple-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: hsla(255, 255%, 255%, 0.35);
+  pointer-events: none;
+  transform: scale(0);
+  animation: ripple 0.6s linear;
+}
+
+/* -------- AOS Custom -------- */
+[data-aos] {
+  transition-property: opacity, transform, filter;
+}
+
+/* -------- Particles container -------- */
+#particles-js {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* -------- Utility animation classes -------- */
+.animate-fadeIn { animation: fadeIn 0.6s ease forwards; }
+.animate-fadeInUp { animation: fadeInUp 0.7s ease forwards; }
+.animate-fadeInDown { animation: fadeInDown 0.6s ease forwards; }
+.animate-fadeInLeft { animation: fadeInLeft 0.7s ease forwards; }
+.animate-fadeInRight { animation: fadeInRight 0.7s ease forwards; }
+.animate-scaleIn { animation: scaleIn 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+.animate-blurReveal { animation: blurReveal 1s ease forwards; }
+.animate-float { animation: float 3s ease-in-out infinite; }
+.animate-heartbeat { animation: heartbeat 1.5s ease-in-out infinite; }
+.animate-spin { animation: spin 1s linear infinite; }
+.animate-pulse { animation: pulseSoft 2s ease-in-out infinite; }
+
+/* Delays */
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-600 { animation-delay: 0.6s; }
+.delay-800 { animation-delay: 0.8s; }
+.delay-1000 { animation-delay: 1s; }
+.delay-1200 { animation-delay: 1.2s; }
+
+/* Gold Shimmer Text */
+.text-shimmer-gold {
+  background: linear-gradient(
+    90deg,
+    var(--color-gold-dark) 0%,
+    var(--color-gold-light) 40%,
+    hsl(50, 95%, 80%) 50%,
+    var(--color-gold-light) 60%,
+    var(--color-gold-dark) 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmerGold 3s linear infinite;
+}
+
+/* Scroll Reveal base - items start hidden */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-28px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.reveal-left.revealed { opacity: 1; transform: translateX(0); }
+.reveal-right {
+  opacity: 0;
+  transform: translateX(28px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.reveal-right.revealed { opacity: 1; transform: translateX(0); }
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.reveal-scale.revealed { opacity: 1; transform: scale(1); }
+
+/* Staggered children */
+.stagger > * { transition-delay: calc(var(--stagger-index, 0) * 0.1s); }
+.stagger > *:nth-child(1) { --stagger-index: 1; }
+.stagger > *:nth-child(2) { --stagger-index: 2; }
+.stagger > *:nth-child(3) { --stagger-index: 3; }
+.stagger > *:nth-child(4) { --stagger-index: 4; }
+.stagger > *:nth-child(5) { --stagger-index: 5; }
+.stagger > *:nth-child(6) { --stagger-index: 6; }
+
+/* 3D Tilt effect (JS will handle perspective, this does the card face) */
+.tilt-card {
+  transform-style: preserve-3d;
+  transition: transform 0.1s ease;
+}
+.tilt-card-inner {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.tilt-layer-front {
+  transform: translateZ(30px);
+}
+.tilt-layer-mid {
+  transform: translateZ(15px);
+}

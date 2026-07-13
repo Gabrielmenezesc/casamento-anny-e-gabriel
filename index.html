@@ -1,17 +1,368 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Site de casamento premium de Laoanny e Gabriel. Confirme sua presença, veja nossa lista de presentes e as cotas para a lua de mel." />
-    <meta property="og:title" content="Laoanny & Gabriel | Casamento" />
-    <meta property="og:description" content="Site de casamento premium de Laoanny e Gabriel. Confirme sua presença e veja nossa lista de presentes." />
-    <meta property="og:type" content="website" />
-    <title>Laoanny & Gabriel | Casamento</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Laoanny & Gabriel | Casamento • 25 de Abril de 2027</title>
+  <meta name="description" content="Celebre conosco! Laoanny e Gabriel se casam em 25 de Abril de 2027 no Espaço Villa Rose, Samambaia Sul, Brasília - DF." />
+  <meta property="og:title" content="Laoanny ❤ Gabriel | Casamento" />
+  <meta property="og:description" content="25 de Abril de 2027 • Espaço Villa Rose • Samambaia Sul, Brasília DF" />
+  <meta property="og:image" content="./assets/images/capa.jpg" />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#D4A843" />
 
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,500;1,400&family=Inter:wght@300;400;500;600;700&family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/animations.css" />
+  <link rel="stylesheet" href="./css/home.css" />
+  <link rel="stylesheet" href="./css/responsive.css" />
+
+  <!-- AOS -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+
+  <style>
+    /* Extra home-specific overrides */
+    body { overflow-x: hidden; }
+    .hero { min-height: 100svh; }
+
+    /* PIX Modal */
+    .pix-qr-wrapper {
+      background: white;
+      border-radius: 16px;
+      padding: 16px;
+      display: inline-block;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      margin: 0 auto 1.5rem;
+    }
+    .pix-qr-wrapper img { display: block; border-radius: 8px; }
+    .pix-key-box {
+      background: var(--bg-secondary);
+      border: 1.5px solid var(--glass-border-strong);
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+      margin-bottom: 1.25rem;
+    }
+    .pix-key-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.25rem; }
+    .pix-key-value { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; color: var(--color-gold-dark); letter-spacing: 0.05em; }
+    .pix-desc { font-size: 0.875rem; color: var(--text-secondary); text-align: center; line-height: 1.7; margin-bottom: 1.25rem; }
+    .pix-modal-btns { display: flex; flex-direction: column; gap: 0.75rem; }
+    .pix-modal-btns .btn { justify-content: center; text-align: center; }
+  </style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-logo">Laoanny ❤ Gabriel</div>
+    <div class="loading-hearts">
+      <div class="loading-heart"></div>
+      <div class="loading-heart"></div>
+      <div class="loading-heart"></div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo">
+        <span>Laoanny ❤ Gabriel</span>
+      </a>
+      <div class="navbar-links">
+        <a href="index.html"       class="navbar-link active">🏠 Início</a>
+        <a href="convidados.html"  class="navbar-link">👨‍👩‍👧 Convidados</a>
+        <a href="presentes.html"   class="navbar-link">🎁 Presentes</a>
+        <a href="padrinhos.html"   class="navbar-link">🤵 Padrinhos</a>
+        <a href="lua-de-mel.html"  class="navbar-link">💝 Lua de Mel</a>
+        <a href="local.html"       class="navbar-link">📍 Local</a>
+        <a href="admin.html"       class="navbar-link">⚙️ Admin</a>
+      </div>
+      <div class="navbar-controls">
+        <button id="btn-theme" class="btn-icon" title="Alternar tema" aria-label="Mudar tema">🌙</button>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Nav -->
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="index.html"       class="navbar-link">🏠 Início</a>
+    <a href="convidados.html"  class="navbar-link">👨‍👩‍👧 Convidados</a>
+    <a href="presentes.html"   class="navbar-link">🎁 Presentes</a>
+    <a href="padrinhos.html"   class="navbar-link">🤵 Padrinhos</a>
+    <a href="lua-de-mel.html"  class="navbar-link">💝 Lua de Mel</a>
+    <a href="local.html"       class="navbar-link">📍 Local</a>
+    <a href="admin.html"       class="navbar-link">⚙️ Admin</a>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="home">
+
+    <!-- Partículas flutuantes -->
+    <div id="hero-particles" class="hero-depth-layer" style="z-index:4; pointer-events:none;"></div>
+
+    <!-- Cena 3D com a foto do casal -->
+    <div class="hero-scene" id="hero-scene">
+      <div class="hero-img-wrapper">
+        <img
+          class="hero-img"
+          src="./assets/images/capa.jpg"
+          alt="Laoanny e Gabriel - Foto de casal na Catedral de Brasília"
+          id="hero-img"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+    </div>
+
+    <!-- Tratamento Golden Hour -->
+    <div class="hero-warm-overlay"></div>
+
+    <!-- Overlay escuro ~35% -->
+    <div class="hero-overlay"></div>
+
+    <!-- Vinheta -->
+    <div class="hero-vignette"></div>
+
+    <!-- Conteúdo centralizado -->
+    <div class="hero-content">
+
+      <!-- Ornamento decorativo -->
+      <div class="hero-ornament">
+        <div class="hero-ornament-line"></div>
+        <div class="hero-ornament-diamond"></div>
+        <div class="hero-ornament-line"></div>
+      </div>
+
+      <!-- Nomes -->
+      <h1 class="hero-names">
+        Laoanny <span class="hero-heart">❤</span> Gabriel
+      </h1>
+
+      <!-- Tagline -->
+      <p class="hero-tagline">Estamos nos Casando ✨</p>
+
+      <!-- Data, Hora, Local -->
+      <div class="hero-info-strip">
+        <div class="hero-info-item">
+          <div class="hero-info-date">25 de Abril</div>
+          <div class="hero-info-label">de 2027</div>
+        </div>
+        <div class="hero-divider-dot"></div>
+        <div class="hero-info-item">
+          <div class="hero-info-date">15:00 horas</div>
+          <div class="hero-info-label">cerimônia</div>
+        </div>
+        <div class="hero-divider-dot"></div>
+        <div class="hero-info-item">
+          <div class="hero-info-date">Villa Rose</div>
+          <div class="hero-info-label">Samambaia Sul • Brasília - DF</div>
+        </div>
+      </div>
+
+      <!-- Botões -->
+      <div class="hero-buttons">
+        <a href="local.html" class="hero-btn hero-btn-ghost">
+          📍 Ver Local
+        </a>
+        <a href="presentes.html" class="hero-btn hero-btn-ghost">
+          🎁 Escolher um Presente
+        </a>
+        <button class="hero-btn hero-btn-primary" data-open-pix>
+          💝 Presentear com PIX
+        </button>
+        <a href="convidados.html" class="hero-btn hero-btn-ghost">
+          👨‍👩‍👧 Confirmar Presença
+        </a>
+      </div>
+    </div>
+
+    <!-- Indicador de scroll -->
+    <div class="hero-scroll" onclick="document.getElementById('countdown-section').scrollIntoView({behavior:'smooth'})">
+      <div class="hero-scroll-text">Rolar</div>
+      <div class="hero-scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ===== COUNTDOWN ===== -->
+  <section class="countdown-section" id="countdown-section">
+    <p class="countdown-section-title" data-aos="fade-up">Faltam apenas...</p>
+    <div id="countdown" data-aos="fade-up" data-aos-delay="100"></div>
+    <p style="color: var(--color-gold-light); font-family: var(--font-script); font-size: 1.3rem; margin-top: 1.5rem;" data-aos="fade-up" data-aos-delay="200">
+      para o nosso grande dia! 💒
+    </p>
+  </section>
+
+  <!-- ===== INFO CARDS ===== -->
+  <section class="info-section" id="info">
+    <div class="container">
+      <span class="section-subtitle" data-aos="fade-up">Detalhes do evento</span>
+      <h2 class="section-title" data-aos="fade-up">O Grande Dia</h2>
+      <div class="section-divider" data-aos="fade-up">♦</div>
+
+      <div class="info-cards-grid stagger">
+        <div class="info-card reveal-scale">
+          <span class="info-card-icon">📅</span>
+          <h3 class="info-card-title">Data</h3>
+          <p class="info-card-text">Marque na sua agenda!</p>
+          <p class="info-card-value">25 · 04 · 2027</p>
+        </div>
+        <div class="info-card reveal-scale">
+          <span class="info-card-icon">⏰</span>
+          <h3 class="info-card-title">Horário</h3>
+          <p class="info-card-text">Cerimônia</p>
+          <p class="info-card-value">15:00 horas</p>
+        </div>
+        <div class="info-card reveal-scale">
+          <span class="info-card-icon">📍</span>
+          <h3 class="info-card-title">Local</h3>
+          <p class="info-card-text">Samambaia Sul, Brasília - DF</p>
+          <p class="info-card-value">Espaço Villa Rose</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HISTÓRIA DO CASAL ===== -->
+  <section class="story-section" id="nossa-historia">
+    <div class="container container-md">
+      <span class="section-subtitle" data-aos="fade-up">Nossa história</span>
+      <h2 class="section-title" data-aos="fade-up">Dois corações, uma jornada</h2>
+      <div class="section-divider" data-aos="fade-up">♦</div>
+
+      <div class="story-layout">
+        <div class="story-image-frame reveal-left">
+          <img
+            class="story-img"
+            src="./assets/images/capa.jpg"
+            alt="Laoanny e Gabriel na Catedral de Brasília"
+            loading="lazy"
+          />
+          <div class="story-badge">📸 Catedral de Brasília</div>
+        </div>
+        <div class="story-text">
+          <blockquote class="story-quote reveal-right">
+            "Quando dois corações se encontram, o universo conspira para mantê-los juntos."
+          </blockquote>
+          <p class="story-body reveal-right delay-200">
+            Nossa história começou como toda grande história: de forma inesperada e mágica. 
+            Laoanny e Gabriel descobriram que o amor vai muito além das palavras — 
+            ele se revela nos gestos simples, nos sorrisos trocados e nos momentos compartilhados.
+          </p>
+          <p class="story-body reveal-right delay-300">
+            E agora, com o coração transbordando de gratidão, 
+            queremos celebrar esse amor ao lado das pessoas mais especiais das nossas vidas. 
+            Vocês fazem parte desta história.
+          </p>
+          <div class="reveal-right delay-400">
+            <a href="convidados.html" class="btn btn-gold btn-lg" style="margin-top: 1.5rem; display: inline-flex;">
+              👨‍👩‍👧 Confirmar Presença
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== QUICK ACTIONS ===== -->
+  <section class="cta-section" id="acoes-rapidas">
+    <div class="container container-sm">
+      <span class="section-subtitle" data-aos="fade-up">Participe da nossa celebração</span>
+      <h2 class="section-title" data-aos="fade-up">O que você deseja fazer?</h2>
+      <div class="section-divider" data-aos="fade-up">♦</div>
+
+      <div class="cta-buttons" data-aos="fade-up" data-aos-delay="100">
+        <a href="local.html" class="btn btn-outline btn-lg">📍 Ver Local</a>
+        <a href="presentes.html" class="btn btn-outline btn-lg">🎁 Ver Lista de Presentes</a>
+        <button class="btn btn-rose btn-lg" data-open-pix>💝 Presentear com PIX</button>
+        <a href="convidados.html" class="btn btn-gold btn-lg">👨‍👩‍👧 Confirmar Presença</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-logo">Laoanny ❤ Gabriel</div>
+    <div class="footer-links">
+      <a href="convidados.html" class="footer-link">Convidados</a>
+      <a href="presentes.html" class="footer-link">Presentes</a>
+      <a href="padrinhos.html" class="footer-link">Padrinhos</a>
+      <a href="lua-de-mel.html" class="footer-link">Lua de Mel</a>
+      <a href="local.html" class="footer-link">Local</a>
+    </div>
+    <p>25 de Abril de 2027 • Espaço Villa Rose • Samambaia Sul, Brasília - DF</p>
+    <p style="margin-top: 0.5rem; opacity: 0.5; font-size: 0.75rem;">Feito com ❤ especialmente para nós</p>
+  </footer>
+
+  <!-- ===== MODAL PIX ===== -->
+  <div class="modal-overlay" id="modal-pix">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-pix-title">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-pix-title">Ajude nossa Lua de Mel ❤️</h2>
+        <p class="modal-subtitle">Qualquer valor será recebido com muito carinho</p>
+        <button class="modal-close" aria-label="Fechar">✕</button>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        <p class="pix-desc">
+          Se desejar nos presentear de outra forma, você pode contribuir através do PIX.
+          Qualquer valor será recebido com muito carinho. 💕
+        </p>
+
+        <!-- QR Code -->
+        <div class="pix-qr-wrapper">
+          <img id="pix-qrcode" src="" alt="QR Code PIX" width="240" height="240" style="border-radius: 8px;" />
+        </div>
+
+        <!-- Chave PIX -->
+        <div class="pix-key-box">
+          <div class="pix-key-label">Chave PIX (Telefone)</div>
+          <div class="pix-key-value" id="pix-key-display">38991621135</div>
+        </div>
+
+        <!-- Botões -->
+        <div class="pix-modal-btns">
+          <button id="btn-copy-pix" class="btn btn-gold btn-lg">
+            📋 Copiar Chave PIX
+          </button>
+          <button id="btn-pix-card" class="btn btn-outline btn-lg">
+            💳 Pagar com Cartão
+          </button>
+          <a id="pix-infinitepay-link" href="#" target="_blank" rel="noopener noreferrer"
+             class="btn btn-glass btn-lg" style="background: #6c5ce7; color: white; border: none; justify-content: center; display: flex;">
+            🔗 Acessar Link InfinitePay
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to top -->
+  <button class="back-to-top" id="back-to-top" aria-label="Voltar ao topo">↑</button>
+
+  <!-- Scripts -->
+  <script src="./js/utils.js"></script>
+  <script src="./js/firebase.js"></script>
+  <script src="./js/app.js"></script>
+  <script src="./js/countdown.js"></script>
+  <script src="./js/pix.js"></script>
+  <script src="./js/animations.js"></script>
+
+  <!-- AOS -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      AOS.init({ duration: 700, easing: 'ease-out-cubic', once: true, offset: 80 });
+    });
+  </script>
+
+  <!-- GSAP + ScrollTrigger (opcional, melhora animações) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+</body>
+</html>

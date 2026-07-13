@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lua de Mel | Laoanny & Gabriel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/animations.css" />
+  <link rel="stylesheet" href="./css/responsive.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <style>
+    .honeymoon-hero {
+      background: linear-gradient(145deg, hsl(260, 40%, 10%), hsl(345, 35%, 12%));
+      padding: 8rem 2rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .honeymoon-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 80%, hsla(345, 72%, 55%, 0.15), transparent);
+    }
+    .honeymoon-hero h1 { font-family: var(--font-serif); font-size: clamp(2.5rem, 6vw, 4rem); color: white; position: relative; z-index: 1; }
+    .honeymoon-hero p { font-family: var(--font-script); font-size: 1.4rem; color: var(--color-rose-light); position: relative; z-index: 1; margin-top: 0.5rem; }
+
+    .goal-card {
+      background: var(--bg-card);
+      border-radius: 24px;
+      padding: 2.5rem;
+      box-shadow: var(--shadow-xl);
+      border: 1px solid var(--glass-border);
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .goal-title { font-family: var(--font-serif); font-size: 1.5rem; color: var(--text-primary); margin-bottom: 0.5rem; }
+    .goal-amount { font-family: var(--font-serif); font-size: 2.5rem; font-weight: 800; color: var(--color-gold-dark); margin: 0.5rem 0; }
+    .goal-bar-container { background: var(--bg-secondary); border-radius: 12px; height: 14px; overflow: hidden; margin: 1rem 0; }
+    .goal-bar-fill {
+      height: 100%;
+      background: linear-gradient(to right, var(--color-rose), var(--color-gold));
+      border-radius: 12px;
+      transition: width 2s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .pix-section {
+      background: var(--bg-card);
+      border-radius: 24px;
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--glass-border);
+      text-align: center;
+    }
+    .pix-qr-container {
+      background: white;
+      border-radius: 16px;
+      padding: 16px;
+      display: inline-block;
+      box-shadow: var(--shadow-md);
+      margin: 1rem 0 1.5rem;
+    }
+    .pix-key-display-box {
+      background: var(--bg-secondary);
+      border: 2px solid var(--glass-border-strong);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .pix-key-lbl { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+    .pix-key-val { font-family: var(--font-serif); font-size: 1.75rem; font-weight: 700; color: var(--color-gold-dark); letter-spacing: 0.05em; }
+
+    .btns-stack { display: flex; flex-direction: column; gap: 0.75rem; max-width: 340px; margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-logo">💝 Lua de Mel</div>
+    <div class="loading-hearts"><div class="loading-heart"></div><div class="loading-heart"></div><div class="loading-heart"></div></div>
+  </div>
+
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo">Laoanny ❤ Gabriel</a>
+      <div class="navbar-links">
+        <a href="index.html"       class="navbar-link">🏠 Início</a>
+        <a href="convidados.html"  class="navbar-link">👨‍👩‍👧 Convidados</a>
+        <a href="presentes.html"   class="navbar-link">🎁 Presentes</a>
+        <a href="padrinhos.html"   class="navbar-link">🤵 Padrinhos</a>
+        <a href="lua-de-mel.html"  class="navbar-link active">💝 Lua de Mel</a>
+        <a href="local.html"       class="navbar-link">📍 Local</a>
+      </div>
+      <div class="navbar-controls">
+        <button id="btn-theme" class="btn-icon" aria-label="Mudar tema">🌙</button>
+        <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="index.html" class="navbar-link">🏠 Início</a>
+    <a href="lua-de-mel.html" class="navbar-link active">💝 Lua de Mel</a>
+    <a href="convidados.html" class="navbar-link">👨‍👩‍👧 Convidados</a>
+  </nav>
+
+  <section class="honeymoon-hero">
+    <h1 data-aos="fade-down">💝 Lua de Mel</h1>
+    <p data-aos="fade-up" data-aos-delay="100">Ajude-nos a realizar esse sonho</p>
+  </section>
+
+  <section class="section">
+    <div class="container container-sm">
+      <span class="section-subtitle" data-aos="fade-up">Nossa meta</span>
+      <h2 class="section-title" data-aos="fade-up">Contribua para nossa Lua de Mel</h2>
+      <div class="section-divider" data-aos="fade-up">♦</div>
+
+      <p style="text-align: center; color: var(--text-secondary); line-height: 1.8; margin-bottom: 2rem;" data-aos="fade-up">
+        Se desejar nos presentear de outra forma, você pode contribuir para realizarmos nossa Lua de Mel dos sonhos. 
+        Qualquer valor será recebido com muito carinho e gratidão! 💕
+      </p>
+
+      <!-- Meta Progress -->
+      <div class="goal-card" data-aos="fade-up">
+        <div class="goal-title">🌙 Meta da Lua de Mel</div>
+        <div class="goal-amount" id="goal-amount">R$ 3.850,00</div>
+        <div style="font-size: 0.875rem; color: var(--text-muted);">de R$ 25.000,00</div>
+        <div class="goal-bar-container">
+          <div class="goal-bar-fill" id="goal-bar" style="width: 0%"></div>
+        </div>
+        <div style="font-size: 0.875rem; color: var(--text-secondary);" id="goal-percentage">15,4% da meta alcançada</div>
+      </div>
+
+      <!-- PIX direto -->
+      <div class="pix-section" data-aos="fade-up" data-aos-delay="100">
+        <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--text-primary); margin-bottom: 0.5rem;">
+          Contribuir via PIX 💝
+        </h3>
+        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
+          Escaneie o QR Code ou copie a chave abaixo
+        </p>
+
+        <div class="pix-qr-container">
+          <img id="honeymoon-qrcode" src="" alt="QR Code PIX Lua de Mel" width="240" height="240" style="border-radius: 8px;" />
+        </div>
+
+        <div class="pix-key-display-box">
+          <div class="pix-key-lbl">Chave PIX (Telefone)</div>
+          <div class="pix-key-val">38991621135</div>
+        </div>
+
+        <div class="btns-stack">
+          <button id="btn-copy-pix-honeymoon" class="btn btn-rose btn-lg">📋 Copiar Chave PIX</button>
+          <button id="btn-card-honeymoon" class="btn btn-gold btn-lg">💳 Pagar com Cartão</button>
+          <a href="https://link.infinitepay.io/gabrielmen10?origin=link-na-bio" target="_blank" rel="noopener noreferrer"
+             class="btn btn-lg" style="background: #6c5ce7; color: white; border: none; justify-content: center;">
+            🔗 Link InfinitePay
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-logo">Laoanny ❤ Gabriel</div>
+    <p>25 de Abril de 2027 • Espaço Villa Rose • Brasília - DF</p>
+  </footer>
+
+  <button class="back-to-top" id="back-to-top" aria-label="Voltar ao topo">↑</button>
+
+  <script src="./js/utils.js"></script>
+  <script src="./js/firebase.js"></script>
+  <script src="./js/app.js"></script>
+  <script src="./js/pix.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      AOS.init({ duration: 700, once: true });
+      await initFirebase();
+      const honey = await getHoneymoonSettings();
+      const pct = Math.min(100, (honey.currentAmount / honey.goal) * 100);
+      document.getElementById('goal-amount').textContent = formatCurrency(honey.currentAmount);
+      document.getElementById('goal-percentage').textContent = `${pct.toFixed(1)}% da meta alcançada`;
+      setTimeout(() => {
+        document.getElementById('goal-bar').style.width = pct + '%';
+      }, 500);
+
+      // QR Code para lua de mel
+      const qrImg = document.getElementById('honeymoon-qrcode');
+      if (qrImg) {
+        const payload = generatePixPayload('38991621135', 'Gabriel Men', 'Brasilia');
+        qrImg.src = generateQRCodeUrl(payload);
+      }
+
+      // Copy PIX
+      document.getElementById('btn-copy-pix-honeymoon')?.addEventListener('click', async () => {
+        const payload = generatePixPayload('38991621135', 'Gabriel Men', 'Brasilia');
+        const ok = await copyToClipboard(payload);
+        const btn = document.getElementById('btn-copy-pix-honeymoon');
+        if (ok) {
+          btn.textContent = '✅ PIX copiado com sucesso!';
+          showToast('✅ PIX copiado! Cole no seu banco.', 'success');
+          setTimeout(() => btn.textContent = '📋 Copiar Chave PIX', 3000);
+        }
+      });
+
+      document.getElementById('btn-card-honeymoon')?.addEventListener('click', () => {
+        window.open('https://invoice.infinitepay.io/gabrielmen10/gV7OaCL60E', '_blank', 'noopener,noreferrer');
+      });
+    });
+  </script>
+</body>
+</html>

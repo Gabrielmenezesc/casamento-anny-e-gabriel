@@ -1,0 +1,31 @@
+/* ===================================================
+   CONVIDADOS PAGE CSS
+   =================================================== */
+.convidados-hero {
+  background: linear-gradient(145deg, hsl(345, 50%, 10%), hsl(30, 25%, 10%));
+  padding: 8rem var(--space-xl) var(--space-3xl);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.convidados-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 80%, hsla(345, 75%, 55%, 0.12), transparent);
+}
+.convidados-hero h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  color: white;
+  position: relative;
+  z-index: 1;
+}
+.convidados-hero p {
+  font-family: var(--font-script);
+  font-size: 1.4rem;
+  color: var(--color-rose-light);
+  position: relative;
+  z-index: 1;
+  margin-top: var(--space-sm);
+}

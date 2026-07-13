@@ -1,0 +1,29 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Presentes: leitura pública, escrita pública (reserva)
+    match /gifts/{giftId} {
+      allow read: if true;
+      allow update: if true; // Permite reserva pública
+      allow create, delete: if request.auth != null; // Admin apenas
+    }
+    
+    // RSVPs: escrita pública, leitura admin
+    match /rsvps/{rsvpId} {
+      allow create: if true; // Qualquer pessoa pode confirmar presença
+      allow read, update, delete: if request.auth != null;
+    }
+    
+    // Padrinhos: escrita pública, leitura admin
+    match /godparents/{godId} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
+    
+    // Configurações: admin apenas
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+  }
+}

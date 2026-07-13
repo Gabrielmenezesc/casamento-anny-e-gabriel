@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Confirmar Presença | Laoanny & Gabriel • 25/04/2027</title>
+  <meta name="description" content="Confirme sua presença no casamento de Laoanny e Gabriel. 25 de Abril de 2027 - Espaço Villa Rose, Brasília." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/animations.css" />
+  <link rel="stylesheet" href="./css/convidados.css" />
+  <link rel="stylesheet" href="./css/presentes.css" />
+  <link rel="stylesheet" href="./css/responsive.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+</head>
+<body>
+  <!-- Loading -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-logo">Confirmar Presença</div>
+    <div class="loading-hearts">
+      <div class="loading-heart"></div>
+      <div class="loading-heart"></div>
+      <div class="loading-heart"></div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo">Laoanny ❤ Gabriel</a>
+      <div class="navbar-links">
+        <a href="index.html"       class="navbar-link">🏠 Início</a>
+        <a href="convidados.html"  class="navbar-link active">👨‍👩‍👧 Convidados</a>
+        <a href="presentes.html"   class="navbar-link">🎁 Presentes</a>
+        <a href="padrinhos.html"   class="navbar-link">🤵 Padrinhos</a>
+        <a href="lua-de-mel.html"  class="navbar-link">💝 Lua de Mel</a>
+        <a href="local.html"       class="navbar-link">📍 Local</a>
+        <a href="admin.html"       class="navbar-link">⚙️ Admin</a>
+      </div>
+      <div class="navbar-controls">
+        <button id="btn-theme" class="btn-icon" aria-label="Mudar tema">🌙</button>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="index.html" class="navbar-link">🏠 Início</a>
+    <a href="convidados.html" class="navbar-link active">👨‍👩‍👧 Convidados</a>
+    <a href="presentes.html" class="navbar-link">🎁 Presentes</a>
+    <a href="local.html" class="navbar-link">📍 Local</a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="convidados-hero">
+    <h1 data-aos="fade-down">👨‍👩‍👧 Confirmar Presença</h1>
+    <p data-aos="fade-up" data-aos-delay="100">Mal podemos esperar para celebrar com você!</p>
+  </section>
+
+  <!-- Formulário -->
+  <section class="section">
+    <div class="container container-sm">
+
+      <div class="rsvp-form-container" data-aos="fade-up">
+        <div class="rsvp-form-header">
+          <h2>Sua presença é muito especial 💕</h2>
+          <p>Preencha os dados abaixo para confirmar sua presença</p>
+        </div>
+
+        <!-- Form -->
+        <div class="rsvp-form-body">
+          <form id="rsvp-form" novalidate>
+            <div class="form-input-row">
+              <div class="form-group">
+                <label class="form-label" for="rsvp-name">Nome Completo *</label>
+                <input class="form-input" type="text" id="rsvp-name" placeholder="Seu nome completo" required autocomplete="name" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="rsvp-phone">Telefone / WhatsApp *</label>
+                <input class="form-input" type="tel" id="rsvp-phone" placeholder="(61) 99999-0000" required autocomplete="tel" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="rsvp-email">E-mail (opcional)</label>
+              <input class="form-input" type="email" id="rsvp-email" placeholder="seu@email.com" autocomplete="email" />
+            </div>
+
+            <div class="form-input-row">
+              <div class="form-group">
+                <label class="form-label">Adultos</label>
+                <div class="counter-field">
+                  <button type="button" class="counter-btn" id="adults-dec">−</button>
+                  <span class="counter-value" id="adults-count">1</span>
+                  <button type="button" class="counter-btn" id="adults-inc">+</button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Crianças</label>
+                <div class="counter-field">
+                  <button type="button" class="counter-btn" id="children-dec">−</button>
+                  <span class="counter-value" id="children-count">0</span>
+                  <button type="button" class="counter-btn" id="children-inc">+</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="rsvp-notes">Observações (alergias, dieta especial...)</label>
+              <textarea class="form-input form-textarea" id="rsvp-notes" placeholder="Compartilhe algo importante que devemos saber..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-rose btn-lg w-full" style="justify-content: center; margin-top: 0.5rem;">
+              👨‍👩‍👧 Confirmar Presença
+            </button>
+          </form>
+        </div>
+
+        <!-- Success -->
+        <div class="rsvp-success" id="rsvp-success">
+          <span class="rsvp-success-icon">🎉</span>
+          <h3 class="rsvp-success-title">Presença confirmada, <span class="rsvp-success-name"></span>!</h3>
+          <p class="rsvp-success-text">
+            Ficamos muito felizes! Mal podemos esperar para celebrar com você no dia 25 de Abril de 2027. 
+            Até lá! 💕
+          </p>
+          <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <a href="presentes.html" class="btn btn-gold">🎁 Ver Lista de Presentes</a>
+            <a href="index.html" class="btn btn-outline">🏠 Voltar ao Início</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-logo">Laoanny ❤ Gabriel</div>
+    <p>25 de Abril de 2027 • Espaço Villa Rose • Brasília - DF</p>
+  </footer>
+
+  <button class="back-to-top" id="back-to-top" aria-label="Voltar ao topo">↑</button>
+
+  <script src="./js/utils.js"></script>
+  <script src="./js/firebase.js"></script>
+  <script src="./js/app.js"></script>
+  <script src="./js/convidados.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', () => AOS.init({ duration: 700, once: true }));</script>
+</body>
+</html>

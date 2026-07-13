@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel Admin | Casamento Laoanny & Gabriel</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=Inter:wght@300;400;500;600;700&family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/animations.css" />
+  <link rel="stylesheet" href="./css/admin.css" />
+  <link rel="stylesheet" href="./css/responsive.css" />
+</head>
+<body>
+
+  <!-- ===== LOGIN SCREEN ===== -->
+  <div id="admin-login-screen">
+    <div class="admin-login">
+      <div class="admin-login-box" data-aos="scale-in">
+        <div class="admin-login-logo">Laoanny ❤ Gabriel</div>
+        <h1 class="admin-login-title">Painel Administrativo</h1>
+        <p class="admin-login-sub">Acesso restrito — Digite a senha para continuar</p>
+
+        <form id="admin-login-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="admin-password">🔒 Senha de Acesso</label>
+            <input class="form-input" type="password" id="admin-password" placeholder="••••••••••••" autocomplete="current-password" required />
+          </div>
+          <button type="submit" class="btn btn-gold btn-lg w-full" style="justify-content: center; margin-top: 0.5rem;">
+            ⚙️ Entrar no Painel
+          </button>
+        </form>
+
+        <div class="admin-login-error" id="admin-login-error"></div>
+        <p style="margin-top: 1.5rem; font-size: 0.75rem; color: hsla(42, 40%, 85%, 0.4); text-align: center;">
+          Senha padrão: <code style="color: var(--color-gold); font-size: 0.8125rem;">casamento2027</code>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DASHBOARD SCREEN ===== -->
+  <div id="admin-dashboard-screen" class="hidden">
+    <div class="admin-layout">
+
+      <!-- Sidebar -->
+      <aside class="admin-sidebar">
+        <div class="admin-sidebar-logo">
+          <span class="admin-sidebar-logo-text">Laoanny ❤ Gabriel</span>
+          <span class="admin-sidebar-logo-sub">Painel Administrativo</span>
+        </div>
+
+        <nav>
+          <div class="admin-nav-item active" data-panel="dashboard">
+            <span class="admin-nav-icon">📊</span> Dashboard
+          </div>
+          <div class="admin-nav-item" data-panel="convidados">
+            <span class="admin-nav-icon">👨‍👩‍👧</span> Convidados
+          </div>
+          <div class="admin-nav-item" data-panel="presentes">
+            <span class="admin-nav-icon">🎁</span> Presentes
+          </div>
+          <div class="admin-nav-item" data-panel="honeymoon">
+            <span class="admin-nav-icon">💝</span> Lua de Mel
+          </div>
+          <div class="admin-nav-separator"></div>
+          <div class="admin-nav-item" onclick="adminLogout()">
+            <span class="admin-nav-icon">🚪</span> Sair
+          </div>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="admin-main">
+        <div class="admin-header">
+          <h1 class="admin-header-title" id="admin-header-title">Dashboard</h1>
+          <div class="admin-header-controls">
+            <button id="btn-theme" class="btn btn-outline btn-sm">🌙 Tema</button>
+            <button id="btn-print" class="btn btn-outline btn-sm">🖨️ Imprimir</button>
+            <button onclick="loadAdminData()" class="btn btn-gold btn-sm">🔄 Atualizar</button>
+          </div>
+        </div>
+
+        <div class="admin-content">
+
+          <!-- ===== DASHBOARD ===== -->
+          <div class="admin-panel active" id="panel-dashboard">
+            <!-- Stats -->
+            <div class="admin-stats-grid">
+              <div class="stat-card gold">
+                <span class="stat-card-icon">👥</span>
+                <div class="stat-card-value" id="stat-confirmed">0</div>
+                <div class="stat-card-label">Confirmações</div>
+              </div>
+              <div class="stat-card rose">
+                <span class="stat-card-icon">🎊</span>
+                <div class="stat-card-value" id="stat-guests">0</div>
+                <div class="stat-card-label">Total de Convidados</div>
+              </div>
+              <div class="stat-card green">
+                <span class="stat-card-icon">👨</span>
+                <div class="stat-card-value" id="stat-adults">0</div>
+                <div class="stat-card-label">Adultos</div>
+              </div>
+              <div class="stat-card blue">
+                <span class="stat-card-icon">👶</span>
+                <div class="stat-card-value" id="stat-children">0</div>
+                <div class="stat-card-label">Crianças</div>
+              </div>
+              <div class="stat-card gold">
+                <span class="stat-card-icon">🟢</span>
+                <div class="stat-card-value" id="stat-available">0</div>
+                <div class="stat-card-label">Presentes Disponíveis</div>
+              </div>
+              <div class="stat-card rose">
+                <span class="stat-card-icon">🎁</span>
+                <div class="stat-card-value" id="stat-reserved">0</div>
+                <div class="stat-card-label">Presentes Reservados</div>
+              </div>
+              <div class="stat-card green">
+                <span class="stat-card-icon">✅</span>
+                <div class="stat-card-value" id="stat-delivered">0</div>
+                <div class="stat-card-label">Presentes Entregues</div>
+              </div>
+              <div class="stat-card blue">
+                <span class="stat-card-icon">💰</span>
+                <div class="stat-card-value" id="stat-pix" style="font-size: 1.25rem;">R$ 0</div>
+                <div class="stat-card-label">PIX Arrecadado</div>
+              </div>
+            </div>
+
+            <!-- Meta Lua de Mel -->
+            <div class="chart-card" style="margin-bottom: 1.5rem;">
+              <div class="chart-card-title">
+                <span>💝 Meta Lua de Mel</span>
+                <span id="pix-goal-text" style="font-size: 0.875rem; font-weight: 400; color: var(--text-muted);">R$ 0 de R$ 25.000</span>
+              </div>
+              <div class="goal-progress-bar">
+                <div class="goal-progress-fill" id="pix-goal-fill" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="admin-charts-grid">
+              <div class="chart-card">
+                <div class="chart-card-title">Convidados</div>
+                <canvas id="chart-guests" height="220"></canvas>
+              </div>
+              <div class="chart-card">
+                <div class="chart-card-title">Status dos Presentes</div>
+                <canvas id="chart-gifts" height="220"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== CONVIDADOS ===== -->
+          <div class="admin-panel" id="panel-convidados">
+            <div class="admin-table-card">
+              <div class="admin-table-header">
+                <h2 class="admin-table-title">👨‍👩‍👧 Lista de Convidados</h2>
+                <div class="admin-search">
+                  <input class="admin-search-input" type="text" id="rsvp-search" placeholder="Buscar convidado..." />
+                  <button id="btn-export-csv" class="btn btn-gold btn-sm">📊 Exportar CSV</button>
+                </div>
+              </div>
+              <div style="overflow-x: auto;">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Nome</th>
+                      <th>Telefone</th>
+                      <th>E-mail</th>
+                      <th style="text-align:center">Adultos</th>
+                      <th style="text-align:center">Crianças</th>
+                      <th>Observações</th>
+                      <th>Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody id="rsvp-table-body">
+                    <tr><td colspan="7" style="text-align:center; padding: 3rem; color: var(--text-muted);">Carregando dados...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== PRESENTES ===== -->
+          <div class="admin-panel" id="panel-presentes">
+            <div class="admin-table-card">
+              <div class="admin-table-header">
+                <h2 class="admin-table-title">🎁 Lista de Presentes</h2>
+                <div class="admin-search">
+                  <input class="admin-search-input" type="text" id="gifts-search" placeholder="Buscar presente..." />
+                  <button id="btn-export-gifts-csv" class="btn btn-gold btn-sm">📊 Exportar CSV</button>
+                </div>
+              </div>
+              <div style="overflow-x: auto;">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Nome</th>
+                      <th>Categoria</th>
+                      <th>Valor</th>
+                      <th>Status</th>
+                      <th>Reservado por</th>
+                      <th>Data Reserva</th>
+                      <th>Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody id="gifts-table-body">
+                    <tr><td colspan="7" style="text-align:center; padding: 3rem; color: var(--text-muted);">Carregando dados...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== LUA DE MEL ===== -->
+          <div class="admin-panel" id="panel-honeymoon">
+            <div class="chart-card">
+              <div class="chart-card-title">💝 Contribuições para Lua de Mel</div>
+              <div style="margin: 1.5rem 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                  <span style="font-size: 0.875rem; color: var(--text-secondary);">Progresso da Meta</span>
+                  <span id="pix-goal-text-2" style="font-size: 0.875rem; font-weight: 600; color: var(--color-gold-dark);">Carregando...</span>
+                </div>
+                <div class="goal-progress-bar" style="height: 16px;">
+                  <div class="goal-progress-fill" id="pix-goal-fill-2" style="width: 0%"></div>
+                </div>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem;">
+                <div style="background: var(--bg-secondary); padding: 1rem; border-radius: 12px; text-align: center;">
+                  <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;">Arrecadado</div>
+                  <div id="honey-collected" style="font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; color: var(--color-gold-dark);">R$ 0</div>
+                </div>
+                <div style="background: var(--bg-secondary); padding: 1rem; border-radius: 12px; text-align: center;">
+                  <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;">Meta</div>
+                  <div id="honey-goal" style="font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; color: var(--text-primary);">R$ 25.000</div>
+                </div>
+              </div>
+              <div style="margin-top: 1.5rem; padding: 1rem; background: var(--color-gold-pale); border-radius: 12px; font-size: 0.875rem; color: var(--color-gold-dark); line-height: 1.7;">
+                💡 Para adicionar contribuições manualmente, registre um RSVP com o nome "Cota Lua de Mel - [Nome]" e descreva o valor nas observações.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="./js/utils.js"></script>
+  <script src="./js/firebase.js"></script>
+  <script src="./js/app.js"></script>
+  <script src="./js/admin.js"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script>
+    // Update honeymoon panel after load
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(async () => {
+        const honey = await getHoneymoonSettings();
+        const pct = Math.min(100, (honey.currentAmount / honey.goal) * 100);
+        document.getElementById('honey-collected').textContent = formatCurrency(honey.currentAmount);
+        document.getElementById('honey-goal').textContent = formatCurrency(honey.goal);
+        const fill2 = document.getElementById('pix-goal-fill-2');
+        const txt2 = document.getElementById('pix-goal-text-2');
+        if (fill2) fill2.style.width = pct + '%';
+        if (txt2) txt2.textContent = `${formatCurrency(honey.currentAmount)} / ${formatCurrency(honey.goal)} (${pct.toFixed(1)}%)`;
+      }, 1500);
+    });
+  </script>
+</body>
+</html>

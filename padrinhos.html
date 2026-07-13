@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Padrinhos | Laoanny & Gabriel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/animations.css" />
+  <link rel="stylesheet" href="./css/responsive.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <style>
+    .padrinhos-hero {
+      background: linear-gradient(145deg, hsl(38, 40%, 10%), hsl(30, 25%, 8%));
+      padding: 8rem 2rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .padrinhos-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 80%, hsla(38, 72%, 55%, 0.15), transparent);
+    }
+    .padrinhos-hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      color: white;
+      position: relative; z-index: 1;
+    }
+    .padrinhos-hero p {
+      font-family: var(--font-script);
+      font-size: 1.4rem;
+      color: var(--color-gold-light);
+      position: relative; z-index: 1;
+      margin-top: 0.5rem;
+    }
+    .padrinhos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .padrinho-card {
+      background: var(--bg-card);
+      border-radius: 20px;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--glass-border);
+      transition: all 0.3s ease;
+    }
+    .padrinho-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-xl); }
+    .padrinho-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--color-gold-light), var(--color-rose-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 1rem;
+      border: 3px solid var(--color-gold-pale);
+    }
+    .padrinho-name { font-family: var(--font-serif); font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; }
+    .padrinho-role { font-size: 0.75rem; color: var(--color-gold); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
+    .padrinhos-groups { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .padrinhos-group-title {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    @media (max-width: 768px) {
+      .padrinhos-groups { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-logo">🤵 Padrinhos</div>
+    <div class="loading-hearts"><div class="loading-heart"></div><div class="loading-heart"></div><div class="loading-heart"></div></div>
+  </div>
+
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo">Laoanny ❤ Gabriel</a>
+      <div class="navbar-links">
+        <a href="index.html"       class="navbar-link">🏠 Início</a>
+        <a href="convidados.html"  class="navbar-link">👨‍👩‍👧 Convidados</a>
+        <a href="presentes.html"   class="navbar-link">🎁 Presentes</a>
+        <a href="padrinhos.html"   class="navbar-link active">🤵 Padrinhos</a>
+        <a href="lua-de-mel.html"  class="navbar-link">💝 Lua de Mel</a>
+        <a href="local.html"       class="navbar-link">📍 Local</a>
+      </div>
+      <div class="navbar-controls">
+        <button id="btn-theme" class="btn-icon" aria-label="Mudar tema">🌙</button>
+        <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="index.html" class="navbar-link">🏠 Início</a>
+    <a href="padrinhos.html" class="navbar-link active">🤵 Padrinhos</a>
+    <a href="convidados.html" class="navbar-link">👨‍👩‍👧 Convidados</a>
+  </nav>
+
+  <section class="padrinhos-hero">
+    <h1 data-aos="fade-down">🤵 Nossos Padrinhos</h1>
+    <p data-aos="fade-up" data-aos-delay="100">Pessoas especiais que escolhemos para caminhar conosco</p>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <span class="section-subtitle" data-aos="fade-up">Nosso time especial</span>
+      <h2 class="section-title" data-aos="fade-up">Padrinhos & Madrinhas</h2>
+      <div class="section-divider" data-aos="fade-up">♦</div>
+
+      <p style="text-align: center; color: var(--text-secondary); max-width: 600px; margin: 0 auto 3rem; line-height: 1.7;" data-aos="fade-up">
+        Essas pessoas incríveis aceitaram caminhar ao nosso lado neste momento tão especial.
+        São amigos e familiares que fazem parte da nossa história e carregam nosso amor no coração. 💕
+      </p>
+
+      <div class="padrinhos-groups" data-aos="fade-up" data-aos-delay="100">
+        <div>
+          <h3 class="padrinhos-group-title">🤵 Padrinhos do Noivo</h3>
+          <div class="padrinhos-grid">
+            <div class="padrinho-card">
+              <div class="padrinho-avatar">👨</div>
+              <div class="padrinho-name">A confirmar</div>
+              <div class="padrinho-role">Padrinho</div>
+            </div>
+            <div class="padrinho-card">
+              <div class="padrinho-avatar">👨</div>
+              <div class="padrinho-name">A confirmar</div>
+              <div class="padrinho-role">Padrinho</div>
+            </div>
+            <div class="padrinho-card">
+              <div class="padrinho-avatar">👩</div>
+              <div class="padrinho-name">A confirmar</div>
+              <div class="padrinho-role">Madrinha</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 class="padrinhos-group-title">👰 Padrinhos da Noiva</h3>
+          <div class="padrinhos-grid">
+            <div class="padrinho-card">
+              <div class="padrinho-avatar">👨</div>
+              <div class="padrinho-name">A confirmar</div>
+              <div class="padrinho-role">Padrinho</div>
+            </div>
+            <div class="padrinho-card">
+              <div class="padrinho-avatar">👩</div>
+              <div class="padrinho-name">A confirmar</div>
+              <div class="padrinho-role">Madrinha</div>
+            </div>
+            <div class="padrinho-card">
+              <div class="padrinho-avatar">👩</div>
+              <div class="padrinho-name">A confirmar</div>
+              <div class="padrinho-role">Madrinha</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: var(--color-gold-pale); border-radius: 16px;" data-aos="fade-up">
+        <p style="color: var(--color-gold-dark); font-size: 1rem; line-height: 1.7; font-family: var(--font-serif); font-style: italic;">
+          "Amigos são a família que escolhemos para nos acompanhar na vida."
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-logo">Laoanny ❤ Gabriel</div>
+    <p>25 de Abril de 2027 • Espaço Villa Rose • Brasília - DF</p>
+  </footer>
+
+  <button class="back-to-top" id="back-to-top" aria-label="Voltar ao topo">↑</button>
+
+  <script src="./js/utils.js"></script>
+  <script src="./js/firebase.js"></script>
+  <script src="./js/app.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', () => AOS.init({ duration: 700, once: true }));</script>
+</body>
+</html>

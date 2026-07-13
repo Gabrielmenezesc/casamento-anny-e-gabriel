@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lista de Presentes | Laoanny & Gabriel</title>
+  <meta name="description" content="Escolha um presente especial para Laoanny e Gabriel. Lista de casamento com itens disponíveis para reserva." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/animations.css" />
+  <link rel="stylesheet" href="./css/presentes.css" />
+  <link rel="stylesheet" href="./css/responsive.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+</head>
+<body>
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-logo">Lista de Presentes 🎁</div>
+    <div class="loading-hearts">
+      <div class="loading-heart"></div>
+      <div class="loading-heart"></div>
+      <div class="loading-heart"></div>
+    </div>
+  </div>
+
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo">Laoanny ❤ Gabriel</a>
+      <div class="navbar-links">
+        <a href="index.html"       class="navbar-link">🏠 Início</a>
+        <a href="convidados.html"  class="navbar-link">👨‍👩‍👧 Convidados</a>
+        <a href="presentes.html"   class="navbar-link active">🎁 Presentes</a>
+        <a href="padrinhos.html"   class="navbar-link">🤵 Padrinhos</a>
+        <a href="lua-de-mel.html"  class="navbar-link">💝 Lua de Mel</a>
+        <a href="local.html"       class="navbar-link">📍 Local</a>
+      </div>
+      <div class="navbar-controls">
+        <button id="btn-theme" class="btn-icon" aria-label="Mudar tema">🌙</button>
+        <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="index.html" class="navbar-link">🏠 Início</a>
+    <a href="convidados.html" class="navbar-link">👨‍👩‍👧 Convidados</a>
+    <a href="presentes.html" class="navbar-link active">🎁 Presentes</a>
+    <a href="local.html" class="navbar-link">📍 Local</a>
+  </nav>
+
+  <section class="presentes-hero">
+    <h1 class="presentes-hero-title" data-aos="fade-down">🎁 Lista de Presentes</h1>
+    <p class="presentes-hero-sub" data-aos="fade-up" data-aos-delay="100">Escolha um presente especial para nós</p>
+  </section>
+
+  <section class="section">
+    <div class="container">
+
+      <div style="text-align: center; margin-bottom: 2rem; padding: 1.5rem; background: var(--color-gold-pale); border-radius: 16px; border: 1px solid var(--glass-border-strong);" data-aos="fade-up">
+        <p style="color: var(--color-gold-dark); font-size: 0.9375rem; line-height: 1.7;">
+          💡 <strong>Cada presente é reservado exclusivamente para você</strong>, sem risco de duplicidade. 
+          Ao reservar, o item será bloqueado automaticamente para outros convidados.
+        </p>
+      </div>
+
+      <!-- Filtros -->
+      <div id="gift-filters" class="gifts-filters" data-aos="fade-up"></div>
+
+      <!-- Grid -->
+      <div id="gifts-grid" class="gifts-grid"></div>
+    </div>
+  </section>
+
+  <!-- Preferir PIX? -->
+  <section style="background: linear-gradient(145deg, hsl(220,25%,8%), hsl(30,25%,10%)); padding: 4rem 2rem; text-align: center;">
+    <div class="container container-sm">
+      <h2 style="font-family: var(--font-serif); color: white; font-size: 2rem; margin-bottom: 0.5rem;" data-aos="fade-up">
+        Prefere contribuir de outra forma?
+      </h2>
+      <p style="color: hsla(42,40%,85%,0.7); margin-bottom: 2rem; font-size: 1rem;" data-aos="fade-up" data-aos-delay="100">
+        Você pode nos ajudar com a Lua de Mel através do PIX 💕
+      </p>
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;" data-aos="fade-up" data-aos-delay="200">
+        <button class="btn btn-gold btn-lg" data-open-pix>💝 Presentear com PIX</button>
+        <a href="lua-de-mel.html" class="btn btn-glass btn-lg" style="border: 1px solid rgba(255,255,255,0.25);">🌙 Ver Lua de Mel</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-logo">Laoanny ❤ Gabriel</div>
+    <p>25 de Abril de 2027 • Espaço Villa Rose • Brasília - DF</p>
+  </footer>
+
+  <!-- Modal Reservar Presente -->
+  <div class="modal-overlay reserve-modal" id="modal-reserve">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">🎁 Reservar Presente</h2>
+        <p class="modal-subtitle"><strong id="reserve-gift-name"></strong> · <span id="reserve-gift-price"></span></p>
+        <button class="modal-close" aria-label="Fechar">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.25rem; text-align: center;">
+          Como deseja reservar este presente?
+        </p>
+        <div class="reserve-option-group">
+          <label class="reserve-option" data-mode="named">
+            <input type="radio" name="reserve-mode" value="named" />
+            <span class="reserve-option-icon">👤</span>
+            <span class="reserve-option-label">Quero informar meu nome</span>
+          </label>
+          <label class="reserve-option" data-mode="anonymous">
+            <input type="radio" name="reserve-mode" value="anonymous" />
+            <span class="reserve-option-icon">🎭</span>
+            <span class="reserve-option-label">Quero reservar anonimamente</span>
+          </label>
+        </div>
+
+        <div class="reserve-form" id="reserve-named-form">
+          <div class="form-input-row">
+            <div class="form-group">
+              <label class="form-label" for="reserve-name">Nome *</label>
+              <input class="form-input" type="text" id="reserve-name" placeholder="Seu nome" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="reserve-phone">Telefone *</label>
+              <input class="form-input" type="tel" id="reserve-phone" placeholder="(61) 99999-0000" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reserve-message">Mensagem (opcional)</label>
+            <textarea class="form-input form-textarea" id="reserve-message" placeholder="Deixe uma mensagem carinhosa..." style="min-height: 80px;"></textarea>
+          </div>
+        </div>
+
+        <div style="margin-top: 0.5rem; padding: 0.75rem; background: hsla(38,72%,55%,0.08); border-radius: 12px; font-size: 0.8125rem; color: var(--text-muted); text-align: center;">
+          🔒 Seu nome <strong>nunca</strong> será exibido publicamente. Apenas o casal verá no painel administrativo.
+        </div>
+
+        <button id="btn-confirm-reserve" class="btn btn-gold w-full btn-lg" style="margin-top: 1.25rem; justify-content: center;" disabled>
+          🎁 Reservar Presente
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal PIX -->
+  <div class="modal-overlay" id="modal-pix">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Ajude nossa Lua de Mel ❤️</h2>
+        <p class="modal-subtitle">Qualquer valor será recebido com muito carinho</p>
+        <button class="modal-close" aria-label="Fechar">✕</button>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.7;">
+          Se desejar nos presentear de outra forma, você pode contribuir através do PIX. 💕
+        </p>
+        <div class="pix-qr-wrapper" style="background: white; border-radius: 16px; padding: 16px; display: inline-block; margin-bottom: 1.5rem; box-shadow: 0 8px 32px rgba(0,0,0,0.12);">
+          <img id="pix-qrcode" src="" alt="QR Code PIX" width="220" height="220" />
+        </div>
+        <div style="background: var(--bg-secondary); border: 1.5px solid var(--glass-border-strong); border-radius: 12px; padding: 1rem; text-align: center; margin-bottom: 1.25rem;">
+          <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.25rem;">Chave PIX (Telefone)</div>
+          <div id="pix-key-display" style="font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; color: var(--color-gold-dark); letter-spacing: 0.05em;">38991621135</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <button id="btn-copy-pix" class="btn btn-gold btn-lg">📋 Copiar Chave PIX</button>
+          <button id="btn-pix-card" class="btn btn-outline btn-lg">💳 Pagar com Cartão</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="back-to-top" id="back-to-top" aria-label="Voltar ao topo">↑</button>
+
+  <script src="./js/utils.js"></script>
+  <script src="./js/firebase.js"></script>
+  <script src="./js/app.js"></script>
+  <script src="./js/pix.js"></script>
+  <script src="./js/presentes.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', () => AOS.init({ duration: 700, once: true }));</script>
+</body>
+</html>

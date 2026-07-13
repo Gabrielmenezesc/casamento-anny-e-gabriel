@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Local do Evento | Laoanny & Gabriel</title>
+  <meta name="description" content="Espaço Villa Rose, Samambaia Sul, Brasília - DF. Como chegar ao casamento de Laoanny e Gabriel." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/animations.css" />
+  <link rel="stylesheet" href="./css/responsive.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <style>
+    .location-hero {
+      background: linear-gradient(145deg, hsl(200, 50%, 10%), hsl(30, 25%, 10%));
+      padding: 8rem 2rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .location-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 80%, hsla(38, 72%, 55%, 0.12), transparent);
+    }
+    .location-hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      color: white;
+      position: relative;
+      z-index: 1;
+    }
+    .location-hero p {
+      font-family: var(--font-script);
+      font-size: 1.4rem;
+      color: var(--color-gold-light);
+      position: relative;
+      z-index: 1;
+      margin-top: 0.5rem;
+    }
+    .map-container {
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: var(--shadow-xl);
+      border: 1px solid var(--glass-border);
+      margin-bottom: 2rem;
+    }
+    .map-container iframe {
+      display: block;
+      width: 100%;
+      height: 480px;
+      border: none;
+    }
+    .location-card {
+      background: var(--bg-card);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--glass-border);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .location-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .location-detail-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      width: 42px;
+      height: 42px;
+      background: var(--color-gold-pale);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .location-detail-title { font-weight: 600; color: var(--text-primary); margin-bottom: 0.2rem; }
+    .location-detail-value { color: var(--text-secondary); font-size: 0.9375rem; }
+    @media (max-width: 768px) {
+      .map-container iframe { height: 320px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-logo">📍 Ver Local</div>
+    <div class="loading-hearts">
+      <div class="loading-heart"></div>
+      <div class="loading-heart"></div>
+      <div class="loading-heart"></div>
+    </div>
+  </div>
+
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo">Laoanny ❤ Gabriel</a>
+      <div class="navbar-links">
+        <a href="index.html"       class="navbar-link">🏠 Início</a>
+        <a href="convidados.html"  class="navbar-link">👨‍👩‍👧 Convidados</a>
+        <a href="presentes.html"   class="navbar-link">🎁 Presentes</a>
+        <a href="padrinhos.html"   class="navbar-link">🤵 Padrinhos</a>
+        <a href="lua-de-mel.html"  class="navbar-link">💝 Lua de Mel</a>
+        <a href="local.html"       class="navbar-link active">📍 Local</a>
+      </div>
+      <div class="navbar-controls">
+        <button id="btn-theme" class="btn-icon" aria-label="Mudar tema">🌙</button>
+        <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="index.html" class="navbar-link">🏠 Início</a>
+    <a href="convidados.html" class="navbar-link">👨‍👩‍👧 Convidados</a>
+    <a href="presentes.html" class="navbar-link">🎁 Presentes</a>
+    <a href="local.html" class="navbar-link active">📍 Local</a>
+  </nav>
+
+  <section class="location-hero">
+    <h1 data-aos="fade-down">📍 Local do Evento</h1>
+    <p data-aos="fade-up" data-aos-delay="100">Espaço Villa Rose — Samambaia Sul, Brasília</p>
+  </section>
+
+  <section class="section">
+    <div class="container container-md">
+      <span class="section-subtitle" data-aos="fade-up">Como nos encontrar</span>
+      <h2 class="section-title" data-aos="fade-up">Espaço Villa Rose</h2>
+      <div class="section-divider" data-aos="fade-up">♦</div>
+
+      <div class="map-container" data-aos="fade-up" data-aos-delay="100">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15350.31603525265!2d-48.06456073836102!3d-15.878953185387431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x935a32ec4ef301db%3A0xc67f70b7978b7bd9!2sEspa%C3%A7o%20Villa%20Rose!5e0!3m2!1spt-BR!2sbr!4v1700000000000"
+          allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          title="Mapa - Espaço Villa Rose"
+        ></iframe>
+      </div>
+
+      <div class="grid-2" style="gap: 1.5rem;" data-aos="fade-up" data-aos-delay="150">
+        <div class="location-card">
+          <h3 style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--text-primary);">Detalhes do Evento</h3>
+          <div class="location-detail">
+            <div class="location-detail-icon">📅</div>
+            <div>
+              <div class="location-detail-title">Data</div>
+              <div class="location-detail-value">25 de Abril de 2027 (Domingo)</div>
+            </div>
+          </div>
+          <div class="location-detail">
+            <div class="location-detail-icon">⏰</div>
+            <div>
+              <div class="location-detail-title">Horário da Cerimônia</div>
+              <div class="location-detail-value">15:00 horas (pontualmente)</div>
+            </div>
+          </div>
+          <div class="location-detail">
+            <div class="location-detail-icon">🏛️</div>
+            <div>
+              <div class="location-detail-title">Local</div>
+              <div class="location-detail-value">Espaço Villa Rose</div>
+            </div>
+          </div>
+          <div class="location-detail">
+            <div class="location-detail-icon">📍</div>
+            <div>
+              <div class="location-detail-title">Endereço</div>
+              <div class="location-detail-value">Samambaia Sul, Brasília - DF</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="location-card">
+          <h3 style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--text-primary);">Como Chegar</h3>
+          <div class="location-detail">
+            <div class="location-detail-icon">🚗</div>
+            <div>
+              <div class="location-detail-title">De Carro</div>
+              <div class="location-detail-value">Estacionamento gratuito disponível no local. Acesso pela via principal de Samambaia Sul.</div>
+            </div>
+          </div>
+          <div class="location-detail">
+            <div class="location-detail-icon">🚌</div>
+            <div>
+              <div class="location-detail-title">De Ônibus</div>
+              <div class="location-detail-value">Diversas linhas passam pela região de Samambaia Sul. Consulte o DFTrans para o melhor trajeto.</div>
+            </div>
+          </div>
+          <div class="location-detail">
+            <div class="location-detail-icon">🛺</div>
+            <div>
+              <div class="location-detail-title">Aplicativos</div>
+              <div class="location-detail-value">Uber e 99 funcionam normalmente na região. Recomendamos agendar com antecedência.</div>
+            </div>
+          </div>
+          <a
+            href="https://maps.app.goo.gl/EuzcXbutFQzt9vD48"
+            target="_blank" rel="noopener noreferrer"
+            class="btn btn-gold btn-lg"
+            style="justify-content: center; margin-top: 0.5rem;"
+          >
+            🗺️ Abrir no Google Maps
+          </a>
+        </div>
+      </div>
+
+      <div style="background: var(--color-gold-pale); border-radius: 16px; padding: 1.5rem 2rem; margin-top: 2rem; text-align: center; border: 1px solid hsla(38,72%,55%,0.25);" data-aos="fade-up">
+        <p style="color: var(--color-gold-dark); font-size: 0.9375rem; line-height: 1.7;">
+          ✨ <strong>Dica dos noivos:</strong> Chegue com 15 minutos de antecedência para garantir seu lugar e aproveitar cada momento desta celebração especial.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-logo">Laoanny ❤ Gabriel</div>
+    <p>25 de Abril de 2027 • Espaço Villa Rose • Brasília - DF</p>
+  </footer>
+
+  <button class="back-to-top" id="back-to-top" aria-label="Voltar ao topo">↑</button>
+
+  <script src="./js/utils.js"></script>
+  <script src="./js/firebase.js"></script>
+  <script src="./js/app.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', () => AOS.init({ duration: 700, once: true }));</script>
+</body>
+</html>
