@@ -14,7 +14,6 @@ const CATEGORY_IMAGES = {
 
 // Generate list of items requested by the user
 const RAW_ITEMS = [
-  // Eletrodomésticos e Móveis
   { name: "Liquidificador", cat: "🏠 Eletrodomésticos e Móveis" },
   { name: "Cafeteira", cat: "🏠 Eletrodomésticos e Móveis" },
   { name: "Sanduicheira", cat: "🏠 Eletrodomésticos e Móveis" },
@@ -34,8 +33,6 @@ const RAW_ITEMS = [
   { name: "Estante", cat: "🏠 Eletrodomésticos e Móveis" },
   { name: "Aparador", cat: "🏠 Eletrodomésticos e Móveis" },
   { name: "Sapateira", cat: "🏠 Eletrodomésticos e Móveis" },
-
-  // Cozinha
   { name: "Jogo de panelas", cat: "🍳 Cozinha" },
   { name: "Panela de pressão", cat: "🍳 Cozinha" },
   { name: "Frigideiras", cat: "🍳 Cozinha" },
@@ -66,8 +63,6 @@ const RAW_ITEMS = [
   { name: "Garrafa térmica", cat: "🍳 Cozinha" },
   { name: "Porta-temperos", cat: "🍳 Cozinha" },
   { name: "Lixeira", cat: "🍳 Cozinha" },
-
-  // Quarto
   { name: "Jogo de lençóis", cat: "🛏 Quarto" },
   { name: "Fronhas", cat: "🛏 Quarto" },
   { name: "Travesseiros", cat: "🛏 Quarto" },
@@ -76,8 +71,6 @@ const RAW_ITEMS = [
   { name: "Colcha", cat: "🛏 Quarto" },
   { name: "Mantas", cat: "🛏 Quarto" },
   { name: "Cabides", cat: "🛏 Quarto" },
-
-  // Banheiro
   { name: "Toalhas", cat: "🚿 Banheiro" },
   { name: "Tapetes", cat: "🚿 Banheiro" },
   { name: "Cortina Box", cat: "🚿 Banheiro" },
@@ -85,16 +78,12 @@ const RAW_ITEMS = [
   { name: "Porta sabonete", cat: "🚿 Banheiro" },
   { name: "Porta escovas", cat: "🚿 Banheiro" },
   { name: "Cesto de roupas", cat: "🚿 Banheiro" },
-
-  // Sala
   { name: "Cortinas", cat: "🛋 Sala" },
   { name: "Tapete", cat: "🛋 Sala" },
   { name: "Almofadas", cat: "🛋 Sala" },
   { name: "Mesa de centro", cat: "🛋 Sala" },
   { name: "Mesa lateral", cat: "🛋 Sala" },
   { name: "Luminária", cat: "🛋 Sala" },
-
-  // Lavanderia
   { name: "Varal", cat: "🧺 Lavanderia" },
   { name: "Ferro", cat: "🧺 Lavanderia" },
   { name: "Tábua", cat: "🧺 Lavanderia" },
@@ -105,8 +94,6 @@ const RAW_ITEMS = [
   { name: "Pá", cat: "🧺 Lavanderia" },
   { name: "Panos", cat: "🧺 Lavanderia" },
   { name: "Esponjas", cat: "🧺 Lavanderia" },
-
-  // Diversos
   { name: "Kit Ferramentas", cat: "📦 Diversos" },
   { name: "Filtro de Linha", cat: "📦 Diversos" },
   { name: "Extensão", cat: "📦 Diversos" },
@@ -345,3 +332,4 @@ function initReserveModal() {
 }
 
 document.addEventListener('DOMContentLoaded', initGifts);
+
