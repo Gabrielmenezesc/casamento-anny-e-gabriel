@@ -250,7 +250,13 @@ function openReserveModal(gift) {
   // Reset options
   document.querySelectorAll('.reserve-option').forEach(opt => opt.classList.remove('selected'));
 
+  
   openModal('modal-reserve');
+  
+  // Select named by default to prevent disabled button confusion
+  const optNamed = document.querySelector('.reserve-option[data-mode="named"]');
+  if (optNamed) optNamed.click();
+
 }
 
 function initReserveModal() {
