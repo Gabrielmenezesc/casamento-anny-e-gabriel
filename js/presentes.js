@@ -189,17 +189,21 @@ function renderGiftCard(gift) {
   // Search links to allow users to purchase or view the product elsewhere
   const searchName = encodeURIComponent(gift.name);
   const stores = [
-    { label: "Amazon", url: `https://www.amazon.com.br/s?k=${searchName}` },
-    { label: "Mercado Livre", url: `https://lista.mercadolivre.com.br/${searchName}` },
-    { label: "Shopee", url: `https://shopee.com.br/search?keyword=${searchName}` },
-    { label: "Magalu", url: `https://www.magazineluiza.com.br/busca/${searchName}` }
+    { label: "Amazon", url: `https://www.amazon.com.br/s?k=${searchName}`, domain: "amazon.com.br" },
+    { label: "Mercado Livre", url: `https://lista.mercadolivre.com.br/${searchName}`, domain: "mercadolivre.com.br" },
+    { label: "Shopee", url: `https://shopee.com.br/search?keyword=${searchName}`, domain: "shopee.com.br" },
+    { label: "Magalu", url: `https://www.magazineluiza.com.br/busca/${searchName}`, domain: "magazineluiza.com.br" }
   ];
 
   const storesHTML = isAvailable ? `
-    <div style="margin: 0.75rem 0; text-align: center;">
-      <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem;">Pesquisar lojas online:</p>
-      <div style="display: flex; gap: 4px; justify-content: center; flex-wrap: wrap;">
-        ${stores.map(s => `<a href="${s.url}" target="_blank" rel="noopener noreferrer" style="font-size: 0.6875rem; background: var(--bg-secondary); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--glass-border-strong); color: var(--text-secondary);">${s.label}</a>`).join('')}
+    <div style="margin: 1.25rem 0; text-align: center;">
+      <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">Pesquisar este item em lojas oficiais:</p>
+      <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+        ${stores.map(s => `
+          <a href="${s.url}" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 6px; font-size: 0.75rem; background: var(--bg-primary); padding: 6px 10px; border-radius: 8px; border: 1px solid var(--glass-border-strong); color: var(--text-primary); text-decoration: none; font-weight: 600; box-shadow: var(--shadow-sm); transition: transform 0.2s;">
+            <img src="https://logo.clearbit.com/${s.domain}" alt="${s.label}" style="width: 18px; height: 18px; border-radius: 4px;" onerror="this.style.display='none'" />
+            ${s.label}
+          </a>`).join('')}
       </div>
     </div>
   ` : '';
@@ -343,7 +347,7 @@ function initReserveModal() {
       whatsappBtn.href = whatsappUrl;
       whatsappBtn.target = '_blank';
       whatsappBtn.rel = 'noopener noreferrer';
-      whatsappBtn.innerHTML = '📱 Avisar os Noivos (WhatsApp)';
+      whatsappBtn.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="width:20px; height:20px; margin-right:8px;" /> Avisar os Noivos no WhatsApp';
       
       const btnGroup = pixModalBody.querySelector('div[style*="flex-direction: column"]');
       if (btnGroup) {
