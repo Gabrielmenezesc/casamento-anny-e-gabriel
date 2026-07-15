@@ -1,18 +1,7 @@
 // ===================================================
-// PRESENTES.JS - Lista de Presentes interativa (Atualizada)
+// PRESENTES.JS - Lista de Presentes (Versão Robusta v3)
 // ===================================================
 
-const CATEGORY_IMAGES = {
-  "🏠 Eletrodomésticos e Móveis": "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop",
-  "🍳 Cozinha": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop",
-  "🛏 Quarto": "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&h=300&fit=crop",
-  "🚿 Banheiro": "https://images.unsplash.com/photo-1571864030041-9b5a85caeb0b?w=400&h=300&fit=crop",
-  "🛋 Sala": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop",
-  "🧺 Lavanderia": "https://images.unsplash.com/photo-1582738411706-bfc8e691d1c2?w=400&h=300&fit=crop",
-  "📦 Diversos": "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=400&h=300&fit=crop"
-};
-
-// Generate list of items requested by the user
 const RAW_ITEMS = [
   { name: "Liquidificador", cat: "🏠 Eletrodomésticos e Móveis" },
   { name: "Cafeteira", cat: "🏠 Eletrodomésticos e Móveis" },
@@ -20,7 +9,7 @@ const RAW_ITEMS = [
   { name: "Batedeira", cat: "🏠 Eletrodomésticos e Móveis" },
   { name: "Processador de alimentos", cat: "🏠 Eletrodomésticos e Móveis" },
   { name: "Espremedor de frutas", cat: "🏠 Eletrodomésticos e Móveis" },
-  { name: "Purificador/Filtro de água", cat: "🏠 Eletrodomésticos e Móveis" },
+  { name: "Purificador de água", cat: "🏠 Eletrodomésticos e Móveis" },
   { name: "Bebedouro", cat: "🏠 Eletrodomésticos e Móveis" },
   { name: "Sofá", cat: "🏠 Eletrodomésticos e Móveis" },
   { name: "Mesa de jantar", cat: "🏠 Eletrodomésticos e Móveis" },
@@ -37,106 +26,141 @@ const RAW_ITEMS = [
   { name: "Panela de pressão", cat: "🍳 Cozinha" },
   { name: "Frigideiras", cat: "🍳 Cozinha" },
   { name: "Assadeiras", cat: "🍳 Cozinha" },
-  { name: "Formas", cat: "🍳 Cozinha" },
+  { name: "Formas de bolo", cat: "🍳 Cozinha" },
   { name: "Travessas", cat: "🍳 Cozinha" },
   { name: "Refratários", cat: "🍳 Cozinha" },
-  { name: "Pratos", cat: "🍳 Cozinha" },
-  { name: "Pratos fundos", cat: "🍳 Cozinha" },
-  { name: "Pratos sobremesa", cat: "🍳 Cozinha" },
+  { name: "Jogo de pratos", cat: "🍳 Cozinha" },
   { name: "Tigelas", cat: "🍳 Cozinha" },
   { name: "Copos", cat: "🍳 Cozinha" },
   { name: "Taças", cat: "🍳 Cozinha" },
   { name: "Canecas", cat: "🍳 Cozinha" },
   { name: "Xícaras", cat: "🍳 Cozinha" },
   { name: "Faqueiro", cat: "🍳 Cozinha" },
-  { name: "Facas", cat: "🍳 Cozinha" },
-  { name: "Conchas", cat: "🍳 Cozinha" },
-  { name: "Espátulas", cat: "🍳 Cozinha" },
-  { name: "Pegadores", cat: "🍳 Cozinha" },
-  { name: "Tábuas", cat: "🍳 Cozinha" },
+  { name: "Facas de cozinha", cat: "🍳 Cozinha" },
+  { name: "Conchas e pegadores", cat: "🍳 Cozinha" },
+  { name: "Tábua de corte", cat: "🍳 Cozinha" },
   { name: "Escorredor", cat: "🍳 Cozinha" },
-  { name: "Ralador", cat: "🍳 Cozinha" },
-  { name: "Abridor", cat: "🍳 Cozinha" },
-  { name: "Descascador", cat: "🍳 Cozinha" },
-  { name: "Potes", cat: "🍳 Cozinha" },
-  { name: "Jarras", cat: "🍳 Cozinha" },
+  { name: "Potes e jarras", cat: "🍳 Cozinha" },
   { name: "Garrafa térmica", cat: "🍳 Cozinha" },
   { name: "Porta-temperos", cat: "🍳 Cozinha" },
-  { name: "Lixeira", cat: "🍳 Cozinha" },
   { name: "Jogo de lençóis", cat: "🛏 Quarto" },
-  { name: "Fronhas", cat: "🛏 Quarto" },
   { name: "Travesseiros", cat: "🛏 Quarto" },
   { name: "Edredom", cat: "🛏 Quarto" },
   { name: "Cobertor", cat: "🛏 Quarto" },
-  { name: "Colcha", cat: "🛏 Quarto" },
-  { name: "Mantas", cat: "🛏 Quarto" },
+  { name: "Colcha de cama", cat: "🛏 Quarto" },
+  { name: "Mantas decorativas", cat: "🛏 Quarto" },
   { name: "Cabides", cat: "🛏 Quarto" },
-  { name: "Toalhas", cat: "🚿 Banheiro" },
-  { name: "Tapetes", cat: "🚿 Banheiro" },
+  { name: "Toalhas de banho", cat: "🚿 Banheiro" },
+  { name: "Tapete de banheiro", cat: "🚿 Banheiro" },
   { name: "Cortina Box", cat: "🚿 Banheiro" },
-  { name: "Lixeira", cat: "🚿 Banheiro" },
   { name: "Porta sabonete", cat: "🚿 Banheiro" },
-  { name: "Porta escovas", cat: "🚿 Banheiro" },
   { name: "Cesto de roupas", cat: "🚿 Banheiro" },
   { name: "Cortinas", cat: "🛋 Sala" },
-  { name: "Tapete", cat: "🛋 Sala" },
+  { name: "Tapete de sala", cat: "🛋 Sala" },
   { name: "Almofadas", cat: "🛋 Sala" },
   { name: "Mesa de centro", cat: "🛋 Sala" },
   { name: "Mesa lateral", cat: "🛋 Sala" },
   { name: "Luminária", cat: "🛋 Sala" },
-  { name: "Varal", cat: "🧺 Lavanderia" },
-  { name: "Ferro", cat: "🧺 Lavanderia" },
-  { name: "Tábua", cat: "🧺 Lavanderia" },
-  { name: "Balde", cat: "🧺 Lavanderia" },
-  { name: "Vassoura", cat: "🧺 Lavanderia" },
-  { name: "Rodo", cat: "🧺 Lavanderia" },
-  { name: "Mop", cat: "🧺 Lavanderia" },
-  { name: "Pá", cat: "🧺 Lavanderia" },
-  { name: "Panos", cat: "🧺 Lavanderia" },
-  { name: "Esponjas", cat: "🧺 Lavanderia" },
+  { name: "Ferro de passar", cat: "🧺 Lavanderia" },
+  { name: "Tábua de passar", cat: "🧺 Lavanderia" },
+  { name: "Vassoura e rodo", cat: "🧺 Lavanderia" },
+  { name: "Panos e esponjas", cat: "🧺 Lavanderia" },
   { name: "Kit Ferramentas", cat: "📦 Diversos" },
   { name: "Filtro de Linha", cat: "📦 Diversos" },
-  { name: "Extensão", cat: "📦 Diversos" },
-  { name: "Escada", cat: "📦 Diversos" },
   { name: "Espelho", cat: "📦 Diversos" },
-  { name: "Relógio", cat: "📦 Diversos" },
+  { name: "Relógio de parede", cat: "📦 Diversos" },
   { name: "Organizadores", cat: "📦 Diversos" }
 ];
 
-// Map into the INITIAL_GIFTS_DATA structure
 const INITIAL_GIFTS_DATA = RAW_ITEMS.map((item, idx) => ({
   id: `g_${String(idx + 1).padStart(3, '0')}`,
   name: item.name,
   category: item.cat,
-  description: `Item especial para nossa nova jornada.`,
-  price: 0, // No price required
+  description: 'Item especial para nossa nova jornada.',
+  price: 0,
   status: 'available',
-  image: `https://image.pollinations.ai/prompt/beautiful%20product%20photography%20of%20${encodeURIComponent(item.name)}%20home%20decor?width=400&height=300&nologo=true`
+  image: ''
 }));
 
+const STORES = [
+  { label: "Amazon", domain: "amazon.com.br", getUrl: (q) => `https://www.amazon.com.br/s?k=${q}` },
+  { label: "Mercado Livre", domain: "mercadolivre.com.br", getUrl: (q) => `https://lista.mercadolivre.com.br/${q}` },
+  { label: "Shopee", domain: "shopee.com.br", getUrl: (q) => `https://shopee.com.br/search?keyword=${q}` },
+  { label: "Magalu", domain: "magazineluiza.com.br", getUrl: (q) => `https://www.magazineluiza.com.br/busca/${q}` }
+];
+
+// ── State ──────────────────────────────────────────────
 let allGifts = [];
 let currentFilter = 'Todos';
 let selectedGiftId = null;
-let reserveMode = null; // 'named' | 'anonymous'
+let reserveMode = null;
 
+// ── Storage helpers (not depend on firebase.js) ─────────
+const GIFTS_KEY = 'wedding_gifts_v3';
+
+function loadLocalGifts() {
+  try {
+    const raw = localStorage.getItem(GIFTS_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return null;
+}
+
+function saveLocalGifts(gifts) {
+  try { localStorage.setItem(GIFTS_KEY, JSON.stringify(gifts)); } catch(e) {}
+}
+
+// ── Init ───────────────────────────────────────────────
 async function initGifts() {
-  await initFirebase();
-  await initGiftsIfEmpty(INITIAL_GIFTS_DATA);
-  allGifts = await getGifts();
+  // Load from localStorage first (instant)
+  const local = loadLocalGifts();
+  if (local && local.length > 0) {
+    allGifts = local;
+  } else {
+    allGifts = INITIAL_GIFTS_DATA.map(g => ({ ...g }));
+    saveLocalGifts(allGifts);
+  }
+
+  // Try Firebase in background (no blocking)
+  tryFirebaseSync();
+
   renderGifts();
   initFilters();
   initReserveModal();
 }
 
-function getCategories() {
-  const cats = ['Todos', ...new Set(allGifts.map(g => g.category))];
-  return cats;
+async function tryFirebaseSync() {
+  try {
+    if (typeof initFirebase === 'function') {
+      await initFirebase();
+    }
+    if (typeof initGiftsIfEmpty === 'function') {
+      await initGiftsIfEmpty(INITIAL_GIFTS_DATA);
+    }
+    if (typeof getGifts === 'function') {
+      const firebaseGifts = await getGifts();
+      if (firebaseGifts && firebaseGifts.length > 0) {
+        // Merge: respect reserved/delivered statuses from firebase
+        allGifts = allGifts.map(local => {
+          const remote = firebaseGifts.find(r => r.id === local.id);
+          if (remote && remote.status !== 'available') return { ...local, ...remote };
+          return local;
+        });
+        saveLocalGifts(allGifts);
+        renderGifts();
+      }
+    }
+  } catch(e) {
+    console.info('[Presentes] Firebase sync skipped:', e.message);
+  }
 }
 
+// ── Filters ────────────────────────────────────────────
 function initFilters() {
   const container = document.getElementById('gift-filters');
   if (!container) return;
-  const cats = getCategories();
+
+  const cats = ['Todos', ...new Set(allGifts.map(g => g.category))];
   container.innerHTML = cats.map(c => `
     <button class="gift-filter-btn${c === 'Todos' ? ' active' : ''}" data-filter="${c}">${c}</button>
   `).join('');
@@ -151,6 +175,7 @@ function initFilters() {
   });
 }
 
+// ── Render Grid ────────────────────────────────────────
 function renderGifts() {
   const grid = document.getElementById('gifts-grid');
   if (!grid) return;
@@ -160,17 +185,12 @@ function renderGifts() {
     : allGifts.filter(g => g.category === currentFilter);
 
   if (!filtered.length) {
-    grid.innerHTML = `
-      <div class="gifts-empty">
-        <span class="gifts-empty-icon">🎁</span>
-        <p>Nenhum presente nesta categoria.</p>
-      </div>`;
+    grid.innerHTML = `<div class="gifts-empty"><span class="gifts-empty-icon">🎁</span><p>Nenhum presente nesta categoria.</p></div>`;
     return;
   }
 
   grid.innerHTML = filtered.map(gift => renderGiftCard(gift)).join('');
 
-  // Bind reserve buttons
   grid.querySelectorAll('.btn-reserve').forEach(btn => {
     btn.addEventListener('click', () => {
       const id = btn.dataset.giftId;
@@ -180,28 +200,24 @@ function renderGifts() {
   });
 }
 
+function getImage(name) {
+  return `https://image.pollinations.ai/prompt/professional+product+photo+of+${encodeURIComponent(name)}+white+background?width=400&height=300&nologo=true&seed=${name.length}`;
+}
+
 function renderGiftCard(gift) {
   const status = giftStatusLabel(gift.status);
   const isAvailable = gift.status === 'available';
-  // Force dynamic image to bypass LocalStorage/Firebase cache of the old static URLs
-  gift.image = `https://image.pollinations.ai/prompt/beautiful%20product%20photography%20of%20${encodeURIComponent(gift.name)}%20home%20decor?width=400&height=300&nologo=true`;
-
-  // Search links to allow users to purchase or view the product elsewhere
-  const searchName = encodeURIComponent(gift.name);
-  const stores = [
-    { label: "Amazon", url: `https://www.amazon.com.br/s?k=${searchName}`, domain: "amazon.com.br" },
-    { label: "Mercado Livre", url: `https://lista.mercadolivre.com.br/${searchName}`, domain: "mercadolivre.com.br" },
-    { label: "Shopee", url: `https://shopee.com.br/search?keyword=${searchName}`, domain: "shopee.com.br" },
-    { label: "Magalu", url: `https://www.magazineluiza.com.br/busca/${searchName}`, domain: "magazineluiza.com.br" }
-  ];
+  const imgSrc = getImage(gift.name);
+  const q = encodeURIComponent(gift.name);
 
   const storesHTML = isAvailable ? `
-    <div style="margin: 1.25rem 0; text-align: center;">
-      <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">Pesquisar este item em lojas oficiais:</p>
-      <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
-        ${stores.map(s => `
-          <a href="${s.url}" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 6px; font-size: 0.75rem; background: var(--bg-primary); padding: 6px 10px; border-radius: 8px; border: 1px solid var(--glass-border-strong); color: var(--text-primary); text-decoration: none; font-weight: 600; box-shadow: var(--shadow-sm); transition: transform 0.2s;">
-            <img src="https://logo.clearbit.com/${s.domain}" alt="${s.label}" style="width: 18px; height: 18px; border-radius: 4px;" onerror="this.style.display='none'" />
+    <div style="margin:1rem 0;text-align:center;">
+      <p style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:.06em;">Ver nas lojas:</p>
+      <div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;">
+        ${STORES.map(s => `
+          <a href="${s.getUrl(q)}" target="_blank" rel="noopener noreferrer"
+             style="display:flex;align-items:center;gap:5px;font-size:0.72rem;background:var(--bg-primary);padding:5px 9px;border-radius:8px;border:1px solid var(--glass-border-strong);color:var(--text-primary);text-decoration:none;font-weight:600;">
+            <img src="https://logo.clearbit.com/${s.domain}" alt="${s.label}" width="16" height="16" style="border-radius:3px;" onerror="this.style.display='none'" />
             ${s.label}
           </a>`).join('')}
       </div>
@@ -211,16 +227,13 @@ function renderGiftCard(gift) {
   return `
     <div class="gift-card ${gift.status}" data-aos="fade-up">
       <div class="gift-card-image">
-        <img class="gift-card-img" src="${sanitize(gift.image)}" alt="${sanitize(gift.name)}" loading="lazy"
-             onerror="this.src='https://placehold.co/400x300/f5efe6/c8a96a?text=Presente'">
+        <img class="gift-card-img" src="${imgSrc}" alt="${sanitize(gift.name)}" loading="lazy"
+             onerror="this.src='https://placehold.co/400x300/e8ecf1/91a8d0?text=${encodeURIComponent(gift.name)}'" />
         <span class="gift-card-badge">
           <span class="badge ${status.class}">${status.emoji} ${status.label}</span>
         </span>
         <span class="gift-card-category">${sanitize(gift.category)}</span>
-        ${gift.status !== 'available' ? `
-          <div class="gift-card-status-overlay">
-            <span class="gift-card-status-icon">${gift.status === 'reserved' ? '🎁' : '✅'}</span>
-          </div>` : ''}
+        ${!isAvailable ? `<div class="gift-card-status-overlay"><span class="gift-card-status-icon">${gift.status === 'reserved' ? '🎁' : '✅'}</span></div>` : ''}
       </div>
       <div class="gift-card-body">
         <h3 class="gift-card-name">${sanitize(gift.name)}</h3>
@@ -236,35 +249,33 @@ function renderGiftCard(gift) {
   `;
 }
 
+// ── Modal de Reserva ───────────────────────────────────
 function openReserveModal(gift) {
   selectedGiftId = gift.id;
-  reserveMode = null;
+  reserveMode = 'named'; // default
 
-  // Popula modal
-  document.getElementById('reserve-gift-name').textContent = gift.name;
-  const priceDisplay = document.getElementById('reserve-gift-price');
-  if (priceDisplay) priceDisplay.textContent = ""; // Do not show price values
+  const nameEl = document.getElementById('reserve-gift-name');
+  if (nameEl) nameEl.textContent = gift.name;
 
-  // Reset form
+  const priceEl = document.getElementById('reserve-gift-price');
+  if (priceEl) priceEl.textContent = '';
+
   const form = document.getElementById('reserve-named-form');
-  const btnReserve = document.getElementById('btn-confirm-reserve');
-  if (form) { form.classList.remove('visible'); form.reset(); }
-  if (btnReserve) btnReserve.disabled = true;
+  if (form) { form.classList.add('visible'); form.reset(); }
 
-  // Reset options
-  document.querySelectorAll('.reserve-option').forEach(opt => opt.classList.remove('selected'));
+  const btn = document.getElementById('btn-confirm-reserve');
+  if (btn) { btn.disabled = false; btn.textContent = '🎁 Reservar Presente'; }
 
-  
+  // Mark "named" option as selected
+  document.querySelectorAll('.reserve-option').forEach(o => o.classList.remove('selected'));
+  const namedOpt = document.querySelector('.reserve-option[data-mode="named"]');
+  if (namedOpt) namedOpt.classList.add('selected');
+
   openModal('modal-reserve');
-  
-  // Select named by default to prevent disabled button confusion
-  const optNamed = document.querySelector('.reserve-option[data-mode="named"]');
-  if (optNamed) optNamed.click();
-
 }
 
 function initReserveModal() {
-  // Option buttons
+  // Option toggle
   document.querySelectorAll('.reserve-option').forEach(opt => {
     opt.addEventListener('click', () => {
       document.querySelectorAll('.reserve-option').forEach(o => o.classList.remove('selected'));
@@ -272,104 +283,100 @@ function initReserveModal() {
       reserveMode = opt.dataset.mode;
 
       const form = document.getElementById('reserve-named-form');
-      const btnReserve = document.getElementById('btn-confirm-reserve');
-
-      if (reserveMode === 'named') {
-        if (form) form.classList.add('visible');
-      } else {
-        if (form) form.classList.remove('visible');
-      }
-      if (btnReserve) btnReserve.disabled = false;
+      const btn  = document.getElementById('btn-confirm-reserve');
+      if (form) form.classList.toggle('visible', reserveMode === 'named');
+      if (btn)  btn.disabled = false;
     });
   });
 
-  // Confirm reserve
+  // Confirm button
   const btnConfirm = document.getElementById('btn-confirm-reserve');
-  if (btnConfirm) {
-    btnConfirm.addEventListener('click', async () => {
-      if (!selectedGiftId || !reserveMode) return;
+  if (!btnConfirm) return;
 
-      btnConfirm.disabled = true;
-      btnConfirm.textContent = 'Reservando...';
-      try {
+  btnConfirm.addEventListener('click', async () => {
+    if (!selectedGiftId || !reserveMode) {
+      showToast('Selecione uma opção de reserva.', 'error');
+      return;
+    }
 
-      const reservation = { isAnonymous: reserveMode === 'anonymous' };
+    // Gather data
+    const reservation = { isAnonymous: reserveMode === 'anonymous' };
 
-      if (reserveMode === 'named') {
-        const name = document.getElementById('reserve-name')?.value?.trim();
-        const phone = document.getElementById('reserve-phone')?.value?.trim();
-        const message = document.getElementById('reserve-message')?.value?.trim();
+    if (reserveMode === 'named') {
+      const name    = (document.getElementById('reserve-name')?.value || '').trim();
+      const phone   = (document.getElementById('reserve-phone')?.value || '').trim();
+      const message = (document.getElementById('reserve-message')?.value || '').trim();
 
-        if (!name || !phone) {
-          showToast('Por favor, preencha seu nome e telefone.', 'error');
-          btnConfirm.disabled = false;
-          btnConfirm.textContent = 'Reservar';
-          return;
-        }
-        reservation.reservedBy = name;
-        reservation.reservedPhone = phone;
-        reservation.reservationMessage = message;
+      if (!name || !phone) {
+        showToast('Preencha seu nome e telefone.', 'error');
+        return;
       }
+      reservation.reservedBy = name;
+      reservation.reservedPhone = phone;
+      if (message) reservation.reservationMessage = message;
+    }
 
-      await reserveGift(selectedGiftId, reservation);
-      const gift = allGifts.find(g => g.id === selectedGiftId);
-      allGifts = allGifts.map(g => g.id === selectedGiftId ? { ...g, status: 'reserved', ...reservation } : g);
+    // Disable button
+    btnConfirm.disabled = true;
+    btnConfirm.textContent = 'Reservando...';
 
-      closeModal('modal-reserve');
-      renderGifts();
+    // 1. Mark as reserved locally FIRST (instant feedback)
+    const giftId = selectedGiftId;
+    const gift   = allGifts.find(g => g.id === giftId);
+    allGifts = allGifts.map(g =>
+      g.id === giftId ? { ...g, status: 'reserved', ...reservation, reservedAt: new Date().toISOString() } : g
+    );
+    saveLocalGifts(allGifts);
 
-      showToast('🎁 Presente reservado! Redirecionando para o PIX...', 'success', 4000);
-      launchConfetti();
+    // 2. Try to save to Firebase (fire & forget)
+    if (typeof reserveGift === 'function') {
+      reserveGift(giftId, reservation).catch(e => console.warn('Firebase save failed:', e));
+    }
 
-      // Envia mensagem de WhatsApp automaticamente para o número dos noivos
-      const noivosPhone = '5538991621135';
-      const guestName = reservation.isAnonymous ? 'Um convidado anônimo' : reservation.reservedBy;
-      let text = `Olá Laoanny e Gabriel! 💒\n\nAcabei de reservar o presente *"${gift.name}"* no site de vocês!`;
-      if (reservation.reservationMessage) {
-        text += `\n\nRecado: "${reservation.reservationMessage}"`;
-      }
-      text += `\n\nAbraços, ${guestName}!`;
+    // 3. Close reserve modal + re-render grid
+    closeModal('modal-reserve');
+    renderGifts();
+    launchConfetti();
+    showToast('🎁 Presente reservado com sucesso!', 'success', 4000);
 
-      const encodedText = encodeURIComponent(text);
-      const whatsappUrl = `https://api.whatsapp.com/send?phone=${noivosPhone}&text=${encodedText}`;
-      
-      // Abre o PIX e adiciona um botão para o WhatsApp
-      const pixModalBody = document.querySelector('#modal-pix .modal-body');
-      
-      // Remove botão antigo se existir
-      const existingBtn = document.getElementById('btn-whatsapp-notify');
-      if (existingBtn) existingBtn.remove();
-      
-      const whatsappBtn = document.createElement('a');
-      whatsappBtn.id = 'btn-whatsapp-notify';
-      whatsappBtn.className = 'btn btn-outline btn-lg';
-      whatsappBtn.style.cssText = 'border-color: #25D366; color: #25D366; justify-content: center; margin-top: 0.75rem; display: flex; text-decoration: none;';
-      whatsappBtn.href = whatsappUrl;
-      whatsappBtn.target = '_blank';
-      whatsappBtn.rel = 'noopener noreferrer';
-      whatsappBtn.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="width:20px; height:20px; margin-right:8px;" /> Avisar os Noivos no WhatsApp';
-      
-      const btnGroup = pixModalBody.querySelector('div[style*="flex-direction: column"]');
-      if (btnGroup) {
-         btnGroup.appendChild(whatsappBtn);
-      } else {
-         pixModalBody.appendChild(whatsappBtn);
-      }
+    // 4. Build WhatsApp notification URL
+    const noivosPhone = '5538991621135';
+    const guestName   = reservation.isAnonymous ? 'Convidado Anônimo' : reservation.reservedBy;
+    let waText = `Olá Laoanny e Gabriel! 💒\n\nAcabei de reservar o presente *"${gift ? gift.name : 'Presente'}"* da lista de vocês!\n\nAbraços, ${guestName}!`;
+    if (reservation.reservationMessage) {
+      waText += `\n\n💬 Recado: "${reservation.reservationMessage}"`;
+    }
+    const waUrl = `https://api.whatsapp.com/send?phone=${noivosPhone}&text=${encodeURIComponent(waText)}`;
 
-      openModal('modal-pix');
+    // 5. Inject WhatsApp button into PIX modal (remove old if exists)
+    const existingWa = document.getElementById('btn-whatsapp-notify');
+    if (existingWa) existingWa.remove();
 
-      selectedGiftId = null;
-      reserveMode = null;
-      } catch (err) {
-        console.error(err);
-        showToast('Erro ao reservar presente', 'error');
-      } finally {
-        btnConfirm.disabled = false;
-        btnConfirm.textContent = '🎁 Reservar Presente';
-      }
-    });
-  }
+    const waBtn = document.createElement('a');
+    waBtn.id = 'btn-whatsapp-notify';
+    waBtn.href = waUrl;
+    waBtn.target = '_blank';
+    waBtn.rel = 'noopener noreferrer';
+    waBtn.className = 'btn btn-lg';
+    waBtn.style.cssText = 'background:#25D366;color:white;justify-content:center;margin-top:0.75rem;display:flex;text-decoration:none;gap:8px;';
+    waBtn.innerHTML = `<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" width="22" height="22" /> Avisar os Noivos no WhatsApp`;
+
+    const btnGroup = document.querySelector('#modal-pix .modal-body > div:last-of-type');
+    if (btnGroup) btnGroup.appendChild(waBtn);
+    else {
+      const body = document.querySelector('#modal-pix .modal-body');
+      if (body) body.appendChild(waBtn);
+    }
+
+    // 6. Open PIX modal
+    openModal('modal-pix');
+
+    // Reset state
+    selectedGiftId = null;
+    reserveMode = null;
+    btnConfirm.disabled = false;
+    btnConfirm.textContent = '🎁 Reservar Presente';
+  });
 }
 
 document.addEventListener('DOMContentLoaded', initGifts);
-
