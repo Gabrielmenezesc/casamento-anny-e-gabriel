@@ -383,6 +383,16 @@ async function confirmarReserva() {
   );
   salvarLocal(presentes);
 
+  // 2b. Email notification
+  if (typeof notifyGiftReserved === 'function') {
+    notifyGiftReserved({
+      giftName: presenteAtual.name,
+      reservedBy: anonimo ? null : nome,
+      phone: anonimo ? null : tel,
+      isAnonymous: anonimo
+    });
+  }
+
   // 2. Salva no Firebase (background)
   const dadosReserva = {
     isAnonymous: anonimo,
