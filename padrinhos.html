@@ -94,6 +94,15 @@
       .padrinhos-groups { grid-template-columns: 1fr; }
       .padrinho-form-container { padding: 1.5rem; }
     }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+      100% { transform: translateY(0px); }
+    }
+    .floating-illustration {
+      animation: float 4s ease-in-out infinite;
+    }
   </style>
 </head>
 <body>
@@ -158,7 +167,7 @@
         
         <!-- Imagem 3D dos padrinhos -->
         <div style="margin: 2rem auto; max-width: 320px; padding: 10px;">
-          <img src="./assets/images/padrinhos_3d_paleta.jpg" alt="Paleta Padrinhos" style="width: 100%; border-radius: 24px; box-shadow: var(--shadow-xl); border: 6px solid white;" />
+          <img src="./assets/images/padrinhos_3d_paleta.jpg" alt="Paleta Padrinhos" class="floating-illustration" style="width: 100%; border-radius: 24px; box-shadow: var(--shadow-xl); border: 6px solid white;" />
         </div>
 
         <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
@@ -197,32 +206,7 @@
                 </div>
               </div>
 
-              <div class="form-input-row">
-                <div class="form-group">
-                  <label class="form-label" for="pad-wear-size">Tamanho do Terno ou Vestido *</label>
-                  <select class="form-input" id="pad-wear-size" required>
-                    <option value="" disabled selected>Selecione seu tamanho</option>
-                    <option value="PP">PP</option>
-                    <option value="P">P</option>
-                    <option value="M">M</option>
-                    <option value="G">G</option>
-                    <option value="GG">GG</option>
-                    <option value="XG">XG</option>
-                    <option value="Sob Medida">Sob Medida / Alugado fora</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label" for="pad-shoe-size">Número do Calçado *</label>
-                  <select class="form-input" id="pad-shoe-size" required>
-                    <option value="" disabled selected>Selecione o número</option>
-                    <script>
-                      for (let i = 33; i <= 46; i++) {
-                        document.write(`<option value="${i}">${i}</option>`);
-                      }
-                    </script>
-                  </select>
-                </div>
-              </div>
+              
 
               <div class="form-input-row">
                 <div class="form-group">
@@ -251,7 +235,7 @@
             <span style="font-size: 4rem; display: block; margin-bottom: 1rem; animation: scaleIn 0.5s ease;">🥂</span>
             <h3 style="font-family: var(--font-serif); font-size: 1.75rem; color: var(--color-gold-dark); margin-bottom: 0.5rem;">Informações Salvas!</h3>
             <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 2rem;">
-              Muito obrigado! Suas informações de tamanho de roupa, calçado e restrições foram salvas com sucesso. 
+              Muito obrigado! Suas informações e restrições alimentares foram salvas com sucesso. 
               Ficamos muito felizes em ter você ao nosso lado como padrinho/madrinha! <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin:0 3px;color:#e85d75;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>️
             </p>
             <a href="index.html" class="btn btn-outline"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Voltar ao Início</a>
@@ -315,8 +299,7 @@
         const data = {
           fullName: document.getElementById('pad-name').value.trim(),
           phone: document.getElementById('pad-phone').value.trim(),
-          wearSize: document.getElementById('pad-wear-size').value,
-          shoeSize: document.getElementById('pad-shoe-size').value,
+          
           foodRestrictions: document.getElementById('pad-food').value.trim() || 'Nenhuma',
           companion: document.getElementById('pad-companion').value.trim() || 'Nenhum',
           message: document.getElementById('pad-message').value.trim() || '',
@@ -334,8 +317,8 @@
           const noivosPhone = '5538991621135';
           let waText = `Olá Laoanny e Gabriel! <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/><line x1="12" y1="2" x2="12" y2="5"/></svg>\n\nConfirmei meus dados de *Padrinho/Madrinha* pelo site!\n\n`;
           waText += `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto .3rem;"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg> *Nome:* ${data.fullName}\n`;
-          waText += `👕 *Tamanho roupa:* ${data.wearSize}\n`;
-          waText += `👞 *Número calçado:* ${data.shoeSize}\n`;
+          
+          
           waText += `🍏 *Restrição alimentar:* ${data.foodRestrictions}\n`;
           waText += `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> *Acompanhante:* ${data.companion}`;
           if (data.message) {
