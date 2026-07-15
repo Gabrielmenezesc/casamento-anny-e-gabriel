@@ -12,6 +12,155 @@
   <link rel="stylesheet" href="./css/presentes.css" />
   <link rel="stylesheet" href="./css/responsive.css" />
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+
+  <style>
+    /* ── Modal reserva ── */
+    #modal-reserva-overlay {
+      display: none;
+      position: fixed; inset: 0; z-index: 600;
+      background: rgba(0,0,0,.65);
+      backdrop-filter: blur(6px);
+      align-items: center; justify-content: center;
+      padding: 1rem;
+    }
+    #modal-reserva-overlay.aberto { display: flex; }
+    #modal-reserva-box {
+      background: var(--bg-card);
+      border-radius: 24px;
+      box-shadow: var(--shadow-xl);
+      width: 100%; max-width: 480px;
+      max-height: 90vh; overflow-y: auto;
+      animation: popIn .3s cubic-bezier(.23,1,.32,1);
+    }
+    @keyframes popIn {
+      from { transform: scale(.85) translateY(20px); opacity: 0; }
+      to   { transform: scale(1)   translateY(0);    opacity: 1; }
+    }
+    .mr-header {
+      padding: 1.5rem 1.5rem 1rem;
+      border-bottom: 1px solid var(--glass-border);
+      text-align: center; position: relative;
+    }
+    .mr-header h2 { font-family: var(--font-serif); font-size: 1.4rem; color: var(--text-primary); }
+    .mr-header p  { font-size: .85rem; color: var(--text-muted); margin-top:.25rem; }
+    .mr-close {
+      position: absolute; top: 1rem; right: 1rem;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--bg-secondary); border: none; cursor: pointer;
+      font-size: 1rem; color: var(--text-muted);
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s;
+    }
+    .mr-close:hover { background: #fee2e2; color: #ef4444; transform: rotate(90deg); }
+    .mr-body { padding: 1.5rem; }
+
+    /* Tabs anon/named */
+    .mr-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin-bottom: 1.25rem; }
+    .mr-tab {
+      padding: .7rem; border-radius: 12px; border: 2px solid var(--glass-border-strong);
+      background: var(--bg-primary); cursor: pointer; text-align: center;
+      font-size: .85rem; font-weight: 600; color: var(--text-secondary);
+      transition: all .2s;
+    }
+    .mr-tab.ativo { border-color: var(--color-gold); background: var(--color-gold-pale); color: var(--color-gold-dark); }
+    .mr-tab span { display: block; font-size: 1.3rem; margin-bottom: .2rem; }
+
+    /* Formulário */
+    .mr-campo { margin-bottom: 1rem; }
+    .mr-campo label { display: block; font-size: .8rem; font-weight: 600; color: var(--text-secondary); margin-bottom: .3rem; }
+    .mr-campo input, .mr-campo textarea {
+      width: 100%; padding: .7rem 1rem;
+      border: 2px solid var(--glass-border-strong); border-radius: 10px;
+      background: var(--bg-primary); color: var(--text-primary);
+      font-size: .9rem; font-family: inherit; transition: border .2s;
+    }
+    .mr-campo input:focus, .mr-campo textarea:focus { border-color: var(--color-gold); outline: none; }
+    .mr-campo textarea { resize: vertical; min-height: 70px; }
+
+    /* Botão confirmar */
+    #btn-confirmar-reserva {
+      width: 100%; padding: .9rem; margin-top: .75rem;
+      border-radius: 50px; border: none; cursor: pointer;
+      background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold));
+      color: white; font-size: 1rem; font-weight: 700;
+      box-shadow: var(--shadow-gold); transition: all .2s;
+    }
+    #btn-confirmar-reserva:hover { filter: brightness(1.08); transform: translateY(-2px); }
+    #btn-confirmar-reserva:disabled { background: var(--bg-secondary); color: var(--text-muted); box-shadow: none; transform: none; cursor: not-allowed; }
+
+    /* ── Modal PIX ── */
+    #modal-pix-overlay {
+      display: none;
+      position: fixed; inset: 0; z-index: 700;
+      background: rgba(0,0,0,.7);
+      backdrop-filter: blur(8px);
+      align-items: center; justify-content: center;
+      padding: 1rem;
+    }
+    #modal-pix-overlay.aberto { display: flex; }
+    #modal-pix-box {
+      background: var(--bg-card);
+      border-radius: 24px;
+      box-shadow: var(--shadow-xl);
+      width: 100%; max-width: 460px;
+      max-height: 92vh; overflow-y: auto;
+      animation: popIn .3s cubic-bezier(.23,1,.32,1);
+      text-align: center;
+    }
+    .pix-header {
+      padding: 1.5rem 1.5rem .75rem;
+      border-bottom: 1px solid var(--glass-border);
+      position: relative;
+    }
+    .pix-header h2 { font-family: var(--font-serif); font-size: 1.4rem; color: var(--text-primary); }
+    .pix-header p  { font-size: .85rem; color: var(--text-muted); margin-top: .25rem; }
+    .pix-close {
+      position: absolute; top: 1rem; right: 1rem;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--bg-secondary); border: none; cursor: pointer;
+      font-size: 1rem; color: var(--text-muted);
+      display: flex; align-items: center; justify-content: center; transition: all .2s;
+    }
+    .pix-close:hover { background: #fee2e2; color: #ef4444; transform: rotate(90deg); }
+    .pix-body { padding: 1.5rem; }
+    .pix-qr-wrap {
+      background: white; border-radius: 16px; padding: 14px;
+      display: inline-block; margin-bottom: 1.25rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,.12);
+    }
+    .pix-key-box {
+      background: var(--bg-secondary); border: 2px solid var(--glass-border-strong);
+      border-radius: 12px; padding: 1rem; margin-bottom: 1.25rem;
+    }
+    .pix-key-label { font-size: .7rem; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); margin-bottom: .25rem; }
+    .pix-key-value { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; color: var(--color-gold-dark); }
+    .pix-btns { display: flex; flex-direction: column; gap: .75rem; }
+    .pix-btn-copiar {
+      padding: .9rem 1.5rem; border-radius: 50px; border: none; cursor: pointer;
+      background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold));
+      color: white; font-size: .95rem; font-weight: 700;
+      box-shadow: var(--shadow-gold); transition: all .2s;
+    }
+    .pix-btn-copiar:hover { filter: brightness(1.08); transform: translateY(-2px); }
+    .pix-btn-link {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: .85rem 1.5rem; border-radius: 50px;
+      border: 2px solid var(--color-gold); color: var(--color-gold);
+      background: transparent; font-size: .9rem; font-weight: 600;
+      text-decoration: none; cursor: pointer; transition: all .2s;
+    }
+    .pix-btn-link:hover { background: var(--color-gold); color: white; }
+    .pix-btn-wa {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: .85rem 1.5rem; border-radius: 50px;
+      background: #25D366; color: white;
+      font-size: .9rem; font-weight: 600;
+      text-decoration: none; border: none; transition: all .2s;
+    }
+    .pix-btn-wa:hover { background: #1ebe5a; transform: translateY(-2px); }
+
+    .presentes-hero-title, .presentes-hero-sub { position: relative; z-index: 1; }
+  </style>
 </head>
 <body>
   <div id="loading-screen" class="loading-screen">
@@ -27,16 +176,14 @@
     <div class="navbar-inner">
       <a href="index.html" class="navbar-logo">Laoanny ❤ Gabriel</a>
       <div class="navbar-links">
-        <a href="index.html"       class="navbar-link">🏠 Início</a>
-        <a href="convidados.html"  class="navbar-link">👨‍👩‍👧 Convidados</a>
-        <a href="presentes.html"   class="navbar-link active">🎁 Presentes</a>
-        
-        <a href="lua-de-mel.html"  class="navbar-link">💝 Lua de Mel</a>
-        <a href="local.html"       class="navbar-link">📍 Local</a>
-      
-        <div style="width: 1px; height: 20px; background: rgba(255,255,255,0.2); margin: 0 10px;"></div>
-        <a href="admin.html" class="navbar-link">🔒 Noivos</a>
-        <a href="padrinhos.html" class="navbar-link">🔒 Padrinhos</a>
+        <a href="index.html"      class="navbar-link">🏠 Início</a>
+        <a href="convidados.html" class="navbar-link">👨‍👩‍👧 Convidados</a>
+        <a href="presentes.html"  class="navbar-link active">🎁 Presentes</a>
+        <a href="lua-de-mel.html" class="navbar-link">💝 Lua de Mel</a>
+        <a href="local.html"      class="navbar-link">📍 Local</a>
+        <div style="width:1px;height:20px;background:rgba(255,255,255,.2);margin:0 10px;"></div>
+        <a href="admin.html"      class="navbar-link">🔒 Noivos</a>
+        <a href="padrinhos.html"  class="navbar-link">🔒 Padrinhos</a>
       </div>
       <div class="navbar-controls">
         <button id="btn-theme" class="btn-icon" aria-label="Mudar tema">🌙</button>
@@ -45,10 +192,10 @@
     </div>
   </nav>
   <nav class="mobile-nav" id="mobile-nav">
-    <a href="index.html" class="navbar-link">🏠 Início</a>
+    <a href="index.html"      class="navbar-link">🏠 Início</a>
     <a href="convidados.html" class="navbar-link">👨‍👩‍👧 Convidados</a>
-    <a href="presentes.html" class="navbar-link active">🎁 Presentes</a>
-    <a href="local.html" class="navbar-link">📍 Local</a>
+    <a href="presentes.html"  class="navbar-link active">🎁 Presentes</a>
+    <a href="local.html"      class="navbar-link">📍 Local</a>
   </nav>
 
   <section class="presentes-hero">
@@ -58,33 +205,25 @@
 
   <section class="section">
     <div class="container">
-
-      <div style="text-align: center; margin-bottom: 2rem; padding: 2rem; background: var(--bg-card); border-radius: 20px; border: 1px solid var(--glass-border-strong); box-shadow: var(--shadow-md);" data-aos="fade-up">
-        <p style="color: var(--text-primary); font-size: 1.05rem; line-height: 1.8; max-width: 800px; margin: 0 auto;">
+      <div style="text-align:center;margin-bottom:2rem;padding:2rem;background:var(--bg-card);border-radius:20px;border:1px solid var(--glass-border-strong);box-shadow:var(--shadow-md);" data-aos="fade-up">
+        <p style="color:var(--text-primary);font-size:1.05rem;line-height:1.8;max-width:800px;margin:0 auto;font-style:italic;">
           "Seu carinho e sua presença são os maiores presentes que poderíamos receber. Mas, caso deseje nos ajudar a construir nosso novo lar, preparamos uma lista com alguns itens que ainda precisamos. Muito obrigado por fazer parte deste momento tão especial."
         </p>
       </div>
 
-      <!-- Filtros -->
       <div id="gift-filters" class="gifts-filters" data-aos="fade-up"></div>
-
-      <!-- Grid -->
-      <div id="gifts-grid" class="gifts-grid"></div>
+      <div id="gifts-grid"   class="gifts-grid"></div>
     </div>
   </section>
 
-  <!-- Preferir PIX? -->
-  <section style="background: linear-gradient(145deg, hsl(215, 25%, 12%), hsl(215, 20%, 8%)); padding: 4rem 2rem; text-align: center;">
+  <!-- Seção PIX direto -->
+  <section style="background:linear-gradient(145deg,hsl(215,30%,15%),hsl(215,25%,10%));padding:4rem 2rem;text-align:center;">
     <div class="container container-sm">
-      <h2 style="font-family: var(--font-serif); color: white; font-size: 2rem; margin-bottom: 0.5rem;" data-aos="fade-up">
-        Prefere contribuir de outra forma?
-      </h2>
-      <p style="color: hsla(42,40%,85%,0.7); margin-bottom: 2rem; font-size: 1rem;" data-aos="fade-up" data-aos-delay="100">
-        Você pode nos ajudar com a Lua de Mel através do PIX 💕
-      </p>
-      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;" data-aos="fade-up" data-aos-delay="200">
-        <button class="btn btn-gold btn-lg" data-open-pix>💝 Presentear com PIX</button>
-        <a href="lua-de-mel.html" class="btn btn-glass btn-lg" style="border: 1px solid rgba(255,255,255,0.25);">🌙 Ver Lua de Mel</a>
+      <h2 style="font-family:var(--font-serif);color:white;font-size:2rem;margin-bottom:.5rem;" data-aos="fade-up">Prefere contribuir com PIX?</h2>
+      <p style="color:hsla(42,40%,85%,.7);margin-bottom:2rem;font-size:1rem;" data-aos="fade-up" data-aos-delay="100">Você pode nos ajudar com a Lua de Mel 💕</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;" data-aos="fade-up" data-aos-delay="200">
+        <button class="btn btn-gold btn-lg" onclick="abrirModalPix()">💝 Presentear com PIX</button>
+        <a href="lua-de-mel.html" class="btn btn-glass btn-lg" style="border:1px solid rgba(255,255,255,.25);">🌙 Ver Lua de Mel</a>
       </div>
     </div>
   </section>
@@ -94,83 +233,84 @@
     <p>25 de Abril de 2027 • Espaço Villa Rose • Brasília - DF</p>
   </footer>
 
-  <!-- Modal Reservar Presente -->
-  <div class="modal-overlay reserve-modal" id="modal-reserve">
-    <div class="modal">
-      <div class="modal-header">
-        <h2 class="modal-title">🎁 Reservar Presente</h2>
-        <p class="modal-subtitle"><strong id="reserve-gift-name"></strong> · <span id="reserve-gift-price"></span></p>
-        <button class="modal-close" aria-label="Fechar">✕</button>
+  <!-- ═══════════════════════════════════════════════════
+       MODAL RESERVAR PRESENTE
+  ═══════════════════════════════════════════════════ -->
+  <div id="modal-reserva-overlay">
+    <div id="modal-reserva-box">
+      <div class="mr-header">
+        <h2>🎁 Reservar Presente</h2>
+        <p id="mr-nome-presente">—</p>
+        <button class="mr-close" id="mr-close-btn">✕</button>
       </div>
-      <div class="modal-body">
-        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.25rem; text-align: center; font-weight: 500;">
-          Deseja informar seu nome?
-        </p>
-        <div class="reserve-option-group">
-          <label class="reserve-option" data-mode="named">
-            <input type="radio" name="reserve-mode" value="named" />
-            <span class="reserve-option-icon">👤</span>
-            <span class="reserve-option-label">Sim</span>
-          </label>
-          <label class="reserve-option" data-mode="anonymous">
-            <input type="radio" name="reserve-mode" value="anonymous" />
-            <span class="reserve-option-icon">🎭</span>
-            <span class="reserve-option-label">Reservar anonimamente</span>
-          </label>
-        </div>
-
-        <div class="reserve-form" id="reserve-named-form">
-          <div class="form-input-row">
-            <div class="form-group">
-              <label class="form-label" for="reserve-name">Nome *</label>
-              <input class="form-input" type="text" id="reserve-name" placeholder="Seu nome" />
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="reserve-phone">Telefone *</label>
-              <input class="form-input" type="tel" id="reserve-phone" placeholder="(61) 99999-0000" />
-            </div>
+      <div class="mr-body">
+        <!-- Tabs: com nome / anônimo -->
+        <div class="mr-tabs">
+          <div class="mr-tab ativo" id="tab-com-nome" onclick="selecionarTab('named')">
+            <span>👤</span>Com meu nome
           </div>
-          <div class="form-group">
-            <label class="form-label" for="reserve-message">Mensagem (opcional)</label>
-            <textarea class="form-input form-textarea" id="reserve-message" placeholder="Deixe uma mensagem carinhosa..." style="min-height: 80px;"></textarea>
+          <div class="mr-tab" id="tab-anonimo" onclick="selecionarTab('anonymous')">
+            <span>🎭</span>Anônimo
           </div>
         </div>
 
-        <div style="margin-top: 0.5rem; padding: 0.75rem; background: hsla(38,72%,55%,0.08); border-radius: 12px; font-size: 0.8125rem; color: var(--text-muted); text-align: center;">
-          🔒 Seu nome <strong>nunca</strong> será exibido publicamente. Apenas o casal verá no painel administrativo.
+        <!-- Campos (visíveis quando tab = named) -->
+        <div id="mr-campos-nome">
+          <div class="mr-campo">
+            <label for="mr-nome">Seu nome *</label>
+            <input type="text" id="mr-nome" placeholder="Ex: Ana Clara" autocomplete="name" />
+          </div>
+          <div class="mr-campo">
+            <label for="mr-telefone">Telefone *</label>
+            <input type="tel" id="mr-telefone" placeholder="(61) 99999-0000" autocomplete="tel" />
+          </div>
+          <div class="mr-campo">
+            <label for="mr-mensagem">Mensagem (opcional)</label>
+            <textarea id="mr-mensagem" placeholder="Deixe um recado carinhoso..."></textarea>
+          </div>
         </div>
 
-        <button id="btn-confirm-reserve" class="btn btn-gold w-full btn-lg" style="margin-top: 1.25rem; justify-content: center;" disabled>
-          🎁 Reservar Presente
-        </button>
+        <div style="margin:.5rem 0 1rem;padding:.75rem;background:var(--color-gold-pale);border-radius:10px;font-size:.8rem;color:var(--color-gold-dark);text-align:center;">
+          🔒 Seus dados <strong>nunca</strong> aparecem publicamente — só os noivos veem.
+        </div>
+
+        <button id="btn-confirmar-reserva">🎁 Confirmar e ver PIX para pagamento</button>
       </div>
     </div>
   </div>
 
-  <!-- Modal PIX -->
-  <div class="modal-overlay" id="modal-pix">
-    <div class="modal">
-      <div class="modal-header">
-        <h2 class="modal-title">Ajude nossa Lua de Mel ❤️</h2>
-        <p class="modal-subtitle">Qualquer valor será recebido com muito carinho</p>
-        <button class="modal-close" aria-label="Fechar">✕</button>
+  <!-- ═══════════════════════════════════════════════════
+       MODAL PIX
+  ═══════════════════════════════════════════════════ -->
+  <div id="modal-pix-overlay">
+    <div id="modal-pix-box">
+      <div class="pix-header">
+        <h2>💳 Pague seu Presente</h2>
+        <p id="pix-nome-presente">Escaneie o QR Code ou copie a chave</p>
+        <button class="pix-close" id="pix-close-btn">✕</button>
       </div>
-      <div class="modal-body" style="text-align: center;">
-        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.7;">
-          Se desejar nos presentear de outra forma, você pode contribuir através do PIX. 💕
+      <div class="pix-body">
+        <div class="pix-qr-wrap">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?data=00020126360014BR.GOV.BCB.PIX0111389916211355204000053039865802BR5911GABRIEL%20MEN6008BRASILIA62070503***63045D26&size=240x240&margin=12" alt="QR Code PIX" width="220" height="220" />
+        </div>
+        <div class="pix-key-box">
+          <div class="pix-key-label">Chave PIX (Telefone)</div>
+          <div class="pix-key-value">38991621135</div>
+        </div>
+        <div class="pix-btns">
+          <button class="pix-btn-copiar" id="pix-btn-copiar">📋 Copiar Chave PIX</button>
+          <a href="https://link.infinitepay.io/gabrielmen10?origin=link-na-bio" target="_blank" rel="noopener noreferrer" class="pix-btn-link">
+            <img src="https://logo.clearbit.com/infinitepay.io" alt="InfinitePay" width="20" height="20" style="border-radius:4px;" onerror="this.style.display='none'" />
+            Pagar pelo Link InfinitePay
+          </a>
+          <a id="pix-btn-wa" href="#" target="_blank" rel="noopener noreferrer" class="pix-btn-wa">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" width="22" height="22" />
+            Avisar os Noivos no WhatsApp
+          </a>
+        </div>
+        <p style="font-size:.75rem;color:var(--text-muted);margin-top:1rem;line-height:1.5;">
+          Após pagar o PIX, clique no botão do WhatsApp para avisar os noivos e enviar o comprovante. 💕
         </p>
-        <div class="pix-qr-wrapper" style="background: white; border-radius: 16px; padding: 16px; display: inline-block; margin-bottom: 1.5rem; box-shadow: 0 8px 32px rgba(0,0,0,0.12);">
-          <img id="pix-qrcode" src="https://api.qrserver.com/v1/create-qr-code/?data=00020126360014BR.GOV.BCB.PIX0111389916211355204000053039865802BR5911GABRIEL%20MEN6008BRASILIA62070503%2A%2A%2A6304ED15&size=240x240&margin=12&color=2-2-2&bgcolor=255-255-255&ecc=M" alt="QR Code PIX" width="220" height="220" />
-        </div>
-        <div style="background: var(--bg-secondary); border: 1.5px solid var(--glass-border-strong); border-radius: 12px; padding: 1rem; text-align: center; margin-bottom: 1.25rem;">
-          <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.25rem;">Chave PIX (Telefone)</div>
-          <div id="pix-key-display" style="font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; color: var(--color-gold-dark); letter-spacing: 0.05em;">38991621135</div>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-          <button id="btn-copy-pix" class="btn btn-gold btn-lg">📋 Copiar Chave PIX</button>
-          <a id="pix-infinitepay-link" href="https://link.infinitepay.io/gabrielmen10?origin=link-na-bio" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-lg" style="text-decoration: none; justify-content: center;">🔗 Pagar via Link PIX</a>
-          <button id="btn-pix-card" class="btn btn-outline btn-lg">💳 Pagar com Cartão</button>
-        </div>
       </div>
     </div>
   </div>
@@ -180,7 +320,6 @@
   <script src="./js/utils.js"></script>
   <script src="./js/firebase.js"></script>
   <script src="./js/app.js"></script>
-  <script src="./js/pix.js"></script>
   <script src="./js/presentes.js"></script>
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script>document.addEventListener('DOMContentLoaded', () => AOS.init({ duration: 700, once: true }));</script>
