@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavbar();
   initBackToTop();
   initRippleButtons();
+  initScrollReveal();
+  initGlobalBackgroundMusic();
 });
 
 // ===== Loading Screen =====
@@ -214,3 +216,159 @@ function initScrollReveal() {
 
 // Inicializa scroll reveal após DOM
 document.addEventListener('DOMContentLoaded', initScrollReveal);
+
+// ===== Global Ambient YouTube Music Player (Site-wide) =====
+function initGlobalBackgroundMusic() {
+  // 1. Ensure floating music button exists on every page
+  let musicBtn = document.getElementById('music-btn');
+  if (!musicBtn) {
+    const btnHtml = `
+      <button class="music-btn" id="music-btn" aria-label="Controlar música de fundo" title="Música de fundo">
+        <svg id="music-icon-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        <svg id="music-icon-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+      </button>
+      <div class="music-tooltip">Tocar música</div>
+    `;
+    const container = document.createElement('div');
+    container.innerHTML = btnHtml;
+    document.body.appendChild(container);
+    musicBtn = document.getElementById('music-btn');
+  }
+
+  // 2. Ensure hidden container for YouTube iframe exists
+  let ytContainer = document.getElementById('yt-ambient-player');
+  if (!ytContainer) {
+    ytContainer = document.createElement('div');
+    ytContainer.id = 'yt-ambient-player';
+    // Positioned completely off-screen and invisible so NO video or lyrics ever appear
+    ytContainer.style.cssText = 'position:fixed; top:-9999px; left:-9999px; width:1px; height:1px; opacity:0; pointer-events:none; z-index:-9999; overflow:hidden;';
+    document.body.appendChild(ytContainer);
+  }
+
+  // 3. Load YouTube Iframe API if not loaded yet
+  if (!window.YT) {
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    if (firstScriptTag && firstScriptTag.parentNode) {
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    } else {
+      document.head.appendChild(tag);
+    }
+  }
+
+  const iconPlay = document.getElementById('music-icon-play');
+  const iconPause = document.getElementById('music-icon-pause');
+  const tooltip = document.querySelector('.music-tooltip');
+
+  let ytPlayer = null;
+  let isPlaying = localStorage.getItem('wedding_music_state') === 'playing';
+  let savedTime = parseFloat(localStorage.getItem('wedding_music_time')) || 0;
+
+  function updateUI(playing) {
+    if (musicBtn) musicBtn.classList.toggle('playing', playing);
+    if (iconPlay) iconPlay.style.display = playing ? 'none' : 'block';
+    if (iconPause) iconPause.style.display = playing ? 'block' : 'none';
+    if (tooltip) tooltip.textContent = playing ? 'Pausar música' : 'Tocar música';
+  }
+
+  updateUI(isPlaying);
+
+  // Define global callback or attach if already ready
+  function onYTReady() {
+    ytPlayer = new YT.Player('yt-ambient-player', {
+      height: '10',
+      width: '10',
+      videoId: 'emiQz8APjy8',
+      playerVars: {
+        autoplay: 1,
+        controls: 0,
+        disablekb: 1,
+        fs: 0,
+        loop: 1,
+        modestbranding: 1,
+        playlist: 'emiQz8APjy8',
+        rel: 0,
+        showinfo: 0,
+        iv_load_policy: 3
+      },
+      events: {
+        onReady: function(event) {
+          if (savedTime > 0) {
+            event.target.seekTo(savedTime, true);
+          }
+          if (isPlaying) {
+            event.target.playVideo();
+          } else if (localStorage.getItem('wedding_music_state') === null) {
+            // Default auto-start on first visit
+            isPlaying = true;
+            localStorage.setItem('wedding_music_state', 'playing');
+            updateUI(true);
+            event.target.playVideo();
+          }
+        },
+        onStateChange: function(event) {
+          if (event.data === YT.PlayerState.PLAYING) {
+            isPlaying = true;
+            localStorage.setItem('wedding_music_state', 'playing');
+            updateUI(true);
+            if (window._ytTimeInterval) clearInterval(window._ytTimeInterval);
+            window._ytTimeInterval = setInterval(() => {
+              if (ytPlayer && ytPlayer.getCurrentTime) {
+                localStorage.setItem('wedding_music_time', ytPlayer.getCurrentTime());
+              }
+            }, 1000);
+          } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+            if (window._ytTimeInterval) clearInterval(window._ytTimeInterval);
+            if (ytPlayer && ytPlayer.getCurrentTime) {
+              localStorage.setItem('wedding_music_time', ytPlayer.getCurrentTime());
+            }
+          }
+        }
+      }
+    });
+  }
+
+  if (window.YT && window.YT.Player) {
+    onYTReady();
+  } else {
+    const prevReady = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = function() {
+      if (typeof prevReady === 'function') prevReady();
+      onYTReady();
+    };
+  }
+
+  function toggleMusic() {
+    if (!ytPlayer || !ytPlayer.playVideo) return;
+    if (isPlaying) {
+      ytPlayer.pauseVideo();
+      isPlaying = false;
+      localStorage.setItem('wedding_music_state', 'paused');
+      updateUI(false);
+    } else {
+      ytPlayer.playVideo();
+      isPlaying = true;
+      localStorage.setItem('wedding_music_state', 'playing');
+      updateUI(true);
+      if (typeof showToast === 'function') showToast('Música ambiente tocando', 'info');
+    }
+  }
+
+  if (musicBtn) {
+    // Clone and replace to remove any old event listeners (e.g. piano chords)
+    const newBtn = musicBtn.cloneNode(true);
+    if (musicBtn.parentNode) musicBtn.parentNode.replaceChild(newBtn, musicBtn);
+    newBtn.addEventListener('click', toggleMusic);
+    musicBtn = newBtn;
+  }
+
+  // Auto-resume or start on user interaction (resolves strict browser autoplay policies)
+  function handleFirstInteraction() {
+    if (ytPlayer && ytPlayer.playVideo && isPlaying) {
+      ytPlayer.playVideo();
+    }
+  }
+  document.addEventListener('click', handleFirstInteraction, { once: true });
+  document.addEventListener('touchstart', handleFirstInteraction, { once: true });
+}
