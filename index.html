@@ -159,11 +159,12 @@
     .gallery-heading h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 4vw, 2.8rem); color: var(--text-primary); }
 
     /* Slider */
-    .gallery-slider { position: relative; overflow: hidden; border-radius: 28px; box-shadow: var(--shadow-xl); aspect-ratio: 16/9; }
+    .gallery-slider { position: relative; overflow: hidden; border-radius: 28px; box-shadow: var(--shadow-xl); aspect-ratio: 16/9; background: #0a0a0a; }
     .gallery-slides { display: flex; transition: transform .7s cubic-bezier(.4,0,.2,1); height: 100%; }
-    .gallery-slide { min-width: 100%; position: relative; overflow: hidden; }
-    .gallery-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .gallery-slide-overlay {
+    .gallery-slide { min-width: 100%; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #0a0a0a; }
+    .gallery-slide-blur { position: absolute; inset: -30px; width: calc(100% + 60px); height: calc(100% + 60px); object-fit: cover; filter: blur(30px) brightness(0.35) saturate(1.2); pointer-events: none; z-index: 1; }
+    .gallery-slide-img { position: relative; width: 100%; height: 100%; object-fit: contain; z-index: 2; display: block; filter: contrast(1.03) drop-shadow(0 4px 25px rgba(0,0,0,0.6)); }
+    .gallery-slide-overlay { z-index: 3; pointer-events: none; }
       position: absolute; inset: 0;
       background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,.55) 100%);
       display: flex; align-items: flex-end; padding: 1.5rem 2rem;
@@ -466,7 +467,8 @@
         <div class="gallery-slider" id="gallery-slider" role="region" aria-label="Galeria de fotos">
           <div class="gallery-slides" id="gallery-slides">
             <div class="gallery-slide">
-              <img src="./assets/images/galeria_1.webp" alt="Laoanny e Gabriel — Retrato do casal" loading="eager"/>
+              <img class="gallery-slide-blur" src="./assets/images/galeria_1.webp" alt="" aria-hidden="true" loading="eager"/>
+              <img class="gallery-slide-img" src="./assets/images/galeria_1.webp" alt="Laoanny e Gabriel — Retrato do casal" loading="eager"/>
               <div class="gallery-slide-overlay">
                 <div class="gallery-slide-caption">
                   <span>O nosso começo</span>
@@ -475,7 +477,8 @@
               </div>
             </div>
             <div class="gallery-slide">
-              <img src="./assets/images/galeria_2.jfif" alt="Casal caminhando no jardim" loading="lazy"/>
+              <img class="gallery-slide-blur" src="./assets/images/galeria_2.jfif" alt="" aria-hidden="true" loading="lazy"/>
+              <img class="gallery-slide-img" src="./assets/images/galeria_2.jfif" alt="Casal caminhando no jardim" loading="lazy"/>
               <div class="gallery-slide-overlay">
                 <div class="gallery-slide-caption">
                   <span>Cada passo juntos</span>
@@ -484,7 +487,8 @@
               </div>
             </div>
             <div class="gallery-slide">
-              <img src="./assets/images/galeria_4.jfif" alt="Casal no jardim de rosas" loading="lazy"/>
+              <img class="gallery-slide-blur" src="./assets/images/galeria_4.jfif" alt="" aria-hidden="true" loading="lazy"/>
+              <img class="gallery-slide-img" src="./assets/images/galeria_4.jfif" alt="Casal no jardim de rosas" loading="lazy"/>
               <div class="gallery-slide-overlay">
                 <div class="gallery-slide-caption">
                   <span>No nosso jardim</span>
@@ -629,7 +633,6 @@
   (function() {
     // ── Gallery ─────────────────────────────────────
     let current = 0;
-    const total  = 5;
     let autoTimer;
 
     const slides = document.getElementById('gallery-slides');
@@ -637,20 +640,26 @@
     const thumbs = document.querySelectorAll('.gallery-thumb');
 
     function goTo(n) {
+      if (!slides || !slides.children.length) return;
+      const total = slides.children.length;
       current = (n + total) % total;
       slides.style.transform = 'translateX(-' + (current * 100) + '%)';
       dots.forEach((d, i) => d.classList.toggle('active', i === current));
       thumbs.forEach((t, i) => t.classList.toggle('active', i === current));
     }
 
-    document.getElementById('gallery-prev').addEventListener('click', () => { goTo(current - 1); resetAuto(); });
-    document.getElementById('gallery-next').addEventListener('click', () => { goTo(current + 1); resetAuto(); });
+    const prevBtn = document.getElementById('gallery-prev');
+    const nextBtn = document.getElementById('gallery-next');
+    if (prevBtn) prevBtn.addEventListener('click', () => { goTo(current - 1); resetAuto(); });
+    if (nextBtn) nextBtn.addEventListener('click', () => { goTo(current + 1); resetAuto(); });
     dots.forEach(d => d.addEventListener('click', () => { goTo(+d.dataset.index); resetAuto(); }));
     thumbs.forEach(t => t.addEventListener('click', () => { goTo(+t.dataset.index); resetAuto(); }));
 
     function resetAuto() {
       clearInterval(autoTimer);
-      autoTimer = setInterval(() => goTo(current + 1), 5000);
+      if (slides && slides.children.length > 1) {
+        autoTimer = setInterval(() => goTo(current + 1), 5000);
+      }
     }
     resetAuto();
 
