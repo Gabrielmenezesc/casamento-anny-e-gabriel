@@ -759,16 +759,22 @@
 
     window.pixGoToStep3 = function() {
       if (!window._pixName) return;
-      var msg = encodeURIComponent('CASAMENTO Laoanny e Gabriel\n\nCONFIRMATION PIX!\n\nRemetente: ' + window._pixName + '\nValor: R$ ' + window._pixValue + '\nData: ' + new Date().toLocaleDateString('pt-BR') + '\n\nQue o amor de voces dure para sempre!');
-      document.getElementById('pix-wa-link').href = 'https://wa.me/' + WA_NUMBER + '?text=' + msg;
+      var msg = encodeURIComponent('CASAMENTO Laoanny e Gabriel\n\nCONFIRMAÇÃO DE PIX!\n\nRemetente: ' + window._pixName + '\nValor: R$ ' + window._pixValue + '\nData: ' + new Date().toLocaleDateString('pt-BR') + '\n\nQue o amor de vocês dure para sempre!');
+      var waUrl = 'https://api.whatsapp.com/send?phone=' + WA_NUMBER + '&text=' + msg;
+      document.getElementById('pix-wa-link').href = waUrl;
       document.getElementById('pix-confirm-summary').innerHTML = '<p style="margin:0 0 4px;font-size:0.75rem;color:#555;font-weight:600;text-transform:uppercase;">Resumo</p><p style="margin:0 0 2px;font-size:1.05rem;font-weight:700;color:#16a34a;">R$ ' + window._pixValue + '</p><p style="margin:0;font-size:0.85rem;color:#444;">De: <strong>' + window._pixName + '</strong></p>';
-      // Salva no backend para o painel do casal
+      
       // Salva no backend usando firebase.js
       if (typeof savePix === 'function') {
         savePix(window._pixName, window._pixValue);
       }
       document.getElementById('pix-step-2').style.display = 'none';
       document.getElementById('pix-step-3').style.display = 'block';
+      
+      // Auto-redirect to WhatsApp
+      setTimeout(function() {
+        window.open(waUrl, '_blank', 'noopener,noreferrer');
+      }, 1500);
     };
 
     // Reset ao fechar
@@ -798,7 +804,7 @@
 
   <!-- Scripts -->
   <script src="./js/utils.js"></script>
-  <script src="./js/firebase.js?v=4"></script>
+  <script src="./js/firebase.js?v=5"></script>
   <script src="./js/app.js"></script>
   <script src="./js/countdown.js"></script>
   <script src="./js/pix.js"></script>
@@ -867,6 +873,7 @@
   </script>
 </body>
 </html>
+
 
 
 

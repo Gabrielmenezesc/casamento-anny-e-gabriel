@@ -416,6 +416,11 @@ async function confirmarReserva() {
 
   // 5. Atualiza botão WhatsApp no modal PIX
   document.getElementById('pix-btn-wa').href = waUrl;
+  
+  // 6. Auto-redirect
+  setTimeout(() => {
+    window.open(waUrl, '_blank', 'noopener,noreferrer');
+  }, 1500);
   document.getElementById('pix-nome-presente').textContent = `Presente: ${presenteAtual.name}`;
 
   // 6. Abre modal PIX

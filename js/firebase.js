@@ -126,10 +126,11 @@ async function saveRSVP(rsvpData) {
 async function getRSVPs() {
   if (firebaseReady && db) {
     try {
-      const { collection, getDocs, query, orderBy } = window._fsLib;
-      const q = query(collection(db, 'rsvps'), orderBy('confirmedAt', 'desc'));
-      const snap = await getDocs(q);
+      const { collection, getDocs } = window._fsLib;
+      const snap = await getDocs(collection(db, 'rsvps'));
       const items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      // Sort locally to avoid index requirements
+      items.sort((a, b) => new Date(b.confirmedAt || 0) - new Date(a.confirmedAt || 0));
       Storage.set(STORAGE_KEYS.rsvps, items);
       return items;
     } catch (e) {
