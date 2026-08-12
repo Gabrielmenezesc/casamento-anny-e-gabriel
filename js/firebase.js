@@ -15,7 +15,9 @@ const CLOUD_REPOS = {
   gifts:      'ff8081819ff5b110019ff71d90a003c9',
   rsvps:      'ff8081819ff5b110019ff71d8de903c8',
   godparents: 'ff8081819ff5b110019ff71d92b103ca',
-  settings:   'ff8081819ff5b110019ff71d944803cb'
+  settings:   'ff8081819ff5b110019ff71d944803cb',
+  pix:        'ff8081819ff5b110019ff71e443703d3',
+  pix:        'ff8081819ff5b110019ff71e443703d3'
 };
 
 async function cloudGet(repoKey) {
@@ -102,7 +104,7 @@ async function saveRSVP(rsvpData) {
   // Cloud Sync + LocalStorage
   if (!data.id) data.id = generateId();
   const list = Storage.get(STORAGE_KEYS.rsvps, []);
-  const updatedList = [data, ...list.filter(r => r.id !== data.id)];
+  const updatedList = [data, ...list.filter(r => r.id !== data.id)]
   Storage.set(STORAGE_KEYS.rsvps, updatedList);
 
   // Sincroniza online
@@ -294,4 +296,24 @@ async function saveHoneymoonSettings(settings) {
       await setDoc(doc(db, 'settings', 'honeymoon'), settings);
     } catch (e) { console.warn(e); }
   }
+}
+
+
+// ===== PIX =====
+
+async function getPix() {
+  const remote = await cloudGet('pix');
+  if (remote && Array.isArray(remote)) {
+    return remote;
+  }
+  return [];
+}
+
+async function deletePix(index) {
+  let list = await getPix();
+  if (index >= 0 && index < list.length) {
+    list.splice(index, 1);
+    await cloudSave('pix', list);
+  }
+  return list;
 }

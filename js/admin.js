@@ -9,6 +9,7 @@ let currentAdminPanel = 'dashboard';
 let allRSVPs = [];
 let allAdminGifts = [];
 let allAdminGodparents = [];
+let allPix = [];
 
 document.addEventListener('DOMContentLoaded', () => {
   checkAdminSession();
@@ -73,17 +74,19 @@ async function loadAdminData() {
   allRSVPs = await getRSVPs();
   allAdminGifts = await getGifts();
   allAdminGodparents = await getGodparents();
+  allPix = await getPix();
   const honeymoon = await getHoneymoonSettings();
 
-  renderDashboard(allRSVPs, allAdminGifts, honeymoon);
+  renderDashboard(allRSVPs, allAdminGifts, honeymoon, allPix);
   renderRSVPTable(allRSVPs);
   renderGiftsTable(allAdminGifts);
   renderGodparentsTable(allAdminGodparents);
+  renderPixTable(allPix);
   renderCharts(allRSVPs, allAdminGifts);
 }
 
 // ===== Dashboard Stats =====
-function renderDashboard(rsvps, gifts, honeymoon) {
+function renderDashboard(rsvps, gifts, honeymoon, pixList) {
   const totalGuests = rsvps.reduce((acc, r) => acc + (r.adultsCount || 0) + (r.childrenCount || 0), 0);
   const totalAdults = rsvps.reduce((acc, r) => acc + (r.adultsCount || 0), 0);
   const totalChildren = rsvps.reduce((acc, r) => acc + (r.childrenCount || 0), 0);
@@ -93,7 +96,7 @@ function renderDashboard(rsvps, gifts, honeymoon) {
   const reservedGifts = gifts.filter(g => g.status === 'reserved').length;
   const deliveredGifts = gifts.filter(g => g.status === 'delivered').length;
 
-  const pixAmount = honeymoon?.currentAmount || 0;
+  const pixAmount = pixList.reduce((acc, p) => acc + (parseFloat(p.valor) || 0), 0) + (honeymoon?.currentAmount || 0);
   const goal = honeymoon?.goal || 25000;
   const progress = Math.min(100, (pixAmount / goal) * 100);
 
@@ -227,6 +230,27 @@ function renderGodparentsTable(godparents, filter = '') {
             <button class="admin-action-btn admin-action-delete" onclick="deleteGodparentRow('${g.id}')">🗑 Excluir</button>
           </div>
         </td>
+    `;
+  }).join('');
+}
+
+function renderPixTable(pixList) {
+  const tbody = document.getElementById('pix-table-body');
+  if (!tbody) return;
+  if (!pixList || !pixList.length) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:2rem;color:var(--text-muted)">Nenhum PIX registrado ainda.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = pixList.map((p, index) => {
+    const d = p.data ? new Date(p.data).toLocaleString('pt-BR') : '-';
+    return `
+      <tr>
+        <td><strong>${sanitize(p.nome || 'Anônimo')}</strong></td>
+        <td><span style="color:#25d366;font-weight:600;">R$ ${(parseFloat(p.valor)||0).toFixed(2).replace('.',',')}</span></td>
+        <td>${d}</td>
+        <td>
+          <button class="admin-action-btn admin-action-delete" onclick="deletePixRow(${index})">🗑 Excluir</button>
+        </td>
       </tr>
     `;
   }).join('');
@@ -274,8 +298,16 @@ async function deleteRSVPRow(id) {
   await deleteRSVP(id);
   allRSVPs = allRSVPs.filter(r => r.id !== id);
   renderRSVPTable(allRSVPs);
-  renderDashboard(allRSVPs, allAdminGifts, await getHoneymoonSettings());
+  renderDashboard(allRSVPs, allAdminGifts, await getHoneymoonSettings(), allPix);
   showToast('Convidado removido.', 'info');
+}
+
+async function deletePixRow(index) {
+  if (!confirm('Excluir este PIX?')) return;
+  allPix = await deletePix(index);
+  renderPixTable(allPix);
+  renderDashboard(allRSVPs, allAdminGifts, await getHoneymoonSettings(), allPix);
+  showToast('PIX removido.', 'info');
 }
 
 async function markDelivered(id) {
