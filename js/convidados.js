@@ -145,9 +145,9 @@ function initRSVPForm() {
       }
       
       if (rsvp.notes) {
-        rsvpText += `\n💬 *Observações:* ${rsvp.notes}`;
+        rsvpText += `\n📝 *Observações:* ${rsvp.notes}`;
       }
-      rsvpText += `\n\nNos vemos no dia 25/04/2027! ✨`;
+      rsvpText += `\n\nNos vemos no dia 25/04/2027! 🎉`;
 
       const encodedText = encodeURIComponent(rsvpText);
       const whatsappUrl = `https://api.whatsapp.com/send?phone=${noivosPhone}&text=${encodedText}`;
@@ -158,7 +158,12 @@ function initRSVPForm() {
 
     } catch (err) {
       console.error(err);
-      showToast('Erro ao confirmar presença. Tente novamente.', 'error');
+      if (err.message && err.message.includes('banco de dados')) {
+        showToast(err.message, 'error', 10000);
+        alert("Erro Crítico: " + err.message + "\n\nPor favor, avise o desenvolvedor para ir no site do Firebase, menu 'Firestore Database' e clicar em 'Criar banco de dados'.");
+      } else {
+        showToast('Erro ao confirmar presença. Tente novamente.', 'error');
+      }
       submitBtn.disabled = false;
       submitBtn.innerHTML = '👨‍👩‍👧 Confirmar Presença';
     }

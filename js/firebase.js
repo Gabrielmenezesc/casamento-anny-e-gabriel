@@ -91,12 +91,19 @@ async function saveRSVP(rsvpData) {
   if (firebaseReady && db) {
     try {
       const { collection, addDoc } = window._fsLib;
-      const docRef = await addDoc(collection(db, 'rsvps'), data);
+      // Timeout de 8 segundos para evitar travamento infinito
+      const docPromise = addDoc(collection(db, 'rsvps'), data);
+      const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 8000));
+      const docRef = await Promise.race([docPromise, timeoutPromise]);
+      
       data.id = docRef.id;
       const cached = Storage.get(STORAGE_KEYS.rsvps, []);
       Storage.set(STORAGE_KEYS.rsvps, [data, ...cached]);
       return data;
     } catch (e) {
+      if (e.message === 'timeout') {
+        throw new Error('O banco de dados (Firestore) ainda não foi criado ou configurado no painel do Firebase.');
+      }
       console.warn('[Firebase] Falha ao salvar RSVP, usando Cloud Sync.', e.message);
     }
   }
