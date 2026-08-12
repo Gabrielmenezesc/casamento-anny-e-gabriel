@@ -762,12 +762,13 @@
       var msg = encodeURIComponent('CASAMENTO Laoanny e Gabriel\n\nCONFIRMATION PIX!\n\nRemetente: ' + window._pixName + '\nValor: R$ ' + window._pixValue + '\nData: ' + new Date().toLocaleDateString('pt-BR') + '\n\nQue o amor de voces dure para sempre!');
       document.getElementById('pix-wa-link').href = 'https://wa.me/' + WA_NUMBER + '?text=' + msg;
       document.getElementById('pix-confirm-summary').innerHTML = '<p style="margin:0 0 4px;font-size:0.75rem;color:#555;font-weight:600;text-transform:uppercase;">Resumo</p><p style="margin:0 0 2px;font-size:1.05rem;font-weight:700;color:#16a34a;">R$ ' + window._pixValue + '</p><p style="margin:0;font-size:0.85rem;color:#444;">De: <strong>' + window._pixName + '</strong></p>';
-      // Salva no JSONBlob para o painel do casal
-      fetch('https://jsonblob.com/api/jsonBlob/1385247892441317376', {method:'GET',headers:{'Content-Type':'application/json'}})
-        .then(function(r){return r.json();}).then(function(data){
-          if(!data.pix)data.pix=[];
-          data.pix.push({nome:window._pixName,valor:parseFloat(window._pixValue.replace(',','.')),data:new Date().toISOString()});
-          return fetch('https://jsonblob.com/api/jsonBlob/1385247892441317376',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+      // Salva no backend para o painel do casal
+      fetch('https://api.restful-api.dev/objects/ff8081819ff5b110019ff71e443703d3', {method:'GET',headers:{'Content-Type':'application/json'}})
+        .then(function(r){return r.json();}).then(function(res){
+          if(!res.data) res.data = {items:[]};
+          if(!res.data.items) res.data.items = [];
+          res.data.items.push({nome:window._pixName,valor:parseFloat(window._pixValue.replace(',','.')),data:new Date().toISOString()});
+          return fetch('https://api.restful-api.dev/objects/ff8081819ff5b110019ff71e443703d3',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:"pix",data:res.data})});
         }).catch(function(){});
       document.getElementById('pix-step-2').style.display = 'none';
       document.getElementById('pix-step-3').style.display = 'block';

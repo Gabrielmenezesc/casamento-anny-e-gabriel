@@ -10,22 +10,23 @@
 let db = null;
 let firebaseReady = false;
 
-// IDs dos repositórios na nuvem permanentes vinculados ao site
+// IDs dos repositórios na nuvem permanentes vinculados ao site (Restful-API)
 const CLOUD_REPOS = {
-  gifts:      '019f6739-4e35-73bd-bf4a-73d2a5f1ceb1',
-  rsvps:      '019f6739-4fa4-7ad9-b2fa-7bc5ccdd5286',
-  godparents: '019f6739-50b3-7f1b-b198-0a5aefcbc55b',
-  settings:   '019f6739-51c2-7ece-ab5e-59c0c178bc2d'
+  gifts:      'ff8081819ff5b110019ff71d90a003c9',
+  rsvps:      'ff8081819ff5b110019ff71d8de903c8',
+  godparents: 'ff8081819ff5b110019ff71d92b103ca',
+  settings:   'ff8081819ff5b110019ff71d944803cb'
 };
 
 async function cloudGet(repoKey) {
   try {
     const blobId = CLOUD_REPOS[repoKey];
     if (!blobId) return null;
-    const res = await fetch(`https://jsonblob.com/api/jsonBlob/${blobId}`, { cache: 'no-store' });
+    const res = await fetch(`https://api.restful-api.dev/objects/${blobId}`, { cache: 'no-store' });
     if (!res.ok) return null;
-    const data = await res.json();
-    return data.items || data;
+    const json = await res.json();
+    if (!json.data) return null;
+    return json.data.items !== undefined ? json.data.items : json.data;
   } catch (e) {
     console.warn(`[Cloud Sync] Falha ao buscar ${repoKey}:`, e.message);
     return null;
@@ -36,8 +37,11 @@ async function cloudSave(repoKey, dataObj) {
   try {
     const blobId = CLOUD_REPOS[repoKey];
     if (!blobId) return false;
-    const payload = Array.isArray(dataObj) ? { items: dataObj } : dataObj;
-    const res = await fetch(`https://jsonblob.com/api/jsonBlob/${blobId}`, {
+    const payload = {
+      name: repoKey,
+      data: Array.isArray(dataObj) ? { items: dataObj } : dataObj
+    };
+    const res = await fetch(`https://api.restful-api.dev/objects/${blobId}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)

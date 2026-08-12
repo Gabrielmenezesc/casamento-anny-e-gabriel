@@ -194,8 +194,9 @@
 <script>
 // ── Configurações ──────────────────────────────────────────
 const SENHA = 'Anny27'; // troque aqui a senha do painel
-const JSONBLOB_CASAMENTO = 'https://jsonblob.com/api/jsonBlob/1106884953776963584'; // blob dos convidados/presentes
-const JSONBLOB_PIX = 'https://jsonblob.com/api/jsonBlob/1385247892441317376';     // blob dos PIX
+const API_RSVPS = 'https://api.restful-api.dev/objects/ff8081819ff5b110019ff71d8de903c8';
+const API_GIFTS = 'https://api.restful-api.dev/objects/ff8081819ff5b110019ff71d90a003c9';
+const API_PIX = 'https://api.restful-api.dev/objects/ff8081819ff5b110019ff71e443703d3';
 
 // ── Login ──────────────────────────────────────────────────
 function doLogin() {
@@ -221,24 +222,59 @@ document.getElementById('login-pass').addEventListener('keypress', function(e) {
 // ── Carregar dados ─────────────────────────────────────────
 async function carregarDados() {
   try {
-    // PIX
-    const pixRes = await fetch(JSONBLOB_PIX, { headers: {'Content-Type':'application/json'} });
-    if (pixRes.ok) {
-      const pixData = await pixRes.json();
-      renderPix(pixData.pix || []);
+    try {
+      const resPix = await fetch(API_PIX, { cache: 'no-store' });
+      if (resPix.ok) {
+        const pData = await resPix.json();
+        if (pData && pData.data && pData.data.items) {
+          renderPix(pData.data.items);
+        } else if (pData && Array.isArray(pData.data)) {
+          renderPix(pData.data);
+        } else {
+          renderPix([]);
+        }
+      } else {
+        document.getElementById('pix-table').innerHTML = '<tr><td colspan="5" class="empty">Nenhum PIX registrado ainda.</td></tr>';
+      }
+    } catch(e) {
+      document.getElementById('pix-table').innerHTML = '<tr><td colspan="5" class="empty">Nenhum PIX registrado ainda.</td></tr>';
     }
-  } catch(e) {
-    document.getElementById('pix-table').innerHTML = '<tr><td colspan="5" class="empty">Nenhum PIX registrado ainda.</td></tr>';
-  }
 
-  try {
     // Casamento (convidados + presentes)
-    const casRes = await fetch(JSONBLOB_CASAMENTO, { headers: {'Content-Type':'application/json'} });
-    if (casRes.ok) {
-      const casData = await casRes.json();
-      renderPresentes(casData.reservedGifts || casData.gifts || []);
-      renderConvidados(casData.rsvps || casData.guests || []);
+    let casData = { reservedGifts: [], rsvps: [] };
+    
+    // Tenta carregar do localStorage localmente primeiro (onde o app salva os rsvps)
+    try {
+      const localRsvps = JSON.parse(localStorage.getItem('wedding_rsvps'));
+      if (localRsvps && Array.isArray(localRsvps)) {
+        casData.rsvps = localRsvps;
+      }
+      const localGifts = JSON.parse(localStorage.getItem('wedding_gifts'));
+      if (localGifts && Array.isArray(localGifts)) {
+        casData.reservedGifts = localGifts.filter(g => g.status === 'reserved' || g.reservedBy);
+      }
+    } catch(e) {}
+    
+    // Tenta fetch da nuvem se disponível
+    try {
+      const resRsvps = await fetch(API_RSVPS, { cache: 'no-store' });
+      if (resRsvps.ok) {
+        const json = await resRsvps.json();
+        if (json && json.data && json.data.items) casData.rsvps = json.data.items;
+      }
+      const resGifts = await fetch(API_GIFTS, { cache: 'no-store' });
+      if (resGifts.ok) {
+        const json = await resGifts.json();
+        if (json && json.data && json.data.items) {
+          casData.reservedGifts = json.data.items.filter(g => g.status === 'reserved' || g.reservedBy);
+        }
+      }
+    } catch(e) {
+      console.warn("Nuvem indisponível, usando localStorage", e);
     }
+    
+    renderPresentes(casData.reservedGifts || []);
+    renderConvidados(casData.rsvps || []);
   } catch(e) {
     document.getElementById('presents-table').innerHTML  = '<tr><td colspan="5" class="empty">Nenhum presente reservado ainda.</td></tr>';
     document.getElementById('guests-table').innerHTML    = '<tr><td colspan="5" class="empty">Nenhuma presença confirmada ainda.</td></tr>';
