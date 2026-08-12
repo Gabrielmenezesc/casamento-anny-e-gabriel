@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR" data-theme="light">
 <head>
   <meta charset="UTF-8" />
@@ -161,6 +161,7 @@
 
     .presentes-hero-title, .presentes-hero-sub { position: relative; z-index: 1; }
   </style>
+  <link rel="stylesheet" href="./css/assistant.css" />
 </head>
 <body>
   <div id="loading-screen" class="loading-screen">
@@ -354,8 +355,6 @@
     </div>
   </div>
 
-  <button class="back-to-top" id="back-to-top" aria-label="Voltar ao topo">↑</button>
-
   <script src="./js/utils.js"></script>
   <script src="./js/firebase.js"></script>
   <script src="./js/app.js"></script>
@@ -363,5 +362,7 @@
   <script src="./js/presentes.js"></script>
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script>document.addEventListener('DOMContentLoaded', () => AOS.init({ duration: 700, once: true }));</script>
+  <script src="./js/assistant.js" defer></script>
 </body>
 </html>
+
