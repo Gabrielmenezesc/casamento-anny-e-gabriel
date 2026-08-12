@@ -580,6 +580,44 @@
           <div class="pix-key-value" id="pix-key-display">38991621135</div>
         </div>
 
+        <!-- Bancos Quick Links (Mobile) -->
+        <div class="pix-banks-quick-links" style="margin: 1.25rem 0;">
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">Abrir direto no App do Banco</p>
+          <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+            
+            <a href="#" onclick="if(/Android|iPhone|iPad|iPod/.test(navigator.userAgent)) { this.href='nubank://'; } else { alert('Acesse do seu celular para abrir o app do Nubank.'); return false; }" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-primary); gap: 4px;">
+              <img src="https://logodownload.org/wp-content/uploads/2019/08/nubank-logo-3.png" alt="Nubank" style="width: 36px; height: 36px; border-radius: 10px; object-fit: contain; background: white; padding: 4px; box-shadow: var(--shadow-sm); border: 1px solid var(--glass-border);" onerror="this.style.display='none'">
+              <span style="font-size: 0.65rem; font-weight: 500;">Nubank</span>
+            </a>
+            
+            <a href="#" onclick="if(/Android|iPhone|iPad|iPod/.test(navigator.userAgent)) { this.href='picpay://'; } else { alert('Acesse do seu celular para abrir o app do PicPay.'); return false; }" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-primary); gap: 4px;">
+              <img src="https://logodownload.org/wp-content/uploads/2018/01/picpay-logo-1.png" alt="PicPay" style="width: 36px; height: 36px; border-radius: 10px; object-fit: contain; background: #21C25E; padding: 4px; box-shadow: var(--shadow-sm); border: 1px solid var(--glass-border);" onerror="this.style.display='none'">
+              <span style="font-size: 0.65rem; font-weight: 500;">PicPay</span>
+            </a>
+            
+            <a href="#" onclick="if(/Android|iPhone|iPad|iPod/.test(navigator.userAgent)) { this.href='itau://'; } else { alert('Acesse do seu celular para abrir o app do Itaú.'); return false; }" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-primary); gap: 4px;">
+              <img src="https://logodownload.org/wp-content/uploads/2014/05/itau-logo-1.png" alt="Itaú" style="width: 36px; height: 36px; border-radius: 10px; object-fit: contain; background: white; padding: 4px; box-shadow: var(--shadow-sm); border: 1px solid var(--glass-border);" onerror="this.style.display='none'">
+              <span style="font-size: 0.65rem; font-weight: 500;">Itaú</span>
+            </a>
+            
+            <a href="#" onclick="if(/Android|iPhone|iPad|iPod/.test(navigator.userAgent)) { this.href='bradesco://'; } else { alert('Acesse do seu celular para abrir o app do Bradesco.'); return false; }" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-primary); gap: 4px;">
+              <img src="https://logodownload.org/wp-content/uploads/2014/05/bradesco-logo-1.png" alt="Bradesco" style="width: 36px; height: 36px; border-radius: 10px; object-fit: contain; background: white; padding: 4px; box-shadow: var(--shadow-sm); border: 1px solid var(--glass-border);" onerror="this.style.display='none'">
+              <span style="font-size: 0.65rem; font-weight: 500;">Bradesco</span>
+            </a>
+            
+            <a href="#" onclick="if(/Android|iPhone|iPad|iPod/.test(navigator.userAgent)) { this.href='bancodobrasil://'; } else { alert('Acesse do seu celular para abrir o app do BB.'); return false; }" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-primary); gap: 4px;">
+              <img src="https://logodownload.org/wp-content/uploads/2014/05/banco-do-brasil-logo-0.png" alt="BB" style="width: 36px; height: 36px; border-radius: 10px; object-fit: contain; background: white; padding: 4px; box-shadow: var(--shadow-sm); border: 1px solid var(--glass-border);" onerror="this.style.display='none'">
+              <span style="font-size: 0.65rem; font-weight: 500;">BB</span>
+            </a>
+            
+            <a href="#" onclick="if(/Android|iPhone|iPad|iPod/.test(navigator.userAgent)) { this.href='santander://'; } else { alert('Acesse do seu celular para abrir o app do Santander.'); return false; }" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-primary); gap: 4px;">
+              <img src="https://logodownload.org/wp-content/uploads/2014/05/santander-logo-1.png" alt="Santander" style="width: 36px; height: 36px; border-radius: 10px; object-fit: contain; background: white; padding: 4px; box-shadow: var(--shadow-sm); border: 1px solid var(--glass-border);" onerror="this.style.display='none'">
+              <span style="font-size: 0.65rem; font-weight: 500;">Santander</span>
+            </a>
+
+          </div>
+        </div>
+
         <!-- Botões -->
         <div class="pix-modal-btns">
           <button id="btn-copy-pix" class="btn btn-gold btn-lg">
