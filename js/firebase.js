@@ -60,7 +60,7 @@ async function cloudSave(repoKey, dataObj) {
  */
 async function initFirebase() {
   try {
-    const { firebaseConfig } = await import('../firebase/firebase-config.js');
+    const { firebaseConfig } = await import('./firebase/firebase-config.js');
 
     if (!firebaseConfig || !firebaseConfig.apiKey || firebaseConfig.apiKey === 'YOUR_API_KEY') {
       console.info('[Cloud Sync] Conectado ao Repositório em Nuvem (Sincronização Global Ativa).');
@@ -438,3 +438,4 @@ async function deletePix(indexOrId) {
   }
   return list;
 }
+
