@@ -301,16 +301,26 @@ function renderConvidados(list) {
     document.getElementById('stat-guests').textContent = '0';
     return;
   }
-  const totalAdults = list.reduce(function(s,g){ return s + (parseInt(g.adults||g.adultos)||1); }, 0);
-  const totalKids   = list.reduce(function(s,g){ return s + (parseInt(g.children||g.criancas)||0); }, 0);
+  const totalAdults = list.reduce(function(s,g){ return s + (parseInt(g.adults||g.adultos||g.adultsCount)||1); }, 0);
+  const totalKids   = list.reduce(function(s,g){ return s + (parseInt(g.children||g.criancas||g.childrenCount)||0); }, 0);
   document.getElementById('stat-guests').textContent = list.length;
   document.getElementById('stat-guests-sub').textContent = totalAdults + ' adultos + ' + totalKids + ' crianças';
   tbody.innerHTML = list.slice().reverse().map(function(g, i) {
-    var d = g.date || g.data ? new Date(g.date||g.data).toLocaleDateString('pt-BR') : '—';
+    var d = g.date || g.data || g.timestamp ? new Date(g.date||g.data||g.timestamp).toLocaleDateString('pt-BR') : '—';
+    var nome = g.name || g.nome || g.fullName || '—';
+    
+    var detalhes = '';
+    if (g.adultNames && g.adultNames.length > 0) {
+      detalhes += '<br><span style="font-size:0.75rem;color:#aaa;">Adultos: ' + g.adultNames.join(', ') + '</span>';
+    }
+    if (g.childNames && g.childNames.length > 0) {
+      detalhes += '<br><span style="font-size:0.75rem;color:#aaa;">Crianças: ' + g.childNames.join(', ') + '</span>';
+    }
+
     return '<tr><td style="color:rgba(255,255,255,0.4);">' + (list.length - i) + '</td>' +
-      '<td><strong>' + (g.name||g.nome||'—') + '</strong></td>' +
-      '<td>' + (g.adults||g.adultos||1) + '</td>' +
-      '<td>' + (g.children||g.criancas||0) + '</td>' +
+      '<td><strong>' + nome + '</strong>' + detalhes + '</td>' +
+      '<td>' + (g.adults||g.adultos||g.adultsCount||1) + '</td>' +
+      '<td>' + (g.children||g.criancas||g.childrenCount||0) + '</td>' +
       '<td style="color:rgba(255,255,255,0.5);font-size:0.8rem;">' + d + '</td></tr>';
   }).join('');
 }
