@@ -346,6 +346,18 @@ async function saveHoneymoonSettings(settings) {
 // ===== PIX =====
 
 async function getPix() {
+  if (firebaseReady && db) {
+    try {
+      const { collection, getDocs } = window._fsLib;
+      const snap = await getDocs(collection(db, 'pix'));
+      const items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      Storage.set('wedding_pix', items);
+      return items;
+    } catch (e) {
+      console.warn('[Firebase] Fallback getPix.', e.message);
+    }
+  }
+
   const remote = await cloudGet('pix');
   const local = Storage.get('wedding_pix', []);
   
@@ -368,10 +380,52 @@ async function getPix() {
   return local;
 }
 
-async function deletePix(index) {
+async function savePix(nome, valor) {
+  const data = { nome, valor: parseFloat(valor.replace(',', '.')), data: new Date().toISOString() };
+  
+  if (firebaseReady && db) {
+    try {
+      const { collection, addDoc } = window._fsLib;
+      const docRef = await addDoc(collection(db, 'pix'), data);
+      data.id = docRef.id;
+      const cached = Storage.get('wedding_pix', []);
+      Storage.set('wedding_pix', [...cached, data]);
+      return data;
+    } catch(e) {
+      console.warn('[Firebase] Falha ao salvar PIX', e);
+    }
+  }
+  
+  const local = Storage.get('wedding_pix', []);
+  local.push(data);
+  Storage.set('wedding_pix', local);
+  
+  cloudGet('pix').then(remoteList => {
+    const combined = remoteList ? [...remoteList, data] : local;
+    cloudSave('pix', combined);
+  });
+  return data;
+}
+
+async function deletePix(indexOrId) {
+  if (firebaseReady && db && typeof indexOrId === 'string') {
+    try {
+      const { doc, deleteDoc } = window._fsLib;
+      await deleteDoc(doc(db, 'pix', indexOrId));
+      let list = Storage.get('wedding_pix', []).filter(p => p.id !== indexOrId);
+      Storage.set('wedding_pix', list);
+      return list;
+    } catch(e) {
+      console.warn('[Firebase] Falha ao deletar PIX', e);
+    }
+  }
+
   let list = await getPix();
-  if (index >= 0 && index < list.length) {
-    list.splice(index, 1);
+  if (typeof indexOrId === 'number' && indexOrId >= 0 && indexOrId < list.length) {
+    list.splice(indexOrId, 1);
+    await cloudSave('pix', list);
+  } else if (typeof indexOrId === 'string') {
+    list = list.filter(p => p.id !== indexOrId);
     await cloudSave('pix', list);
   }
   return list;
