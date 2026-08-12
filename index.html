@@ -530,84 +530,110 @@
 
   <!-- ===== MODAL PIX ===== -->
   <div class="modal-overlay" id="modal-pix">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-pix-title">
-      <div class="modal-header">
-        <h2 class="modal-title" id="modal-pix-title">Ajude nossa Lua de Mel <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin:0 3px;color:#e85d75;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>️</h2>
-        <p class="modal-subtitle">Qualquer valor será recebido com muito carinho</p>
-        <button class="modal-close" aria-label="Fechar">✕</button>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-pix-title" style="max-width: 480px; overflow: hidden; padding: 0; border-radius: 20px;">
+
+      <!-- Cabeçalho roxo estilo Nubank -->
+      <div style="background: linear-gradient(135deg, #8A05BE, #6B01A0); padding: 1.5rem 1.5rem 1rem; position: relative; text-align: center;">
+        <button class="modal-close" aria-label="Fechar" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,0.15);color:white;border:none;width:32px;height:32px;border-radius:50%;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+        <div style="font-size:2rem;margin-bottom:0.4rem;">💍</div>
+        <h2 style="color:white;font-size:1.05rem;font-weight:700;margin:0 0 0.25rem;">Ajude nossa Lua de Mel</h2>
+        <p style="color:rgba(255,255,255,0.8);font-size:0.82rem;margin:0;">Qualquer valor é recebido com muito carinho</p>
       </div>
-      <div class="modal-body" style="text-align: center;">
-        <p class="pix-desc">
-          Se desejar nos presentear de outra forma, você pode contribuir através do PIX.
-          Qualquer valor será recebido com muito carinho. <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="display:inline-block;vertical-align:middle;margin:0 3px;color:#e85d75;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        </p>
 
-        <!-- QR Code -->
-        <div class="pix-qr-wrapper">
-          <a href="https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;">
-            <img id="pix-qrcode" src="https://api.qrserver.com/v1/create-qr-code/?data=https%3A%2F%2Fnubank.com.br%2Fcobrar%2Fidzkk%2F6a7c6278-eec8-4e51-ac79-a5c0a5244f03&size=260x260&margin=10&color=0-0-0&bgcolor=255-255-255&ecc=M" alt="QR Code PIX Oficial Nubank" width="240" height="240" style="border-radius: 12px; border: 2px solid rgba(130,0,220,0.25);" />
-            <p style="font-size:0.68rem;color:var(--text-muted);margin-top:5px;">Ou toque para abrir o link de pagamento</p>
-          </a>
-        </div>
+      <!-- Corpo — estilo Nubank -->
+      <div class="modal-body" style="text-align:center; padding: 0; background: white;">
 
-        <!-- Chave PIX -->
-        <div class="pix-key-box">
-          <div class="pix-key-label">Chave PIX (Telefone)</div>
-          <div class="pix-key-value" id="pix-key-display">38991621135</div>
-        </div>
-
-        <!-- Bancos Quick Links (Mobile) -->
-        <div class="pix-banks-quick-links" style="margin: 1.25rem 0;">
-          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">Abrir direto no App do Banco</p>
-          <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-            
-            <a href="https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03" target="_blank" rel="noopener noreferrer" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-primary); gap: 4px;" title="Pagar pelo Nubank (funciona em qualquer banco)">
-              <img src="https://logodownload.org/wp-content/uploads/2019/08/nubank-logo-3.png" alt="Nubank" style="width: 36px; height: 36px; border-radius: 10px; object-fit: contain; background: white; padding: 4px; box-shadow: var(--shadow-sm); border: 1px solid var(--glass-border);" onerror="this.style.display='none'">
-              <span style="font-size: 0.65rem; font-weight: 500;">Nubank</span>
-            </a>
-            
-            <a href="https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03" target="_blank" rel="noopener noreferrer" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-primary); gap: 4px;" title="PicPay — escanear o QR Code acima">
-              <img src="https://logodownload.org/wp-content/uploads/2018/01/picpay-logo-1.png" alt="PicPay" style="width: 36px; height: 36px; border-radius: 10px; object-fit: contain; background: #21C25E; padding: 4px; box-shadow: var(--shadow-sm); border: 1px solid var(--glass-border);" onerror="this.style.display='none'">
-              <span style="font-size: 0.65rem; font-weight: 500;">PicPay</span>
-            </a>
-            
-            <a href="#" onclick="if(/Android|iPhone|iPad|iPod/.test(navigator.userAgent)) { this.href='itau://'; setTimeout(function(){ window.location.href='https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03'; },1500); } else { window.open('https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03','_blank'); } return false;" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-primary); gap: 4px;" title="Abrir Itaú — use a chave PIX ou escaneie o QR">
-              <img src="https://logodownload.org/wp-content/uploads/2014/05/itau-logo-1.png" alt="Itaú" style="width: 36px; height: 36px; border-radius: 10px; object-fit: contain; background: white; padding: 4px; box-shadow: var(--shadow-sm); border: 1px solid var(--glass-border);" onerror="this.style.display='none'">
-              <span style="font-size: 0.65rem; font-weight: 500;">Itaú</span>
-            </a>
-            
-            <a href="#" onclick="if(/Android|iPhone|iPad|iPod/.test(navigator.userAgent)) { this.href='bradesco://'; setTimeout(function(){ window.location.href='https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03'; },1500); } else { window.open('https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03','_blank'); } return false;" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-primary); gap: 4px;" title="Abrir Bradesco">
-              <img src="https://logodownload.org/wp-content/uploads/2014/05/bradesco-logo-1.png" alt="Bradesco" style="width: 36px; height: 36px; border-radius: 10px; object-fit: contain; background: white; padding: 4px; box-shadow: var(--shadow-sm); border: 1px solid var(--glass-border);" onerror="this.style.display='none'">
-              <span style="font-size: 0.65rem; font-weight: 500;">Bradesco</span>
-            </a>
-            
-            <a href="#" onclick="if(/Android|iPhone|iPad|iPod/.test(navigator.userAgent)) { this.href='bancodobrasil://'; setTimeout(function(){ window.location.href='https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03'; },1500); } else { window.open('https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03','_blank'); } return false;" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-primary); gap: 4px;" title="Banco do Brasil">
-              <img src="https://logodownload.org/wp-content/uploads/2014/05/banco-do-brasil-logo-0.png" alt="BB" style="width: 36px; height: 36px; border-radius: 10px; object-fit: contain; background: white; padding: 4px; box-shadow: var(--shadow-sm); border: 1px solid var(--glass-border);" onerror="this.style.display='none'">
-              <span style="font-size: 0.65rem; font-weight: 500;">BB</span>
-            </a>
-            
-            <a href="#" onclick="if(/Android|iPhone|iPad|iPod/.test(navigator.userAgent)) { this.href='santander://'; setTimeout(function(){ window.location.href='https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03'; },1500); } else { window.open('https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03','_blank'); } return false;" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-primary); gap: 4px;" title="Santander">
-              <img src="https://logodownload.org/wp-content/uploads/2014/05/santander-logo-1.png" alt="Santander" style="width: 36px; height: 36px; border-radius: 10px; object-fit: contain; background: white; padding: 4px; box-shadow: var(--shadow-sm); border: 1px solid var(--glass-border);" onerror="this.style.display='none'">
-              <span style="font-size: 0.65rem; font-weight: 500;">Santander</span>
-            </a>
-
+        <!-- Bloco roxo do QR -->
+        <div style="background: #8A05BE; padding: 1.5rem 1.5rem 1.75rem; display:flex; flex-direction:column; align-items:center;">
+          <p style="color:white; font-weight:700; font-size:1rem; margin:0 0 0.35rem;">Use o QR Code do Pix para pagar</p>
+          <p style="color:rgba(255,255,255,0.8); font-size:0.78rem; margin:0 0 1rem; max-width:280px; line-height:1.4;">Abra o app em que vai fazer a transferência, escaneie a imagem ou cole o código do QR Code</p>
+          
+          <!-- QR Code gerado a partir do código EMV oficial -->
+          <div style="background:white; border-radius: 16px; padding: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.25);">
+            <img 
+              src="https://api.qrserver.com/v1/create-qr-code/?data=00020126360014BR.GOV.BCB.PIX0114%2B55389916211355204000053039865802BR5925Gabriel%20de%20Menezes%20Cardos6009SAO%20PAULO6214051025QNcP26CF6304C4BF&size=220x220&margin=6&color=0-0-0&bgcolor=255-255-255&ecc=M"
+              alt="QR Code PIX — Gabriel de Menezes Cardoso"
+              width="220" height="220"
+              style="display:block; border-radius:8px;"
+            />
           </div>
+
+          <!-- Botão copiar código QR — roxo claro estilo Nubank -->
+          <button id="btn-copy-pix-code" onclick="
+            navigator.clipboard.writeText('00020126360014BR.GOV.BCB.PIX0114+55389916211355204000053039865802BR5925Gabriel de Menezes Cardos6009SAO PAULO6214051025QNcP26CF6304C4BF').then(function(){
+              var b = document.getElementById('btn-copy-pix-code');
+              b.textContent = '✅ Código Copiado!';
+              setTimeout(function(){ b.innerHTML = '📋 Copiar código do QR Code'; }, 3000);
+            });
+          " style="margin-top:1.1rem; background:white; color:#8A05BE; border:none; border-radius:12px; padding:0.85rem 1.75rem; font-size:0.9rem; font-weight:700; cursor:pointer; width:100%; max-width:300px; text-transform:uppercase; letter-spacing:0.5px; transition:opacity 0.2s;">
+            📋 Copiar código do QR Code
+          </button>
         </div>
 
-        <!-- Botões -->
-        <div class="pix-modal-btns">
-          <button id="btn-copy-pix" class="btn btn-gold btn-lg">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:6px;"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg> Copiar Chave PIX
-          </button>
-          <button id="btn-pix-card" class="btn btn-outline btn-lg">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:6px;"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Pagar com Cartão
-          </button>
-          <a id="pix-infinitepay-link" href="#" target="_blank" rel="noopener noreferrer"
-             class="btn btn-glass btn-lg" style="background: #6c5ce7; color: white; border: none; justify-content: center; display: flex;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:6px;"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Acessar Link InfinitePay
-          </a>
+        <!-- Dados PIX e bancos — fundo branco -->
+        <div style="padding: 1.25rem 1.5rem 1.5rem;">
+          <p style="font-size:0.82rem; color:#666; margin:0 0 0.75rem;">Ou use <strong>a chave Pix</strong></p>
+
+          <!-- Box da chave -->
+          <div style="background:#F5F5F5; border-radius:12px; padding:0.85rem 1rem; margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center;">
+            <div style="text-align:left;">
+              <p style="font-size:0.72rem; color:#888; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">Chave Pix</p>
+              <p style="font-size:0.95rem; color:#8A05BE; font-weight:700; margin:0;">(38) 99162-1135</p>
+            </div>
+            <button onclick="navigator.clipboard.writeText('38991621135').then(function(){ var t=event.target; t.textContent='✅'; setTimeout(function(){ t.textContent='📋'; },2000); });" style="background:#8A05BE; color:white; border:none; border-radius:8px; padding:0.4rem 0.75rem; cursor:pointer; font-size:0.85rem;">📋</button>
+          </div>
+
+          <!-- Titular -->
+          <div style="background:#F5F5F5; border-radius:12px; padding:0.85rem 1rem; margin-bottom:1.25rem; text-align:left;">
+            <p style="font-size:0.72rem; color:#888; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">Nome</p>
+            <p style="font-size:0.95rem; color:#333; font-weight:600; margin:0;">Gabriel de Menezes Cardoso</p>
+          </div>
+
+          <!-- Bancos Quick Links -->
+          <p style="font-size:0.75rem; color:#888; margin:0 0 0.75rem; text-transform:uppercase; letter-spacing:1px; font-weight:600;">Abrir direto no App do Banco</p>
+          <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:0.5rem;">
+            
+            <a href="https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03" target="_blank" rel="noopener noreferrer" style="display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#333;gap:4px;">
+              <img src="https://logodownload.org/wp-content/uploads/2019/08/nubank-logo-3.png" alt="Nubank" style="width:38px;height:38px;border-radius:10px;object-fit:contain;background:white;padding:4px;box-shadow:0 2px 8px rgba(0,0,0,0.1);border:1px solid #eee;" onerror="this.style.display='none'">
+              <span style="font-size:0.65rem;font-weight:600;">Nubank</span>
+            </a>
+
+            <a href="https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03" target="_blank" rel="noopener noreferrer" style="display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#333;gap:4px;">
+              <img src="https://logodownload.org/wp-content/uploads/2018/01/picpay-logo-1.png" alt="PicPay" style="width:38px;height:38px;border-radius:10px;object-fit:contain;background:#21C25E;padding:4px;box-shadow:0 2px 8px rgba(0,0,0,0.1);border:1px solid #eee;" onerror="this.style.display='none'">
+              <span style="font-size:0.65rem;font-weight:600;">PicPay</span>
+            </a>
+
+            <a href="#" onclick="if(/Android|iPhone|iPad|iPod/.test(navigator.userAgent)){this.href='itau://';}else{window.open('https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03','_blank');return false;}" style="display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#333;gap:4px;">
+              <img src="https://logodownload.org/wp-content/uploads/2014/05/itau-logo-1.png" alt="Itaú" style="width:38px;height:38px;border-radius:10px;object-fit:contain;background:white;padding:4px;box-shadow:0 2px 8px rgba(0,0,0,0.1);border:1px solid #eee;" onerror="this.style.display='none'">
+              <span style="font-size:0.65rem;font-weight:600;">Itaú</span>
+            </a>
+
+            <a href="#" onclick="if(/Android|iPhone|iPad|iPod/.test(navigator.userAgent)){this.href='bradesco://';}else{window.open('https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03','_blank');return false;}" style="display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#333;gap:4px;">
+              <img src="https://logodownload.org/wp-content/uploads/2014/05/bradesco-logo-1.png" alt="Bradesco" style="width:38px;height:38px;border-radius:10px;object-fit:contain;background:white;padding:4px;box-shadow:0 2px 8px rgba(0,0,0,0.1);border:1px solid #eee;" onerror="this.style.display='none'">
+              <span style="font-size:0.65rem;font-weight:600;">Bradesco</span>
+            </a>
+
+            <a href="#" onclick="if(/Android|iPhone|iPad|iPod/.test(navigator.userAgent)){this.href='bancodobrasil://';}else{window.open('https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03','_blank');return false;}" style="display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#333;gap:4px;">
+              <img src="https://logodownload.org/wp-content/uploads/2014/05/banco-do-brasil-logo-0.png" alt="BB" style="width:38px;height:38px;border-radius:10px;object-fit:contain;background:white;padding:4px;box-shadow:0 2px 8px rgba(0,0,0,0.1);border:1px solid #eee;" onerror="this.style.display='none'">
+              <span style="font-size:0.65rem;font-weight:600;">BB</span>
+            </a>
+
+            <a href="#" onclick="if(/Android|iPhone|iPad|iPod/.test(navigator.userAgent)){this.href='santander://';}else{window.open('https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03','_blank');return false;}" style="display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#333;gap:4px;">
+              <img src="https://logodownload.org/wp-content/uploads/2014/05/santander-logo-1.png" alt="Santander" style="width:38px;height:38px;border-radius:10px;object-fit:contain;background:white;padding:4px;box-shadow:0 2px 8px rgba(0,0,0,0.1);border:1px solid #eee;" onerror="this.style.display='none'">
+              <span style="font-size:0.65rem;font-weight:600;">Santander</span>
+            </a>
+          </div>
+
+          <p style="font-size:0.72rem;color:#aaa;margin-top:1rem;line-height:1.5;">
+            Após pagar, fale com os noivos no 
+            <a href="https://wa.me/5538991621135" target="_blank" style="color:#8A05BE;font-weight:600;">WhatsApp</a> 
+            e envie o comprovante. 💍
+          </p>
         </div>
       </div>
+    </div>
+  </div>
+
     </div>
   </div>
 
@@ -690,5 +716,6 @@
   </script>
 </body>
 </html>
+
 
 
