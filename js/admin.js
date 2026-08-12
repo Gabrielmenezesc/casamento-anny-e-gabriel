@@ -2,7 +2,7 @@
 // ADMIN.JS - Painel Administrativo (Atualizado)
 // ===================================================
 
-const ADMIN_PASSWORD = 'adm2027';
+const ADMIN_PASSWORD = 'Anny27';
 
 let adminLoggedIn = false;
 let currentAdminPanel = 'dashboard';
