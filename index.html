@@ -527,118 +527,163 @@
     <p>25 de Abril de 2027 • Espaço Villa Rose • Samambaia Sul, Brasília - DF</p>
     <p style="margin-top: 0.5rem; opacity: 0.5; font-size: 0.75rem;">Feito com <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin:0 3px;color:#e85d75;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> especialmente para nós</p>
   </footer>
-
-  <!-- ===== MODAL PIX ===== -->
+  <!-- ===== MODAL PIX 3 ETAPAS ===== -->
   <div class="modal-overlay" id="modal-pix">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-pix-title" style="max-width: 480px; overflow: hidden; padding: 0; border-radius: 20px;">
+    <div class="modal" role="dialog" aria-modal="true" style="max-width:460px;overflow:hidden;padding:0;border-radius:20px;background:white;max-height:90vh;overflow-y:auto;">
 
-      <!-- Cabeçalho roxo estilo Nubank -->
-      <div style="background: linear-gradient(135deg, #8A05BE, #6B01A0); padding: 1.5rem 1.5rem 1rem; position: relative; text-align: center;">
-        <button class="modal-close" aria-label="Fechar" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,0.15);color:white;border:none;width:32px;height:32px;border-radius:50%;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
-        <div style="font-size:2rem;margin-bottom:0.4rem;">💍</div>
-        <h2 style="color:white;font-size:1.05rem;font-weight:700;margin:0 0 0.25rem;">Ajude nossa Lua de Mel</h2>
-        <p style="color:rgba(255,255,255,0.8);font-size:0.82rem;margin:0;">Qualquer valor é recebido com muito carinho</p>
-      </div>
-
-      <!-- Corpo — estilo Nubank -->
-      <div class="modal-body" style="text-align:center; padding: 0; background: white;">
-
-        <!-- Bloco roxo do QR -->
-        <div style="background: #8A05BE; padding: 1.5rem 1.5rem 1.75rem; display:flex; flex-direction:column; align-items:center;">
-          <p style="color:white; font-weight:700; font-size:1rem; margin:0 0 0.35rem;">Use o QR Code do Pix para pagar</p>
-          <p style="color:rgba(255,255,255,0.8); font-size:0.78rem; margin:0 0 1rem; max-width:280px; line-height:1.4;">Abra o app em que vai fazer a transferência, escaneie a imagem ou cole o código do QR Code</p>
-          
-          <!-- QR Code gerado a partir do código EMV oficial -->
-          <div style="background:white; border-radius: 16px; padding: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.25);">
-            <img 
-              src="https://api.qrserver.com/v1/create-qr-code/?data=00020126360014BR.GOV.BCB.PIX0114%2B55389916211355204000053039865802BR5925Gabriel%20de%20Menezes%20Cardos6009SAO%20PAULO6214051025QNcP26CF6304C4BF&size=220x220&margin=6&color=0-0-0&bgcolor=255-255-255&ecc=M"
-              alt="QR Code PIX — Gabriel de Menezes Cardoso"
-              width="220" height="220"
-              style="display:block; border-radius:8px;"
-            />
-          </div>
-
-          <!-- Botão copiar código QR — roxo claro estilo Nubank -->
-          <button id="btn-copy-pix-code" onclick="
-            navigator.clipboard.writeText('00020126360014BR.GOV.BCB.PIX0114+55389916211355204000053039865802BR5925Gabriel de Menezes Cardos6009SAO PAULO6214051025QNcP26CF6304C4BF').then(function(){
-              var b = document.getElementById('btn-copy-pix-code');
-              b.textContent = '✅ Código Copiado!';
-              setTimeout(function(){ b.innerHTML = '📋 Copiar código do QR Code'; }, 3000);
-            });
-          " style="margin-top:1.1rem; background:white; color:#8A05BE; border:none; border-radius:12px; padding:0.85rem 1.75rem; font-size:0.9rem; font-weight:700; cursor:pointer; width:100%; max-width:300px; text-transform:uppercase; letter-spacing:0.5px; transition:opacity 0.2s;">
-            📋 Copiar código do QR Code
-          </button>
+      <!-- ETAPA 1: Nome + Valor -->
+      <div id="pix-step-1">
+        <div style="background:linear-gradient(135deg,#e85d75,#d4a843);padding:1.5rem 1.5rem 1.2rem;text-align:center;position:relative;">
+          <button class="modal-close" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,0.2);color:white;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;">x</button>
+          <div style="font-size:2rem;">RING</div>
+          <h2 style="color:white;font-size:1.1rem;font-weight:700;margin:0.3rem 0 0.2rem;">Presentear o Casal</h2>
+          <p style="color:rgba(255,255,255,0.85);font-size:0.8rem;margin:0;">Qualquer valor e recebido com muito amor</p>
         </div>
-
-        <!-- Dados PIX e bancos — fundo branco -->
-        <div style="padding: 1.25rem 1.5rem 1.5rem;">
-          <p style="font-size:0.82rem; color:#666; margin:0 0 0.75rem;">Ou use <strong>a chave Pix</strong></p>
-
-          <!-- Box da chave -->
-          <div style="background:#F5F5F5; border-radius:12px; padding:0.85rem 1rem; margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center;">
-            <div style="text-align:left;">
-              <p style="font-size:0.72rem; color:#888; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">Chave Pix</p>
-              <p style="font-size:0.95rem; color:#8A05BE; font-weight:700; margin:0;">(38) 99162-1135</p>
+        <div style="padding:1.5rem;">
+          <p style="font-size:0.82rem;color:#666;margin:0 0 1.2rem;text-align:center;">Preencha os dados para ir ao QR Code</p>
+          <div style="margin-bottom:1rem;">
+            <label style="font-size:0.75rem;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:5px;">Seu nome</label>
+            <input id="pix-sender-name" type="text" placeholder="Ex: Joao e Maria da Silva" style="width:100%;padding:0.8rem 1rem;border:2px solid #eee;border-radius:12px;font-size:0.9rem;font-family:inherit;outline:none;box-sizing:border-box;transition:border-color 0.2s;" onfocus="this.style.borderColor='#e85d75'" onblur="this.style.borderColor='#eee'"/>
+          </div>
+          <div style="margin-bottom:0.5rem;">
+            <label style="font-size:0.75rem;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:5px;">Valor que deseja enviar (R$)</label>
+            <div style="position:relative;">
+              <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-weight:700;color:#888;font-size:1rem;">R$</span>
+              <input id="pix-amount" type="number" min="1" step="any" placeholder="0,00" style="width:100%;padding:0.8rem 1rem 0.8rem 2.5rem;border:2px solid #eee;border-radius:12px;font-size:1.1rem;font-weight:700;font-family:inherit;outline:none;box-sizing:border-box;transition:border-color 0.2s;" onfocus="this.style.borderColor='#e85d75'" onblur="this.style.borderColor='#eee'"/>
             </div>
-            <button onclick="navigator.clipboard.writeText('38991621135').then(function(){ var t=event.target; t.textContent='✅'; setTimeout(function(){ t.textContent='📋'; },2000); });" style="background:#8A05BE; color:white; border:none; border-radius:8px; padding:0.4rem 0.75rem; cursor:pointer; font-size:0.85rem;">📋</button>
           </div>
-
-          <!-- Titular -->
-          <div style="background:#F5F5F5; border-radius:12px; padding:0.85rem 1rem; margin-bottom:1.25rem; text-align:left;">
-            <p style="font-size:0.72rem; color:#888; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">Nome</p>
-            <p style="font-size:0.95rem; color:#333; font-weight:600; margin:0;">Gabriel de Menezes Cardoso</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin:0.75rem 0 1.25rem;">
+            <button onclick="document.getElementById('pix-amount').value=50"  style="flex:1;min-width:55px;padding:0.5rem;background:#fff8f0;border:1.5px solid #f0c080;border-radius:8px;cursor:pointer;font-size:0.8rem;font-weight:600;color:#b07020;">R$ 50</button>
+            <button onclick="document.getElementById('pix-amount').value=100" style="flex:1;min-width:55px;padding:0.5rem;background:#fff8f0;border:1.5px solid #f0c080;border-radius:8px;cursor:pointer;font-size:0.8rem;font-weight:600;color:#b07020;">R$ 100</button>
+            <button onclick="document.getElementById('pix-amount').value=150" style="flex:1;min-width:55px;padding:0.5rem;background:#fff8f0;border:1.5px solid #f0c080;border-radius:8px;cursor:pointer;font-size:0.8rem;font-weight:600;color:#b07020;">R$ 150</button>
+            <button onclick="document.getElementById('pix-amount').value=200" style="flex:1;min-width:55px;padding:0.5rem;background:#fff8f0;border:1.5px solid #f0c080;border-radius:8px;cursor:pointer;font-size:0.8rem;font-weight:600;color:#b07020;">R$ 200</button>
+            <button onclick="document.getElementById('pix-amount').value=300" style="flex:1;min-width:55px;padding:0.5rem;background:#fff8f0;border:1.5px solid #f0c080;border-radius:8px;cursor:pointer;font-size:0.8rem;font-weight:600;color:#b07020;">R$ 300</button>
           </div>
+          <button onclick="pixGoToStep2()" style="width:100%;padding:0.9rem;background:linear-gradient(135deg,#e85d75,#d4a843);color:white;border:none;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;">Ver QR Code para Pagar</button>
+        </div>
+      </div>
 
-          <!-- Bancos Quick Links -->
-          <p style="font-size:0.75rem; color:#888; margin:0 0 0.75rem; text-transform:uppercase; letter-spacing:1px; font-weight:600;">Abrir direto no App do Banco</p>
-          <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:0.5rem;">
-            
-            <a href="https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03" target="_blank" rel="noopener noreferrer" style="display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#333;gap:4px;">
-              <img src="https://logodownload.org/wp-content/uploads/2019/08/nubank-logo-3.png" alt="Nubank" style="width:38px;height:38px;border-radius:10px;object-fit:contain;background:white;padding:4px;box-shadow:0 2px 8px rgba(0,0,0,0.1);border:1px solid #eee;" onerror="this.style.display='none'">
-              <span style="font-size:0.65rem;font-weight:600;">Nubank</span>
-            </a>
-
-            <a href="https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03" target="_blank" rel="noopener noreferrer" style="display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#333;gap:4px;">
-              <img src="https://logodownload.org/wp-content/uploads/2018/01/picpay-logo-1.png" alt="PicPay" style="width:38px;height:38px;border-radius:10px;object-fit:contain;background:#21C25E;padding:4px;box-shadow:0 2px 8px rgba(0,0,0,0.1);border:1px solid #eee;" onerror="this.style.display='none'">
-              <span style="font-size:0.65rem;font-weight:600;">PicPay</span>
-            </a>
-
-            <a href="#" onclick="if(/Android|iPhone|iPad|iPod/.test(navigator.userAgent)){this.href='itau://';}else{window.open('https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03','_blank');return false;}" style="display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#333;gap:4px;">
-              <img src="https://logodownload.org/wp-content/uploads/2014/05/itau-logo-1.png" alt="Itaú" style="width:38px;height:38px;border-radius:10px;object-fit:contain;background:white;padding:4px;box-shadow:0 2px 8px rgba(0,0,0,0.1);border:1px solid #eee;" onerror="this.style.display='none'">
-              <span style="font-size:0.65rem;font-weight:600;">Itaú</span>
-            </a>
-
-            <a href="#" onclick="if(/Android|iPhone|iPad|iPod/.test(navigator.userAgent)){this.href='bradesco://';}else{window.open('https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03','_blank');return false;}" style="display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#333;gap:4px;">
-              <img src="https://logodownload.org/wp-content/uploads/2014/05/bradesco-logo-1.png" alt="Bradesco" style="width:38px;height:38px;border-radius:10px;object-fit:contain;background:white;padding:4px;box-shadow:0 2px 8px rgba(0,0,0,0.1);border:1px solid #eee;" onerror="this.style.display='none'">
-              <span style="font-size:0.65rem;font-weight:600;">Bradesco</span>
-            </a>
-
-            <a href="#" onclick="if(/Android|iPhone|iPad|iPod/.test(navigator.userAgent)){this.href='bancodobrasil://';}else{window.open('https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03','_blank');return false;}" style="display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#333;gap:4px;">
-              <img src="https://logodownload.org/wp-content/uploads/2014/05/banco-do-brasil-logo-0.png" alt="BB" style="width:38px;height:38px;border-radius:10px;object-fit:contain;background:white;padding:4px;box-shadow:0 2px 8px rgba(0,0,0,0.1);border:1px solid #eee;" onerror="this.style.display='none'">
-              <span style="font-size:0.65rem;font-weight:600;">BB</span>
-            </a>
-
-            <a href="#" onclick="if(/Android|iPhone|iPad|iPod/.test(navigator.userAgent)){this.href='santander://';}else{window.open('https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03','_blank');return false;}" style="display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#333;gap:4px;">
-              <img src="https://logodownload.org/wp-content/uploads/2014/05/santander-logo-1.png" alt="Santander" style="width:38px;height:38px;border-radius:10px;object-fit:contain;background:white;padding:4px;box-shadow:0 2px 8px rgba(0,0,0,0.1);border:1px solid #eee;" onerror="this.style.display='none'">
-              <span style="font-size:0.65rem;font-weight:600;">Santander</span>
-            </a>
+      <!-- ETAPA 2: QR Code -->
+      <div id="pix-step-2" style="display:none;">
+        <div style="background:linear-gradient(135deg,#8A05BE,#6B01A0);padding:1.25rem 1.5rem 0.85rem;text-align:center;position:relative;">
+          <button onclick="pixGoBack()" style="position:absolute;top:50%;left:1rem;transform:translateY(-50%);background:rgba(255,255,255,0.15);color:white;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:0.9rem;">x</button>
+          <button class="modal-close" style="position:absolute;top:50%;right:1rem;transform:translateY(-50%);background:rgba(255,255,255,0.15);color:white;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;">x</button>
+          <div id="pix-preview-name" style="color:rgba(255,255,255,0.85);font-size:0.82rem;"></div>
+          <div id="pix-preview-value" style="color:white;font-size:1.6rem;font-weight:800;margin:0.2rem 0;"></div>
+          <div style="color:rgba(255,255,255,0.7);font-size:0.75rem;">para Laoanny e Gabriel</div>
+        </div>
+        <div style="background:#8A05BE;padding:1.25rem 1.5rem 1.5rem;display:flex;flex-direction:column;align-items:center;">
+          <p style="color:white;font-weight:700;font-size:0.9rem;margin:0 0 0.25rem;">Use o QR Code do Pix para pagar</p>
+          <p style="color:rgba(255,255,255,0.8);font-size:0.75rem;margin:0 0 0.9rem;max-width:260px;line-height:1.4;">Escaneie com o app do seu banco ou copie o codigo</p>
+          <div style="background:white;border-radius:14px;padding:8px;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?data=00020126360014BR.GOV.BCB.PIX0114%2B55389916211355204000053039865802BR5925Gabriel%20de%20Menezes%20Cardos6009SAO%20PAULO6214051025QNcP26CF6304C4BF&size=210x210&margin=6&color=0-0-0&bgcolor=255-255-255&ecc=M" alt="QR Code PIX" width="210" height="210" style="display:block;border-radius:8px;"/>
           </div>
+          <button id="btn-pix-copy-main" onclick="pixCopyCode()" style="margin-top:0.9rem;background:white;color:#8A05BE;border:none;border-radius:12px;padding:0.75rem 1.5rem;font-size:0.85rem;font-weight:700;cursor:pointer;width:100%;max-width:280px;text-transform:uppercase;letter-spacing:0.5px;">Copiar codigo do QR Code</button>
+        </div>
+        <div style="background:white;padding:1rem 1.5rem 0.75rem;">
+          <div style="display:flex;justify-content:space-between;align-items:center;background:#F5F5F5;border-radius:12px;padding:0.75rem 1rem;margin-bottom:0.75rem;">
+            <div><p style="font-size:0.68rem;color:#888;margin:0 0 2px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Chave Pix</p><p style="font-size:0.92rem;color:#8A05BE;font-weight:700;margin:0;">(38) 99162-1135</p></div>
+            <button onclick="navigator.clipboard.writeText('38991621135').then(function(){event.target.textContent='OK';setTimeout(function(){event.target.textContent='Copiar';},2000);})" style="background:#8A05BE;color:white;border:none;border-radius:8px;padding:0.4rem 0.7rem;cursor:pointer;font-size:0.78rem;">Copiar</button>
+          </div>
+          <p style="font-size:0.7rem;color:#888;margin:0 0 0.6rem;text-transform:uppercase;letter-spacing:1px;font-weight:600;text-align:center;">Abrir no app do banco</p>
+          <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:0.85rem;">
+            <a href="https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03" target="_blank" rel="noopener noreferrer" style="display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#333;gap:3px;"><img src="https://logodownload.org/wp-content/uploads/2019/08/nubank-logo-3.png" alt="Nubank" style="width:34px;height:34px;border-radius:8px;object-fit:contain;background:white;padding:3px;box-shadow:0 2px 6px rgba(0,0,0,0.1);border:1px solid #eee;" onerror="this.style.display='none'"><span style="font-size:0.6rem;font-weight:600;">Nubank</span></a>
+            <a href="https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03" target="_blank" rel="noopener noreferrer" style="display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#333;gap:3px;"><img src="https://logodownload.org/wp-content/uploads/2018/01/picpay-logo-1.png" alt="PicPay" style="width:34px;height:34px;border-radius:8px;object-fit:contain;background:#21C25E;padding:3px;box-shadow:0 2px 6px rgba(0,0,0,0.1);border:1px solid #eee;" onerror="this.style.display='none'"><span style="font-size:0.6rem;font-weight:600;">PicPay</span></a>
+            <a href="#" onclick="if(/Android|iPhone|iPad|iPod/.test(navigator.userAgent)){this.href='itau://';}else{window.open('https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03','_blank');return false;}" style="display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#333;gap:3px;"><img src="https://logodownload.org/wp-content/uploads/2014/05/itau-logo-1.png" alt="Itau" style="width:34px;height:34px;border-radius:8px;object-fit:contain;background:white;padding:3px;box-shadow:0 2px 6px rgba(0,0,0,0.1);border:1px solid #eee;" onerror="this.style.display='none'"><span style="font-size:0.6rem;font-weight:600;">Itau</span></a>
+            <a href="#" onclick="if(/Android|iPhone|iPad|iPod/.test(navigator.userAgent)){this.href='bradesco://';}else{window.open('https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03','_blank');return false;}" style="display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#333;gap:3px;"><img src="https://logodownload.org/wp-content/uploads/2014/05/bradesco-logo-1.png" alt="Bradesco" style="width:34px;height:34px;border-radius:8px;object-fit:contain;background:white;padding:3px;box-shadow:0 2px 6px rgba(0,0,0,0.1);border:1px solid #eee;" onerror="this.style.display='none'"><span style="font-size:0.6rem;font-weight:600;">Bradesco</span></a>
+            <a href="#" onclick="if(/Android|iPhone|iPad|iPod/.test(navigator.userAgent)){this.href='bancodobrasil://';}else{window.open('https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03','_blank');return false;}" style="display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#333;gap:3px;"><img src="https://logodownload.org/wp-content/uploads/2014/05/banco-do-brasil-logo-0.png" alt="BB" style="width:34px;height:34px;border-radius:8px;object-fit:contain;background:white;padding:3px;box-shadow:0 2px 6px rgba(0,0,0,0.1);border:1px solid #eee;" onerror="this.style.display='none'"><span style="font-size:0.6rem;font-weight:600;">BB</span></a>
+            <a href="#" onclick="if(/Android|iPhone|iPad|iPod/.test(navigator.userAgent)){this.href='santander://';}else{window.open('https://nubank.com.br/cobrar/idzkk/6a7c6278-eec8-4e51-ac79-a5c0a5244f03','_blank');return false;}" style="display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#333;gap:3px;"><img src="https://logodownload.org/wp-content/uploads/2014/05/santander-logo-1.png" alt="Santander" style="width:34px;height:34px;border-radius:8px;object-fit:contain;background:white;padding:3px;box-shadow:0 2px 6px rgba(0,0,0,0.1);border:1px solid #eee;" onerror="this.style.display='none'"><span style="font-size:0.6rem;font-weight:600;">Santander</span></a>
+          </div>
+          <button onclick="pixGoToStep3()" style="width:100%;padding:0.9rem;background:linear-gradient(135deg,#25D366,#128C7E);color:white;border:none;border-radius:14px;font-size:0.95rem;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:0.5rem;">Ja paguei - Avisar os Noivos</button>
+        </div>
+      </div>
 
-          <p style="font-size:0.72rem;color:#aaa;margin-top:1rem;line-height:1.5;">
-            Após pagar, fale com os noivos no 
-            <a href="https://wa.me/5538991621135" target="_blank" style="color:#8A05BE;font-weight:600;">WhatsApp</a> 
-            e envie o comprovante. 💍
-          </p>
+      <!-- ETAPA 3: Confirmacao + WhatsApp -->
+      <div id="pix-step-3" style="display:none;">
+        <div style="background:linear-gradient(135deg,#25D366,#128C7E);padding:1.5rem 1.5rem 1.2rem;text-align:center;position:relative;">
+          <button class="modal-close" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,0.2);color:white;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;">x</button>
+          <div style="font-size:2.5rem;margin-bottom:0.4rem;">PARTY</div>
+          <h2 style="color:white;font-size:1.1rem;font-weight:700;margin:0 0 0.2rem;">Obrigado pelo PIX!</h2>
+          <p style="color:rgba(255,255,255,0.9);font-size:0.82rem;margin:0;">Agora avise os noivos via WhatsApp</p>
+        </div>
+        <div style="padding:1.5rem;">
+          <div id="pix-confirm-summary" style="background:#f0fdf4;border:1.5px solid #22c55e;border-radius:14px;padding:1rem 1.2rem;margin-bottom:1.2rem;text-align:left;"></div>
+          <a id="pix-wa-link" href="#" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:0.9rem;background:linear-gradient(135deg,#25D366,#128C7E);color:white;border:none;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;text-decoration:none;box-sizing:border-box;margin-bottom:0.85rem;">
+            Compartilhar comprovante no WhatsApp
+          </a>
+          <button class="modal-close" style="width:100%;padding:0.75rem;background:#f5f5f5;color:#666;border:none;border-radius:12px;font-size:0.9rem;font-weight:600;cursor:pointer;font-family:inherit;">Fechar</button>
         </div>
       </div>
     </div>
   </div>
 
-    </div>
-  </div>
+  <script>
+  (function() {
+    var PIX_EMV = '00020126360014BR.GOV.BCB.PIX0114+55389916211355204000053039865802BR5925Gabriel de Menezes Cardos6009SAO PAULO6214051025QNcP26CF6304C4BF';
+    var WA_NUMBER = '5538991621135';
+    window._pixName = ''; window._pixValue = '';
 
+    window.pixGoToStep2 = function() {
+      var nome = document.getElementById('pix-sender-name').value.trim();
+      var valor = parseFloat(document.getElementById('pix-amount').value);
+      if (!nome) { document.getElementById('pix-sender-name').style.borderColor='#e85d75'; document.getElementById('pix-sender-name').focus(); return; }
+      if (!valor || valor < 1) { document.getElementById('pix-amount').style.borderColor='#e85d75'; document.getElementById('pix-amount').focus(); return; }
+      window._pixName = nome;
+      window._pixValue = valor.toFixed(2).replace('.',',');
+      document.getElementById('pix-preview-name').textContent = 'De: ' + nome;
+      document.getElementById('pix-preview-value').textContent = 'R$ ' + window._pixValue;
+      document.getElementById('pix-step-1').style.display = 'none';
+      document.getElementById('pix-step-2').style.display = 'block';
+    };
 
-  <!-- Music Player -->
+    window.pixGoBack = function() {
+      document.getElementById('pix-step-2').style.display = 'none';
+      document.getElementById('pix-step-1').style.display = 'block';
+    };
+
+    window.pixCopyCode = function() {
+      navigator.clipboard.writeText(PIX_EMV).then(function() {
+        var b = document.getElementById('btn-pix-copy-main');
+        b.textContent = 'Codigo Copiado!';
+        setTimeout(function(){ b.textContent = 'Copiar codigo do QR Code'; }, 3000);
+      });
+    };
+
+    window.pixGoToStep3 = function() {
+      if (!window._pixName) return;
+      var msg = encodeURIComponent('CASAMENTO Laoanny e Gabriel\n\nCONFIRMATION PIX!\n\nRemetente: ' + window._pixName + '\nValor: R$ ' + window._pixValue + '\nData: ' + new Date().toLocaleDateString('pt-BR') + '\n\nQue o amor de voces dure para sempre!');
+      document.getElementById('pix-wa-link').href = 'https://wa.me/' + WA_NUMBER + '?text=' + msg;
+      document.getElementById('pix-confirm-summary').innerHTML = '<p style="margin:0 0 4px;font-size:0.75rem;color:#555;font-weight:600;text-transform:uppercase;">Resumo</p><p style="margin:0 0 2px;font-size:1.05rem;font-weight:700;color:#16a34a;">R$ ' + window._pixValue + '</p><p style="margin:0;font-size:0.85rem;color:#444;">De: <strong>' + window._pixName + '</strong></p>';
+      // Salva no JSONBlob para o painel do casal
+      fetch('https://jsonblob.com/api/jsonBlob/1385247892441317376', {method:'GET',headers:{'Content-Type':'application/json'}})
+        .then(function(r){return r.json();}).then(function(data){
+          if(!data.pix)data.pix=[];
+          data.pix.push({nome:window._pixName,valor:parseFloat(window._pixValue.replace(',','.')),data:new Date().toISOString()});
+          return fetch('https://jsonblob.com/api/jsonBlob/1385247892441317376',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+        }).catch(function(){});
+      document.getElementById('pix-step-2').style.display = 'none';
+      document.getElementById('pix-step-3').style.display = 'block';
+    };
+
+    // Reset ao fechar
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('#modal-pix .modal-close').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          setTimeout(function() {
+            document.getElementById('pix-step-1').style.display = 'block';
+            document.getElementById('pix-step-2').style.display = 'none';
+            document.getElementById('pix-step-3').style.display = 'none';
+            var n = document.getElementById('pix-sender-name'); if(n) n.value = '';
+            var a = document.getElementById('pix-amount'); if(a) a.value = '';
+            window._pixName = ''; window._pixValue = '';
+          }, 400);
+        });
+      });
+    });
+  })();
+  </script>
+
+    <!-- Music Player -->
   <button class="music-btn" id="music-btn" aria-label="Tocar/Pausar música">
     <svg id="music-icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
     <svg id="music-icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="6" y="4" width="4" height="16" rx="2"/><rect x="14" y="4" width="4" height="16" rx="2"/></svg>
@@ -716,6 +761,7 @@
   </script>
 </body>
 </html>
+
 
 
 
