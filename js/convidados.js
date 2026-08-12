@@ -115,6 +115,21 @@ function initRSVPForm() {
       return;
     }
 
+    // Validação de nome repetido
+    try {
+      const existingRsvps = await getRSVPs();
+      const isDuplicate = existingRsvps.some(r => r.fullName.trim().toLowerCase() === rsvp.fullName.toLowerCase());
+      if (isDuplicate) {
+        showToast('Este nome já está confirmado na lista de convidados!', 'error');
+        alert('Este nome já está confirmado na lista de convidados! Se você for um homônimo ou estiver tentando alterar os dados, entre em contato com os noivos.');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '👨‍👩‍👧 Confirmar Presença';
+        return;
+      }
+    } catch (e) {
+      console.warn('Erro ao verificar nomes repetidos', e);
+    }
+
     try {
       await saveRSVP(rsvp);
 
