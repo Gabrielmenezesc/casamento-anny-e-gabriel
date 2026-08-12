@@ -132,11 +132,26 @@ async function getRSVPs() {
 
   // Busca na Nuvem Global
   const remote = await cloudGet('rsvps');
+  const local = Storage.get(STORAGE_KEYS.rsvps, []);
+  
   if (remote && Array.isArray(remote)) {
-    Storage.set(STORAGE_KEYS.rsvps, remote);
-    return remote;
+    // Mescla local e remoto
+    const combined = [...remote];
+    let changed = false;
+    local.forEach(l => {
+      if (!combined.find(r => r.id === l.id)) {
+        combined.push(l);
+        changed = true;
+      }
+    });
+    
+    Storage.set(STORAGE_KEYS.rsvps, combined);
+    if (changed) cloudSave('rsvps', combined);
+    return combined;
   }
-  return Storage.get(STORAGE_KEYS.rsvps, []);
+  
+  if (local.length > 0) cloudSave('rsvps', local);
+  return local;
 }
 
 async function deleteRSVP(id) {
@@ -218,12 +233,28 @@ async function initGiftsIfEmpty(defaultGifts) {
     } catch (e) { console.warn(e); }
   }
   const remote = await cloudGet('gifts');
+  const local = Storage.get(STORAGE_KEYS.gifts);
   if (!remote || !remote.length) {
+    if (local && local.length) {
+      cloudSave('gifts', local);
+      return local;
+    }
     await cloudSave('gifts', defaultGifts);
     Storage.set(STORAGE_KEYS.gifts, defaultGifts);
-  } else if (!Storage.get(STORAGE_KEYS.gifts)) {
+    return defaultGifts;
+  } else if (!local) {
     Storage.set(STORAGE_KEYS.gifts, remote);
+  } else {
+    // Mescla status locais com remotos
+    const combined = remote.map(rG => {
+      const lG = local.find(l => l.id === rG.id);
+      return lG && lG.status !== 'available' && rG.status === 'available' ? lG : rG;
+    });
+    Storage.set(STORAGE_KEYS.gifts, combined);
+    cloudSave('gifts', combined);
+    return combined;
   }
+  return remote;
 }
 
 // ===== GODPARENTS (Padrinhos) =====
@@ -256,11 +287,24 @@ async function getGodparents() {
     } catch (e) { console.warn(e); }
   }
   const remote = await cloudGet('godparents');
+  const local = Storage.get(STORAGE_KEYS.godparents, []);
+  
   if (remote && Array.isArray(remote)) {
-    Storage.set(STORAGE_KEYS.godparents, remote);
-    return remote;
+    const combined = [...remote];
+    let changed = false;
+    local.forEach(l => {
+      if (!combined.find(r => r.id === l.id)) {
+        combined.push(l);
+        changed = true;
+      }
+    });
+    Storage.set(STORAGE_KEYS.godparents, combined);
+    if (changed) cloudSave('godparents', combined);
+    return combined;
   }
-  return Storage.get(STORAGE_KEYS.godparents, []);
+  
+  if (local.length > 0) cloudSave('godparents', local);
+  return local;
 }
 
 // ===== HONEYMOON =====
@@ -303,10 +347,25 @@ async function saveHoneymoonSettings(settings) {
 
 async function getPix() {
   const remote = await cloudGet('pix');
+  const local = Storage.get('wedding_pix', []);
+  
   if (remote && Array.isArray(remote)) {
-    return remote;
+    const combined = [...remote];
+    let changed = false;
+    local.forEach(l => {
+      // Usa data + nome para uniqueness se não houver id
+      if (!combined.find(r => r.data === l.data && r.nome === l.nome)) {
+        combined.push(l);
+        changed = true;
+      }
+    });
+    Storage.set('wedding_pix', combined);
+    if (changed) cloudSave('pix', combined);
+    return combined;
   }
-  return [];
+  
+  if (local.length > 0) cloudSave('pix', local);
+  return local;
 }
 
 async function deletePix(index) {
