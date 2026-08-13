@@ -10,8 +10,8 @@
   const CONFIG = {
     nome: 'Laoanny & Gabriel',
     data: '25 de Abril de 2027',
-    hora: '15h00',
-    local: 'Espaço Villa Rose, Samambaia Sul – Brasília/DF',
+    hora: '16h30',
+    local: 'Chácara Canto dos Pássaros, Samambaia Sul – Brasília/DF',
     pixKey: '(38) 99162-1135',
     pixTitular: 'Gabriel Menezes',
     whatsapp: 'https://wa.me/5538991621135',
@@ -101,7 +101,7 @@
     },
 
     horario_padrinhos: {
-      msg: `⏰ **Horário especial para o cortejo:**\n\nOs padrinhos devem chegar ao local até **14h30** para a organização do cortejo.\n\nA cerimônia começa às **15h00**.\n\n⚠️ Pontualidade é muito importante! 🙏`,
+      msg: `🕒 **Horário especial para o cortejo:**\n\nOs padrinhos devem chegar ao local até **16h00** para a organização do cortejo.\n\nA cerimônia começa às **16h30**.\n\n⚠️ Pontualidade é muito importante! 🥰`,
       opts: [
         { icon: '📍', label: 'Ver endereço',    next: 'local' },
         { icon: '🎨', label: 'Ver cores',       next: 'cores' },

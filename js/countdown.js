@@ -2,7 +2,7 @@
 // COUNTDOWN.JS - Contador Regressivo até o Casamento
 // ===================================================
 
-const WEDDING_DATE = new Date('2027-04-25T15:00:00-03:00');
+const WEDDING_DATE = new Date('2027-04-25T16:30:00-03:00');
 
 function initCountdown() {
   const el = document.getElementById('countdown');
