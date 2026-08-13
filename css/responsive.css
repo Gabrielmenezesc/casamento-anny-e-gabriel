@@ -109,9 +109,33 @@
 
 /* Admin responsive */
 @media (max-width: 900px) {
-  .admin-sidebar { display: none; }
-  .admin-layout { grid-template-columns: 1fr; }
+  .admin-layout { grid-template-columns: 1fr; display: flex; flex-direction: column; }
+  .admin-sidebar { 
+    height: auto; 
+    position: static; 
+    padding: var(--space-sm); 
+    display: flex;
+    flex-direction: column;
+  }
+  .admin-sidebar-logo { padding: var(--space-sm); text-align: center; }
+  .admin-nav { 
+    display: flex; 
+    flex-direction: row; 
+    overflow-x: auto; 
+    gap: 8px; 
+    padding-bottom: 8px;
+  }
+  .admin-nav-item { 
+    flex-shrink: 0; 
+    padding: 8px 12px; 
+    border-radius: 20px;
+    background: hsla(255,255%,255%,0.05);
+  }
+  .admin-nav-item.active { background: var(--color-gold); color: #000; }
+  .admin-nav-separator { display: none; }
+  
   .admin-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .admin-table-container { overflow-x: auto; }
 }
 @media (max-width: 540px) {
   .admin-stats-grid { grid-template-columns: 1fr; }
