@@ -177,6 +177,7 @@ function initRSVPForm() {
         showToast(err.message, 'error', 10000);
         alert("Erro Crítico: " + err.message + "\n\nPor favor, avise o desenvolvedor para ir no site do Firebase, menu 'Firestore Database' e clicar em 'Criar banco de dados'.");
       } else {
+        alert("Erro interno: " + err.message + "\nStack: " + err.stack);
         showToast('Erro ao confirmar presença. Tente novamente.', 'error');
       }
       submitBtn.disabled = false;
