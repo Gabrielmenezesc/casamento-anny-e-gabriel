@@ -171,7 +171,7 @@ function initRSVPForm() {
     const whatsappUrl = `https://api.whatsapp.com/send?phone=${noivosPhone}&text=${encodedText}`;
 
     setTimeout(() => {
-      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+      window.location.href = whatsappUrl;
     }, 1500);
   });
 }

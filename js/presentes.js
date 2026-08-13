@@ -415,11 +415,13 @@ async function confirmarReserva() {
   const waUrl = `https://api.whatsapp.com/send?phone=5538991621135&text=${encodeURIComponent(waText)}`;
 
   // 5. Atualiza botão WhatsApp no modal PIX
-  document.getElementById('pix-btn-wa').href = waUrl;
-  
-  // 6. Auto-redirect
+  const waBtn = document.getElementById('pix-wa-btn');
+  if (waBtn) waBtn.href = waUrl;
+
+  // 6. Feedback visual de sucesso e abre WhatsApp
+  showToast('🎁 Presente reservado! Redirecionando para WhatsApp...', 'success', 5000);
   setTimeout(() => {
-    window.open(waUrl, '_blank', 'noopener,noreferrer');
+    window.location.href = waUrl;
   }, 1500);
   document.getElementById('pix-nome-presente').textContent = `Presente: ${presenteAtual.name}`;
 
