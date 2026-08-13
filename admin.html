@@ -65,6 +65,9 @@
           <div class="admin-nav-item" data-panel="padrinhos">
             <span class="admin-nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg></span> Padrinhos
           </div>
+          <div class="admin-nav-item" data-panel="guestlist">
+            <span class="admin-nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span> 📋 Lista
+          </div>
           <div class="admin-nav-separator"></div>
           <div class="admin-nav-item" onclick="adminLogout()">
             <span class="admin-nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span> Sair
@@ -298,6 +301,54 @@
             </div>
           </div>
 
+          <!-- GUEST LIST PANEL -->
+          <div class="admin-panel" id="panel-guestlist">
+            <div class="admin-table-card">
+              <div class="admin-table-header">
+                <h2 class="admin-table-title">📋 Lista de Convidados</h2>
+                <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+                  <input type="text" id="guestlist-search" class="admin-search-input" placeholder="Buscar convidado..." />
+                  <button class="admin-action-btn" id="btn-export-guestlist-csv" style="background:var(--accent);color:#fff;border:none;padding:6px 14px;border-radius:8px;cursor:pointer;">Exportar CSV</button>
+                </div>
+              </div>
+
+              <!-- Stats -->
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:20px;">
+                <div style="background:var(--card-bg);padding:12px;border-radius:12px;text-align:center;border:1px solid var(--border);">
+                  <div style="font-size:1.5rem;font-weight:700;color:var(--accent);" id="stat-guestlist-total">0</div>
+                  <div style="font-size:0.7rem;text-transform:uppercase;color:var(--text-muted);">Total</div>
+                </div>
+                <div style="background:var(--card-bg);padding:12px;border-radius:12px;text-align:center;border:1px solid var(--border);">
+                  <div style="font-size:1.5rem;font-weight:700;color:#3b82f6;" id="stat-guestlist-pagantes">0</div>
+                  <div style="font-size:0.7rem;text-transform:uppercase;color:var(--text-muted);">Pagantes</div>
+                </div>
+                <div style="background:var(--card-bg);padding:12px;border-radius:12px;text-align:center;border:1px solid var(--border);">
+                  <div style="font-size:1.5rem;font-weight:700;color:#f59e0b;" id="stat-guestlist-nao-pagantes">0</div>
+                  <div style="font-size:0.7rem;text-transform:uppercase;color:var(--text-muted);">Não Pag.</div>
+                </div>
+                <div style="background:var(--card-bg);padding:12px;border-radius:12px;text-align:center;border:1px solid var(--border);">
+                  <div style="font-size:1.5rem;font-weight:700;color:#22c55e;" id="stat-guestlist-confirmados">0</div>
+                  <div style="font-size:0.7rem;text-transform:uppercase;color:var(--text-muted);">Confirmados</div>
+                </div>
+              </div>
+
+              <div class="admin-table-container">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Nome</th>
+                      <th>Lado</th>
+                      <th>Tipo</th>
+                      <th>Status</th>
+                      <th>Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody id="guestlist-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
         </div>
       </main>
     </div>
@@ -305,9 +356,9 @@
 
   <!-- Scripts -->
   <script src="./js/utils.js"></script>
-  <script src="./js/firebase.js?v=10"></script>
+  <script src="./js/firebase.js?v=11"></script>
   <script src="./js/app.js?v=10"></script>
-  <script src="./js/admin.js?v=10"></script>
+  <script src="./js/admin.js?v=11"></script>
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script>
@@ -327,6 +378,7 @@
   </script>
 </body>
 </html>
+
 
 
 

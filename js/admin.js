@@ -10,6 +10,7 @@ let allRSVPs = [];
 let allAdminGifts = [];
 let allAdminGodparents = [];
 let allPix = [];
+let allGuestList = [];
 
 document.addEventListener('DOMContentLoaded', () => {
   checkAdminSession();
@@ -75,13 +76,23 @@ async function loadAdminData() {
   allAdminGifts = await getGifts();
   allAdminGodparents = await getGodparents();
   allPix = await getPix();
+  allGuestList = await getGuestList();
   const honeymoon = await getHoneymoonSettings();
+
+  // Auto-importa lista se estiver vazia
+  if (allGuestList.length === 0) {
+    allGuestList = await importInitialGuestList();
+  }
+
+  // Sincroniza confirmações: marca automaticamente como confirmado quem já fez RSVP
+  syncGuestConfirmations();
 
   renderDashboard(allRSVPs, allAdminGifts, honeymoon, allPix);
   renderRSVPTable(allRSVPs);
   renderGiftsTable(allAdminGifts);
   renderGodparentsTable(allAdminGodparents);
   renderPixTable(allPix);
+  renderGuestListTable(allGuestList);
   renderCharts(allRSVPs, allAdminGifts);
 }
 
@@ -370,6 +381,10 @@ function initAdminSearch() {
   if (padSearch) {
     padSearch.addEventListener('input', debounce(() => renderGodparentsTable(allAdminGodparents, padSearch.value), 300));
   }
+  const glSearch = document.getElementById('guestlist-search');
+  if (glSearch) {
+    glSearch.addEventListener('input', debounce(() => renderGuestListTable(allGuestList, glSearch.value), 300));
+  }
 }
 
 // ===== Export =====
@@ -416,4 +431,146 @@ function initExportButtons() {
   });
 
   document.getElementById('btn-print')?.addEventListener('click', () => window.print());
+
+  // Guest list export
+  document.getElementById('btn-export-guestlist-csv')?.addEventListener('click', () => {
+    exportCSV(allGuestList.map(g => ({
+      Nome: g.name,
+      Lado: g.side === 'noiva' ? 'Noiva' : 'Noivo',
+      Tipo: g.type === 'pagante' ? 'Pagante' : 'Não Pagante',
+      Status: g.confirmed ? 'Confirmado' : 'Pendente',
+      'Data Confirmação': g.confirmedAt ? formatDateTime(g.confirmedAt) : ''
+    })), 'lista_convidados_casamento.csv');
+    showToast('📊 CSV da lista exportado!', 'success');
+  });
+}
+
+// ===== GUEST LIST (Lista de Convidados Master) =====
+
+// Lista inicial da Noiva (1ª lista)
+const NOIVA_PAGANTES = [
+  'Izomar','Ângela','Erica','Kauê','Glenda','Ágata','Léo','Maisa','Isaías','Dom Dom',
+  'Liliane','Letícia','Clarisse','Jurandi','Leninha','Romeu','Layd Helem','Lucas',
+  'Lindinha','Camila','Ailton','Geisa','Gleiton','Dino','Layla','Renato','Francisco',
+  'Carmelita','Jeferson','Letícia (2)','Amanda','Ian','Keite','Jennifer','Laís','Yasmim',
+  'Ingrid','Sarah','Nyla','Valéria','Kaliny','Pedro (da Kaliny)','Mãe Kaka','Ellen',
+  'Rosilene','Pedro (do Dino)','Raimunda','Pastor Buben','Roseane','Luyde'
+];
+
+const NOIVA_NAO_PAGANTES = [
+  'Ravi','Hillary','Richard','Helena','Júlia','Joice','Sophia','Maria',
+  'Maitê','Melissa','Nicolas','Outra Maitê','Filha da Sarah','Mariah'
+];
+
+async function importInitialGuestList() {
+  const guests = [];
+  NOIVA_PAGANTES.forEach((name, i) => {
+    guests.push({
+      id: 'noiva_p_' + (i + 1),
+      name: name,
+      side: 'noiva',
+      type: 'pagante',
+      confirmed: false,
+      confirmedAt: null
+    });
+  });
+  NOIVA_NAO_PAGANTES.forEach((name, i) => {
+    guests.push({
+      id: 'noiva_np_' + (i + 1),
+      name: name,
+      side: 'noiva',
+      type: 'nao_pagante',
+      confirmed: false,
+      confirmedAt: null
+    });
+  });
+  await importGuestBatch(guests);
+  return guests;
+}
+
+function syncGuestConfirmations() {
+  if (!allGuestList.length || !allRSVPs.length) return;
+  let changed = false;
+  allGuestList.forEach(guest => {
+    const match = allRSVPs.find(r =>
+      r.fullName && guest.name &&
+      r.fullName.trim().toLowerCase() === guest.name.trim().toLowerCase()
+    );
+    if (match && !guest.confirmed) {
+      guest.confirmed = true;
+      guest.confirmedAt = match.confirmedAt || match.timestamp;
+      changed = true;
+    }
+  });
+  if (changed) {
+    Storage.set('wedding_guestlist', allGuestList);
+  }
+}
+
+function renderGuestListTable(guests, filter = '') {
+  const tbody = document.getElementById('guestlist-table-body');
+  if (!tbody) return;
+
+  const filtered = filter
+    ? guests.filter(g => g.name.toLowerCase().includes(filter.toLowerCase()))
+    : guests;
+
+  // Stats
+  const totalPagantes = guests.filter(g => g.type === 'pagante').length;
+  const totalNaoPagantes = guests.filter(g => g.type === 'nao_pagante').length;
+  const totalConfirmados = guests.filter(g => g.confirmed).length;
+  setEl('stat-guestlist-total', guests.length);
+  setEl('stat-guestlist-pagantes', totalPagantes);
+  setEl('stat-guestlist-nao-pagantes', totalNaoPagantes);
+  setEl('stat-guestlist-confirmados', totalConfirmados);
+
+  if (!filtered.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text-muted)">Nenhum convidado encontrado.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = filtered.map((g, i) => {
+    const statusBadge = g.confirmed
+      ? '<span style="background:#22c55e;color:#fff;padding:2px 10px;border-radius:12px;font-size:0.75rem;font-weight:600;">✅ Confirmado</span>'
+      : '<span style="background:#ef4444;color:#fff;padding:2px 10px;border-radius:12px;font-size:0.75rem;font-weight:600;">⏳ Pendente</span>';
+    const typeBadge = g.type === 'pagante'
+      ? '<span style="background:#3b82f6;color:#fff;padding:2px 8px;border-radius:12px;font-size:0.7rem;">Pagante</span>'
+      : '<span style="background:#f59e0b;color:#fff;padding:2px 8px;border-radius:12px;font-size:0.7rem;">Não Pag.</span>';
+    const sideBadge = g.side === 'noiva'
+      ? '<span style="color:#ec4899;">👰 Noiva</span>'
+      : '<span style="color:#3b82f6;">🤵 Noivo</span>';
+    const confirmedDate = g.confirmedAt ? new Date(g.confirmedAt).toLocaleDateString('pt-BR') : '-';
+
+    return `
+      <tr style="${g.confirmed ? 'background: rgba(34,197,94,0.05);' : ''}">
+        <td><strong>${sanitize(g.name)}</strong></td>
+        <td>${sideBadge}</td>
+        <td>${typeBadge}</td>
+        <td>${statusBadge}</td>
+        <td>
+          ${!g.confirmed ? `<button class="admin-action-btn" style="background:#22c55e;color:#fff;border:none;padding:4px 10px;border-radius:8px;cursor:pointer;font-size:0.75rem;" onclick="manualConfirmGuest('${g.id}')">✅ Confirmar</button>` : `<button class="admin-action-btn" style="background:#f59e0b;color:#fff;border:none;padding:4px 10px;border-radius:8px;cursor:pointer;font-size:0.75rem;" onclick="unconfirmGuest('${g.id}')">↩ Desfazer</button>`}
+          <button class="admin-action-btn admin-action-delete" style="margin-left:4px;" onclick="deleteGuestRow('${g.id}')">🗑</button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+async function manualConfirmGuest(guestId) {
+  allGuestList = await updateGuest(guestId, { confirmed: true, confirmedAt: new Date().toISOString() });
+  renderGuestListTable(allGuestList);
+  showToast('✅ Convidado confirmado manualmente!', 'success');
+}
+
+async function unconfirmGuest(guestId) {
+  allGuestList = await updateGuest(guestId, { confirmed: false, confirmedAt: null });
+  renderGuestListTable(allGuestList);
+  showToast('↩ Confirmação desfeita.', 'info');
+}
+
+async function deleteGuestRow(guestId) {
+  if (!confirm('Excluir este convidado da lista?')) return;
+  allGuestList = await deleteGuest(guestId);
+  renderGuestListTable(allGuestList);
+  showToast('Convidado removido da lista.', 'info');
 }

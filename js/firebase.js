@@ -353,3 +353,88 @@ async function deletePix(indexOrId) {
   Storage.set('wedding_pix', list);
   return list;
 }
+
+// ===== GUEST LIST (Lista de Convidados Master) =====
+
+async function getGuestList() {
+  if (firebaseReady && db) {
+    try {
+      const { collection, getDocs } = window._fsLib;
+      const snap = await firebaseWithTimeout(getDocs(collection(db, 'guestlist')));
+      const items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+      // Mescla com localStorage
+      const local = Storage.get('wedding_guestlist', []);
+      local.forEach(l => {
+        if (!items.find(r => r.id === l.id)) items.push(l);
+      });
+
+      Storage.set('wedding_guestlist', items);
+      return items;
+    } catch (e) { console.warn('[Firebase] Fallback getGuestList:', e.message); }
+  }
+  return Storage.get('wedding_guestlist', []);
+}
+
+async function saveGuestList(list) {
+  Storage.set('wedding_guestlist', list);
+  if (firebaseReady && db) {
+    try {
+      const { doc, setDoc } = window._fsLib;
+      for (const guest of list) {
+        await setDoc(doc(db, 'guestlist', guest.id), guest);
+      }
+    } catch (e) { console.warn('[Firebase] Erro ao salvar lista:', e.message); }
+  }
+}
+
+async function updateGuest(guestId, updates) {
+  // localStorage
+  const list = Storage.get('wedding_guestlist', []).map(g =>
+    g.id === guestId ? { ...g, ...updates } : g
+  );
+  Storage.set('wedding_guestlist', list);
+
+  // Firebase
+  if (firebaseReady && db) {
+    try {
+      const { doc, updateDoc, setDoc } = window._fsLib;
+      try {
+        await firebaseWithTimeout(updateDoc(doc(db, 'guestlist', guestId), updates));
+      } catch {
+        const guest = list.find(g => g.id === guestId);
+        if (guest) await setDoc(doc(db, 'guestlist', guestId), guest);
+      }
+    } catch (e) { console.warn('[Firebase] Erro ao atualizar convidado:', e.message); }
+  }
+  return list;
+}
+
+async function deleteGuest(guestId) {
+  if (firebaseReady && db) {
+    try {
+      const { doc, deleteDoc } = window._fsLib;
+      await firebaseWithTimeout(deleteDoc(doc(db, 'guestlist', guestId)));
+    } catch (e) { console.warn('[Firebase] Erro ao deletar convidado:', e.message); }
+  }
+  const list = Storage.get('wedding_guestlist', []).filter(g => g.id !== guestId);
+  Storage.set('wedding_guestlist', list);
+  return list;
+}
+
+async function importGuestBatch(guests) {
+  const existing = Storage.get('wedding_guestlist', []);
+  const newGuests = guests.filter(g => !existing.find(e => e.name.toLowerCase() === g.name.toLowerCase()));
+  const combined = [...existing, ...newGuests];
+  Storage.set('wedding_guestlist', combined);
+
+  if (firebaseReady && db) {
+    try {
+      const { doc, setDoc } = window._fsLib;
+      for (const guest of newGuests) {
+        await setDoc(doc(db, 'guestlist', guest.id), guest);
+      }
+    } catch (e) { console.warn('[Firebase] Erro ao importar lote:', e.message); }
+  }
+  return combined;
+}
