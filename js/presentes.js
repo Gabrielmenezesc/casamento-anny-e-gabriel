@@ -419,10 +419,8 @@ async function confirmarReserva() {
   if (waBtn) waBtn.href = waUrl;
 
   // 6. Feedback visual de sucesso e abre WhatsApp
-  showToast('🎁 Presente reservado! Redirecionando para WhatsApp...', 'success', 5000);
-  setTimeout(() => {
-    window.location.href = waUrl;
-  }, 1500);
+  showToast('🎁 Presente reservado! Redirecionando para WhatsApp...', 'success', 2000);
+  window.location.href = waUrl;
   document.getElementById('pix-nome-presente').textContent = `Presente: ${presenteAtual.name}`;
 
   // 6. Abre modal PIX

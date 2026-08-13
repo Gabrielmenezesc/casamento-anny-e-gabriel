@@ -170,8 +170,7 @@ function initRSVPForm() {
     const encodedText = encodeURIComponent(rsvpText);
     const whatsappUrl = `https://api.whatsapp.com/send?phone=${noivosPhone}&text=${encodedText}`;
 
-    setTimeout(() => {
-      window.location.href = whatsappUrl;
-    }, 1500);
+    // Força o redirecionamento imediato (iOS bloqueia se tiver delay)
+    window.location.href = whatsappUrl;
   });
 }

@@ -659,9 +659,7 @@
           }
           
           const encoded = encodeURIComponent(waText);
-          setTimeout(() => {
-            window.location.href = `https://api.whatsapp.com/send?phone=${noivosPhone}&text=${encoded}`;
-          }, 1500);
+          window.location.href = `https://api.whatsapp.com/send?phone=${noivosPhone}&text=${encoded}`;
 
         } catch (err) {
           console.error(err);
@@ -676,6 +674,7 @@
   <script src="./js/assistant.js?v=15" defer></script>
 </body>
 </html>
+
 
 
 
