@@ -58,11 +58,24 @@ async function showAdminPanel() {
   document.getElementById('admin-dashboard-screen')?.classList.remove('hidden');
   adminLoggedIn = true;
 
-  await initFirebase();
-  await loadAdminData();
+  // Ativa navegação IMEDIATAMENTE (antes de carregar dados)
   initAdminNav();
   initAdminSearch();
   initExportButtons();
+
+  // Carrega Firebase e dados em segundo plano
+  try {
+    await initFirebase();
+  } catch (e) {
+    console.warn('Firebase init falhou, usando localStorage:', e);
+  }
+
+  try {
+    await loadAdminData();
+  } catch (e) {
+    console.error('Erro ao carregar dados do painel:', e);
+    showToast('Erro ao carregar alguns dados. Recarregue a página.', 'error');
+  }
 }
 
 function adminLogout() {
@@ -72,16 +85,18 @@ function adminLogout() {
 
 // ===== Load Data =====
 async function loadAdminData() {
-  allRSVPs = await getRSVPs();
-  allAdminGifts = await getGifts();
-  allAdminGodparents = await getGodparents();
-  allPix = await getPix();
-  allGuestList = await getGuestList();
-  const honeymoon = await getHoneymoonSettings();
+  try { allRSVPs = await getRSVPs(); } catch(e) { console.warn('Erro RSVPs:', e); allRSVPs = []; }
+  try { allAdminGifts = await getGifts(); } catch(e) { console.warn('Erro Gifts:', e); allAdminGifts = []; }
+  try { allAdminGodparents = await getGodparents(); } catch(e) { console.warn('Erro Padrinhos:', e); allAdminGodparents = []; }
+  try { allPix = await getPix(); } catch(e) { console.warn('Erro PIX:', e); allPix = []; }
+  try { allGuestList = await getGuestList(); } catch(e) { console.warn('Erro GuestList:', e); allGuestList = []; }
+
+  let honeymoon = null;
+  try { honeymoon = await getHoneymoonSettings(); } catch(e) { console.warn('Erro Honeymoon:', e); }
 
   // Auto-importa lista se estiver vazia
   if (allGuestList.length === 0) {
-    allGuestList = await importInitialGuestList();
+    try { allGuestList = await importInitialGuestList(); } catch(e) { console.warn('Erro importação:', e); }
   }
 
   // Sincroniza confirmações: marca automaticamente como confirmado quem já fez RSVP
