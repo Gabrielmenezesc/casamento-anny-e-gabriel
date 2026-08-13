@@ -94,9 +94,11 @@ async function loadAdminData() {
   let honeymoon = null;
   try { honeymoon = await getHoneymoonSettings(); } catch(e) { console.warn('Erro Honeymoon:', e); }
 
-  // Auto-importa lista se estiver vazia
-  if (allGuestList.length === 0) {
-    try { allGuestList = await importInitialGuestList(); } catch(e) { console.warn('Erro importação:', e); }
+  // Importa a lista (a função no firebase.js filtra duplicatas automaticamente)
+  try {
+    allGuestList = await importInitialGuestList();
+  } catch(e) { 
+    console.warn('Erro importação:', e); 
   }
 
   // Sincroniza confirmações: marca automaticamente como confirmado quem já fez RSVP
@@ -477,6 +479,22 @@ const NOIVA_NAO_PAGANTES = [
   'Maitê','Melissa','Nicolas','Outra Maitê','Filha da Sarah','Mariah'
 ];
 
+// Lista inicial do Noivo (Gabriel)
+const NOIVO_PAGANTES = [
+  'Valdir','Georgiane','Jullye','Davi','Michel','Vanessa','Jhonatan','Douglas','Stefany',
+  'Onofre','Welington Charles','Naty','Pamile','Sarah','Néia','Eric','Namorada de Eric',
+  'João Lucas','Tia Cica','Tio Gato','Osvaldo','Nicinha','Zé Antônio (Toninho)','Zé Mendes',
+  'Denor','Patrícia','Vó Ana','Jéssica','Wilian','João Pedro','Flávia','Emanuele','Isabelle',
+  'Anne','Xande','Paula','Warley','Lucas','Rafael','Raiane','Tiago','Jaine','Silvio','Cleia',
+  'Katia','Timbó','Luiz','Ana Caroline','Maninha','Luiz (2)','Max','Joelia','Davi (2)','Alexandre',
+  'Cris','Victor Hugo','Ernane','Esposa do Ernane','Mariana','Geovane','Esposa do Geovane',
+  'Mariana (2)','Felipe','Namorada de Felipe'
+];
+
+const NOIVO_NAO_PAGANTES = [
+  'Isac','Danilo','Laura','Maria (2)','João Lucas (filho da Tia Jéssica)','Miguel','Luiz (3)'
+];
+
 async function importInitialGuestList() {
   const guests = [];
   NOIVA_PAGANTES.forEach((name, i) => {
@@ -499,8 +517,27 @@ async function importInitialGuestList() {
       confirmedAt: null
     });
   });
-  await importGuestBatch(guests);
-  return guests;
+  NOIVO_PAGANTES.forEach((name, i) => {
+    guests.push({
+      id: 'noivo_p_' + (i + 1),
+      name: name,
+      side: 'noivo',
+      type: 'pagante',
+      confirmed: false,
+      confirmedAt: null
+    });
+  });
+  NOIVO_NAO_PAGANTES.forEach((name, i) => {
+    guests.push({
+      id: 'noivo_np_' + (i + 1),
+      name: name,
+      side: 'noivo',
+      type: 'nao_pagante',
+      confirmed: false,
+      confirmedAt: null
+    });
+  });
+  return await importGuestBatch(guests);
 }
 
 function syncGuestConfirmations() {
