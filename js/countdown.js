@@ -2,13 +2,23 @@
 // COUNTDOWN.JS - Contador Regressivo até o Casamento
 // ===================================================
 
-const WEDDING_DATE = new Date('2027-04-25T16:30:00-03:00');
+let WEDDING_DATE = new Date('2027-04-25T16:30:00-03:00'); // Fallback padrão
+
+// Escuta a data carregada do Firestore
+window.addEventListener('weddingDateLoaded', (e) => {
+  if (e.detail instanceof Date) {
+    WEDDING_DATE = e.detail;
+    if (typeof tickCountdown === 'function') tickCountdown();
+  }
+});
+
+let tickCountdown = null;
 
 function initCountdown() {
   const el = document.getElementById('countdown');
   if (!el) return;
 
-  function tick() {
+  tickCountdown = function() {
     const now = new Date();
     const diff = WEDDING_DATE - now;
 
@@ -49,8 +59,8 @@ function initCountdown() {
     `;
   }
 
-  tick();
-  setInterval(tick, 1000);
+  tickCountdown();
+  setInterval(tickCountdown, 1000);
 }
 
 document.addEventListener('DOMContentLoaded', initCountdown);

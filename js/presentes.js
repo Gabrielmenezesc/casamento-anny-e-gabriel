@@ -327,7 +327,7 @@ function abrirModalPix() {
   document.body.style.overflow = 'hidden';
 }
 
-async function confirmarReserva() {
+function confirmarReserva() {
   if (!presenteAtual) return;
 
   const btn = document.getElementById('btn-confirmar-reserva');
@@ -418,9 +418,9 @@ async function confirmarReserva() {
   const waBtn = document.getElementById('pix-wa-btn');
   if (waBtn) waBtn.href = waUrl;
 
-  // 6. Feedback visual de sucesso e abre WhatsApp
+  // 6. Feedback visual de sucesso e abre WhatsApp em nova aba (para não sumir com o modal PIX)
   showToast('🎁 Presente reservado! Redirecionando para WhatsApp...', 'success', 2000);
-  window.location.href = waUrl;
+  window.open(waUrl, '_blank');
   document.getElementById('pix-nome-presente').textContent = `Presente: ${presenteAtual.name}`;
 
   // 6. Abre modal PIX

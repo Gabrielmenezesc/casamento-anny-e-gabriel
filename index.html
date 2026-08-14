@@ -326,7 +326,7 @@
       </div>
 
       <!-- Nomes -->
-      <h1 class="hero-names">
+      <h1 class="hero-names" id="hero-title-val">
         Laoanny <span class="hero-heart"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin:0 3px;color:#e85d75;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span> Gabriel
       </h1>
 
@@ -336,18 +336,18 @@
       <!-- Data, Hora, Local -->
       <div class="hero-info-strip">
         <div class="hero-info-item">
-          <div class="hero-info-date">25 de Abril</div>
-          <div class="hero-info-label">de 2027</div>
+          <div class="hero-info-date" id="hero-date-val">25 de Abril</div>
+          <div class="hero-info-label" id="hero-year-val">de 2027</div>
         </div>
         <div class="hero-divider-dot"></div>
         <div class="hero-info-item">
-          <div class="hero-info-date">16:30 horas</div>
+          <div class="hero-info-date" id="hero-time-val">16:30 horas</div>
           <div class="hero-info-label">cerimônia</div>
         </div>
         <div class="hero-divider-dot"></div>
         <div class="hero-info-item">
-          <div class="hero-info-date">Villa Rose</div>
-          <div class="hero-info-label">Samambaia Sul • Brasília - DF</div>
+          <div class="hero-info-date" id="wedding-reception-val">Villa Rose</div>
+          <div class="hero-info-label" id="wedding-address-val">Samambaia Sul • Brasília - DF</div>
         </div>
       </div>
 
@@ -407,7 +407,7 @@
           <blockquote class="story-quote reveal-right">
             "Quando dois corações se encontram, o universo conspira para mantê-los juntos."
           </blockquote>
-          <p class="story-body reveal-right delay-200">
+          <p class="story-body reveal-right delay-200" id="wedding-main-text-val">
             Nossa história começou como toda grande história: de forma inesperada e mágica. 
             Laoanny e Gabriel descobriram que o amor vai muito além das palavras — 
             ele se revela nos gestos simples, nos sorrisos trocados e nos momentos compartilhados.
@@ -632,7 +632,7 @@
       <a href="local.html" class="footer-link">Local</a>
       <a href="qrcode.html" class="footer-link">Convite Digital</a>
     </div>
-    <p>25 de Abril de 2027 • Espaço Villa Rose • Samambaia Sul, Brasília - DF</p>
+    <p id="footer-details-val">25 de Abril de 2027 • Espaço Villa Rose • Samambaia Sul, Brasília - DF</p>
     <p style="margin-top: 0.5rem; opacity: 0.5; font-size: 0.75rem;">Feito com <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin:0 3px;color:#e85d75;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> especialmente para nós</p>
   </footer>
   <!-- ===== MODAL PIX 3 ETAPAS ===== -->
@@ -678,20 +678,20 @@
           <button class="modal-close" style="position:absolute;top:50%;right:1rem;transform:translateY(-50%);background:rgba(255,255,255,0.15);color:white;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;">x</button>
           <div id="pix-preview-name" style="color:rgba(255,255,255,0.85);font-size:0.82rem;"></div>
           <div id="pix-preview-value" style="color:white;font-size:1.6rem;font-weight:800;margin:0.2rem 0;"></div>
-          <div style="color:rgba(255,255,255,0.7);font-size:0.75rem;">para Laoanny e Gabriel</div>
+          <div style="color:rgba(255,255,255,0.7);font-size:0.75rem;">para <span class="noivos-combined-names-val">Laoanny e Gabriel</span></div>
         </div>
         <div style="background:#8A05BE;padding:1.25rem 1.5rem 1.5rem;display:flex;flex-direction:column;align-items:center;">
           <p style="color:white;font-weight:700;font-size:0.9rem;margin:0 0 0.25rem;">Use o QR Code do Pix para pagar</p>
           <p style="color:rgba(255,255,255,0.8);font-size:0.75rem;margin:0 0 0.9rem;max-width:260px;line-height:1.4;">Escaneie com o app do seu banco ou copie o codigo</p>
           <div style="background:white;border-radius:14px;padding:8px;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?data=00020126360014BR.GOV.BCB.PIX0114%2B55389916211355204000053039865802BR5925Gabriel%20de%20Menezes%20Cardos6009SAO%20PAULO6214051025QNcP26CF6304C4BF&size=210x210&margin=6&color=0-0-0&bgcolor=255-255-255&ecc=M" alt="QR Code PIX" width="210" height="210" style="display:block;border-radius:8px;"/>
+            <img id="wedding-pix-qr" src="https://api.qrserver.com/v1/create-qr-code/?data=00020126360014BR.GOV.BCB.PIX0114%2B55389916211355204000053039865802BR5925Gabriel%20de%20Menezes%20Cardos6009SAO%20PAULO6214051025QNcP26CF6304C4BF&size=210x210&margin=6&color=0-0-0&bgcolor=255-255-255&ecc=M" alt="QR Code PIX" width="210" height="210" style="display:block;border-radius:8px;"/>
           </div>
           <button id="btn-pix-copy-main" onclick="pixCopyCode()" style="margin-top:0.9rem;background:white;color:#8A05BE;border:none;border-radius:12px;padding:0.75rem 1.5rem;font-size:0.85rem;font-weight:700;cursor:pointer;width:100%;max-width:280px;text-transform:uppercase;letter-spacing:0.5px;">Copiar codigo do QR Code</button>
         </div>
         <div style="background:white;padding:1rem 1.5rem 0.75rem;">
           <div style="display:flex;justify-content:space-between;align-items:center;background:#F5F5F5;border-radius:12px;padding:0.75rem 1rem;margin-bottom:0.75rem;">
-            <div><p style="font-size:0.68rem;color:#888;margin:0 0 2px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Chave Pix</p><p style="font-size:0.92rem;color:#8A05BE;font-weight:700;margin:0;">(38) 99162-1135</p></div>
-            <button onclick="navigator.clipboard.writeText('38991621135').then(function(){event.target.textContent='OK';setTimeout(function(){event.target.textContent='Copiar';},2000);})" style="background:#8A05BE;color:white;border:none;border-radius:8px;padding:0.4rem 0.7rem;cursor:pointer;font-size:0.78rem;">Copiar</button>
+            <div><p style="font-size:0.68rem;color:#888;margin:0 0 2px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Chave Pix</p><p style="font-size:0.92rem;color:#8A05BE;font-weight:700;margin:0;" id="wedding-pix-key-val">(38) 99162-1135</p></div>
+            <button onclick="navigator.clipboard.writeText(window.PIX_KEY || '38991621135').then(function(e){var t=e.target||event.target;t.textContent='OK';setTimeout(function(){t.textContent='Copiar';},2000);})" style="background:#8A05BE;color:white;border:none;border-radius:8px;padding:0.4rem 0.7rem;cursor:pointer;font-size:0.78rem;">Copiar</button>
           </div>
           <p style="font-size:0.7rem;color:#888;margin:0 0 0.6rem;text-transform:uppercase;letter-spacing:1px;font-weight:600;text-align:center;">Abrir no app do banco</p>
           <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:0.85rem;">
@@ -804,8 +804,10 @@
 
   <!-- Scripts -->
   <script src="./js/utils.js"></script>
-  <script src="./js/firebase.js?v=15"></script>
-  <script src="./js/app.js?v=15"></script>
+  <script src="./js/firebase.js?v=17"></script>
+  
+  <script src="./js/site-config.js?v=18"></script>
+<script src="./js/app.js?v=17"></script>
   <script src="./js/countdown.js"></script>
   <script src="./js/pix.js"></script>
   <script src="./js/animations.js"></script>
@@ -873,6 +875,7 @@
   </script>
 </body>
 </html>
+
 
 
 

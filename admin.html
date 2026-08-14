@@ -24,11 +24,15 @@
 
         <form id="admin-login-form" novalidate>
           <div class="form-group">
-            <label class="form-label" for="admin-password"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Senha de Acesso</label>
+            <label class="form-label" for="admin-email">E-mail</label>
+            <input class="form-input" type="email" id="admin-email" placeholder="noivos@exemplo.com" required style="margin-bottom: 1rem;" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="admin-password">Senha de Acesso</label>
             <input class="form-input" type="password" id="admin-password" placeholder="••••••••••••" autocomplete="current-password" required />
           </div>
-          <button type="submit" class="btn btn-gold btn-lg w-full" style="justify-content: center; margin-top: 0.5rem;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Entrar no Painel
+          <button type="submit" class="btn btn-gold btn-lg w-full" style="justify-content: center; margin-top: 1rem;">
+            Entrar no Painel
           </button>
         </form>
 
@@ -51,26 +55,38 @@
 
         <nav>
           <div class="admin-nav-item active" data-panel="dashboard">
-            <span class="admin-nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> Dashboard
-          </div>
-          <div class="admin-nav-item" data-panel="convidados">
-            <span class="admin-nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Convidados
-          </div>
-          <div class="admin-nav-item" data-panel="presentes">
-            <span class="admin-nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></span> Presentes
-          </div>
-          <div class="admin-nav-item" data-panel="honeymoon">
-            <span class="admin-nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span> Lua de Mel
-          </div>
-          <div class="admin-nav-item" data-panel="padrinhos">
-            <span class="admin-nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg></span> Padrinhos
+            <span class="admin-nav-icon">🏠</span> Dashboard
           </div>
           <div class="admin-nav-item" data-panel="guestlist">
-            <span class="admin-nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span> 📋 Lista
+            <span class="admin-nav-icon">💌</span> Convidados
+          </div>
+          <div class="admin-nav-item" data-panel="convidados">
+            <span class="admin-nav-icon">✅</span> Confirmações
+          </div>
+          <div class="admin-nav-item" data-panel="presentes">
+            <span class="admin-nav-icon">🎁</span> Presentes
+          </div>
+          <div class="admin-nav-item" data-panel="pix">
+            <span class="admin-nav-icon">💰</span> PIX
+          </div>
+          <div class="admin-nav-item" data-panel="honeymoon">
+            <span class="admin-nav-icon">🌴</span> Lua de Mel
+          </div>
+          <div class="admin-nav-item" data-panel="padrinhos">
+            <span class="admin-nav-icon">💑</span> Padrinhos
+          </div>
+          <div class="admin-nav-item" data-panel="galeria">
+            <span class="admin-nav-icon">📸</span> Galeria
+          </div>
+          <div class="admin-nav-item" data-panel="whatsapp">
+            <span class="admin-nav-icon">💬</span> WhatsApp
+          </div>
+          <div class="admin-nav-item" data-panel="configuracoes">
+            <span class="admin-nav-icon">⚙️</span> Configurações
           </div>
           <div class="admin-nav-separator"></div>
           <div class="admin-nav-item" onclick="adminLogout()">
-            <span class="admin-nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span> Sair
+            <span class="admin-nav-icon">🚪</span> Sair
           </div>
         </nav>
       </aside>
@@ -301,6 +317,213 @@
             </div>
           </div>
 
+          <!-- ===== PIX PANEL ===== -->
+          <div class="admin-panel" id="panel-pix">
+            <div class="admin-table-card">
+              <div class="admin-table-header">
+                <h2 class="admin-table-title">💰 Histórico de PIX</h2>
+                <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+                  <button class="admin-action-btn" id="btn-export-pix-csv" style="background:var(--accent);color:#fff;border:none;padding:6px 14px;border-radius:8px;cursor:pointer;">Exportar CSV</button>
+                </div>
+              </div>
+              <div class="admin-table-container">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Nome</th>
+                      <th>Valor</th>
+                      <th>Data</th>
+                      <th>Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody id="pix-table-body-2">
+                    <tr><td colspan="4" style="text-align:center; padding: 3rem; color: var(--text-muted);">Carregando PIX...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== GALERIA PANEL ===== -->
+          <div class="admin-panel" id="panel-galeria">
+            <div class="admin-table-card" style="padding:2rem;">
+              <h2 class="admin-table-title" style="margin-bottom:1.5rem;">📸 Gerenciar Galeria de Fotos</h2>
+              <p style="color:var(--text-secondary);margin-bottom:1.5rem;font-size:0.875rem;">Para alterar as fotos exibidas no carrossel da página inicial, informe os links das imagens abaixo:</p>
+              
+              <form id="admin-gallery-form">
+                <div class="form-group" style="margin-bottom:1rem;">
+                  <label class="form-label" style="color:var(--text-primary);font-weight:600;margin-bottom:0.5rem;display:block;">Foto 1 (Capa/Hero)</label>
+                  <input class="form-input" type="text" id="gallery-photo-1" style="width:100%;" placeholder="https://exemplo.com/foto1.jpg" />
+                </div>
+                <div class="form-group" style="margin-bottom:1rem;">
+                  <label class="form-label" style="color:var(--text-primary);font-weight:600;margin-bottom:0.5rem;display:block;">Foto 2 (Galeria 1)</label>
+                  <input class="form-input" type="text" id="gallery-photo-2" style="width:100%;" placeholder="https://exemplo.com/foto2.jpg" />
+                </div>
+                <div class="form-group" style="margin-bottom:1rem;">
+                  <label class="form-label" style="color:var(--text-primary);font-weight:600;margin-bottom:0.5rem;display:block;">Foto 3 (Galeria 2)</label>
+                  <input class="form-input" type="text" id="gallery-photo-3" style="width:100%;" placeholder="https://exemplo.com/foto3.jpg" />
+                </div>
+                <div class="form-group" style="margin-bottom:1.5rem;">
+                  <label class="form-label" style="color:var(--text-primary);font-weight:600;margin-bottom:0.5rem;display:block;">Foto 4 (Galeria 3)</label>
+                  <input class="form-input" type="text" id="gallery-photo-4" style="width:100%;" placeholder="https://exemplo.com/foto4.jpg" />
+                </div>
+                <button type="submit" class="btn btn-gold btn-lg">Salvar Fotos</button>
+              </form>
+            </div>
+          </div>
+
+          <!-- ===== WHATSAPP PANEL ===== -->
+          <div class="admin-panel" id="panel-whatsapp">
+            <div class="admin-table-card" style="padding:2rem;">
+              <h2 class="admin-table-title" style="margin-bottom:1.5rem;">💬 Gerenciador de Convites WhatsApp</h2>
+              
+              <!-- Stats -->
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px;">
+                <div style="background:var(--bg-secondary);padding:12px;border-radius:12px;text-align:center;">
+                  <div style="font-size:1.5rem;font-weight:700;color:var(--text-primary);" id="wa-stat-total">0</div>
+                  <div style="font-size:0.7rem;text-transform:uppercase;color:var(--text-muted);">Total de Convidados</div>
+                </div>
+                <div style="background:var(--bg-secondary);padding:12px;border-radius:12px;text-align:center;">
+                  <div style="font-size:1.5rem;font-weight:700;color:#22c55e;" id="wa-stat-with-phone">0</div>
+                  <div style="font-size:0.7rem;text-transform:uppercase;color:var(--text-muted);">Com Telefone</div>
+                </div>
+                <div style="background:var(--bg-secondary);padding:12px;border-radius:12px;text-align:center;">
+                  <div style="font-size:1.5rem;font-weight:700;color:#ef4444;" id="wa-stat-no-phone">0</div>
+                  <div style="font-size:0.7rem;text-transform:uppercase;color:var(--text-muted);">Sem Telefone</div>
+                </div>
+              </div>
+
+              <!-- Template Editor -->
+              <div style="margin-bottom:2rem;background:var(--bg-secondary);padding:1.5rem;border-radius:16px;">
+                <h3 style="font-family:var(--font-serif);font-size:1.1rem;margin-bottom:1rem;color:var(--text-primary);">Modelo de Mensagem</h3>
+                <div style="display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;">
+                  <button type="button" class="admin-action-btn wa-tmpl-btn" style="background:var(--accent);color:white;" id="wa-tmpl-convite">💌 Convite</button>
+                  <button type="button" class="admin-action-btn wa-tmpl-btn" style="background:#eee;color:#333;" id="wa-tmpl-lembrete">⏳ Lembrete</button>
+                  <button type="button" class="admin-action-btn wa-tmpl-btn" style="background:#eee;color:#333;" id="wa-tmpl-confirmacao">✅ Confirmação</button>
+                  <button type="button" class="admin-action-btn wa-tmpl-btn" style="background:#eee;color:#333;" id="wa-tmpl-agradecimento">💜 Agradecimento</button>
+                </div>
+                <textarea id="wa-template-editor" style="width:100%;min-height:140px;padding:0.75rem;border-radius:10px;border:1px solid var(--border);font-family:inherit;font-size:0.875rem;" placeholder="Escreva a mensagem..."></textarea>
+                <small style="color:var(--text-muted);display:block;margin-top:0.25rem;">Use as tags: <strong>[NOME]</strong>, <strong>[DATA]</strong>, <strong>[HORARIO]</strong>, <strong>[LINK]</strong>.</small>
+              </div>
+
+              <!-- Guest selection table -->
+              <div class="admin-table-header" style="margin-bottom:1rem;">
+                <h3 style="font-family:var(--font-serif);font-size:1.2rem;">Selecionar Convidado</h3>
+                <input type="text" id="wa-guest-search" class="admin-search-input" placeholder="Buscar convidado..." />
+              </div>
+              <div class="admin-table-container">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Nome</th>
+                      <th>Telefone</th>
+                      <th>Último Contato</th>
+                      <th>Status Envio</th>
+                      <th>Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody id="wa-guest-table-body">
+                    <tr><td colspan="5" style="text-align:center; padding: 2rem; color: var(--text-muted);">Nenhum convidado disponível.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== CONFIGURAÇÕES PANEL ===== -->
+          <div class="admin-panel" id="panel-configuracoes">
+            <div class="admin-table-card" style="padding:2rem;">
+              <h2 class="admin-table-title" style="margin-bottom:1.5rem;">⚙️ Configurações do Casamento</h2>
+              <form id="admin-config-form">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1rem;">
+                  <div class="form-group">
+                    <label class="form-label" style="font-weight:600;">Nome da Noiva</label>
+                    <input class="form-input" type="text" id="cfg-bride-name" required style="width:100%;" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" style="font-weight:600;">Nome do Noivo</label>
+                    <input class="form-input" type="text" id="cfg-groom-name" required style="width:100%;" />
+                  </div>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1rem;">
+                  <div class="form-group">
+                    <label class="form-label" style="font-weight:600;">Data do Casamento</label>
+                    <input class="form-input" type="datetime-local" id="cfg-wedding-date" required style="width:100%;" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" style="font-weight:600;">WhatsApp de Contato (Noivos)</label>
+                    <input class="form-input" type="text" id="cfg-whatsapp-number" required style="width:100%;" />
+                  </div>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1rem;">
+                  <div class="form-group">
+                    <label class="form-label" style="font-weight:600;">Nome do Salão/Local</label>
+                    <input class="form-input" type="text" id="cfg-reception-name" required style="width:100%;" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" style="font-weight:600;">Nome da Igreja/Cerimônia</label>
+                    <input class="form-input" type="text" id="cfg-church-name" required style="width:100%;" />
+                  </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom:1rem;">
+                  <label class="form-label" style="font-weight:600;">Endereço Completo</label>
+                  <input class="form-input" type="text" id="cfg-address" required style="width:100%;" />
+                </div>
+
+                <div class="form-group" style="margin-bottom:1rem;">
+                  <label class="form-label" style="font-weight:600;">Link Google Maps (Iframe/Compartilhar)</label>
+                  <input class="form-input" type="text" id="cfg-maps-link" style="width:100%;" />
+                </div>
+
+                <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:1rem;margin-bottom:1rem;background:var(--bg-secondary);padding:1rem;border-radius:12px;">
+                  <div class="form-group">
+                    <label class="form-label" style="font-weight:600;color:var(--text-primary);">Chave PIX</label>
+                    <input class="form-input" type="text" id="cfg-pix-key" required style="width:100%;" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" style="font-weight:600;color:var(--text-primary);">Recebedor PIX</label>
+                    <input class="form-input" type="text" id="cfg-pix-receiver" required style="width:100%;" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" style="font-weight:600;color:var(--text-primary);">Cidade do PIX</label>
+                    <input class="form-input" type="text" id="cfg-pix-city" required style="width:100%;" />
+                  </div>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1rem;background:var(--bg-secondary);padding:1rem;border-radius:12px;">
+                  <div class="form-group">
+                    <label class="form-label" style="font-weight:600;color:var(--text-primary);">Meta Lua de Mel (R$)</label>
+                    <input class="form-input" type="number" id="cfg-honeymoon-goal" required style="width:100%;" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" style="font-weight:600;color:var(--text-primary);">Arrecadado Lua de Mel (R$)</label>
+                    <input class="form-input" type="number" id="cfg-honeymoon-collected" required style="width:100%;" />
+                  </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom:1rem;">
+                  <label class="form-label" style="font-weight:600;">Descrição da Lua de Mel</label>
+                  <textarea class="form-input" id="cfg-honeymoon-description" style="width:100%;min-height:70px;"></textarea>
+                </div>
+
+                <div class="form-group" style="margin-bottom:1rem;">
+                  <label class="form-label" style="font-weight:600;">Texto Principal (História)</label>
+                  <textarea class="form-input" id="cfg-main-text" style="width:100%;min-height:90px;"></textarea>
+                </div>
+
+                <div class="form-group" style="margin-bottom:1.5rem;">
+                  <label class="form-label" style="font-weight:600;">Texto do Convite (Metas/Desc)</label>
+                  <textarea class="form-input" id="cfg-invitation-text" style="width:100%;min-height:70px;"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-gold btn-lg">Salvar Configurações</button>
+              </form>
+            </div>
+          </div>
+
           <!-- GUEST LIST PANEL -->
           <div class="admin-panel" id="panel-guestlist">
             <div class="admin-table-card">
@@ -378,6 +601,7 @@
   </script>
 </body>
 </html>
+
 
 
 

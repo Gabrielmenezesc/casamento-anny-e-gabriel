@@ -49,10 +49,12 @@ const INITIAL_GIFTS_DATA = [
   { id: 'g12', name: 'Edredom Casal', price: 200, image: '🛌', category: 'Quarto', status: 'available' }
 ];
 
+let auth = null;
+
 // ===== Firebase Init =====
 async function initFirebase() {
   try {
-    const { firebaseConfig } = await import('./firebase/firebase-config.js');
+    const { firebaseConfig } = await import('../firebase/firebase-config.js');
 
     if (!firebaseConfig || !firebaseConfig.apiKey || firebaseConfig.apiKey === 'YOUR_API_KEY') {
       console.info('[Firebase] Sem credenciais. Usando LocalStorage.');
@@ -61,11 +63,15 @@ async function initFirebase() {
 
     const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
     const fsModule = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    const authModule = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
 
     const app = initializeApp(firebaseConfig);
     db = fsModule.getFirestore(app);
+    auth = authModule.getAuth(app);
+    
     firebaseReady = true;
     window._fsLib = fsModule;
+    window._authLib = authModule;
 
     console.info('[Firebase] ✅ Conectado com sucesso!');
     return true;
@@ -437,4 +443,108 @@ async function importGuestBatch(guests) {
     } catch (e) { console.warn('[Firebase] Erro ao importar lote:', e.message); }
   }
   return combined;
+}
+
+// ===== WEDDING CONFIG (Configurações Gerais do Casamento) =====
+
+const DEFAULT_WEDDING_CONFIG = {
+  brideName: 'Laoanny',
+  groomName: 'Gabriel',
+  weddingDate: '2027-04-25T16:30:00-03:00',
+  address: 'Espaço Villa Rose, Samambaia Sul, Brasília - DF',
+  churchName: 'Espaço Villa Rose',
+  receptionName: 'Espaço Villa Rose',
+  mapsLink: 'https://maps.app.goo.gl/yQ2t1m9t6vE2',
+  whatsappNumber: '5538991621135',
+  pixKey: '5538991621135',
+  pixReceiver: 'Gabriel de Menezes Cardoso',
+  pixCity: 'Brasília',
+  mainText: 'Laoanny e Gabriel descobriram que o amor vai muito além das palavras - ele se revela nos gestos simples, nos sorrisos trocados e nos momentos compartilhados.',
+  invitationText: 'Celebre conosco! Laoanny e Gabriel se casam em 25 de Abril de 2027 no Espaço Villa Rose, Samambaia Sul, Brasília - DF.',
+  honeymoonGoal: 25000,
+  honeymoonCollected: 3850,
+  honeymoonDescription: 'Ajude-nos a realizar nossa viagem de sonhos!'
+};
+
+async function getWeddingConfig() {
+  if (firebaseReady && db) {
+    try {
+      const { doc, getDoc } = window._fsLib;
+      const snap = await firebaseWithTimeout(getDoc(doc(db, 'settings', 'wedding')));
+      if (snap.exists()) {
+        const data = snap.data();
+        Storage.set('wedding_config', data);
+        return data;
+      }
+    } catch (e) {
+      console.warn('[Firebase] Fallback getWeddingConfig:', e.message);
+    }
+  }
+  return Storage.get('wedding_config', DEFAULT_WEDDING_CONFIG);
+}
+
+async function saveWeddingConfig(config) {
+  Storage.set('wedding_config', config);
+  if (firebaseReady && db) {
+    try {
+      const { doc, setDoc } = window._fsLib;
+      await firebaseWithTimeout(setDoc(doc(db, 'settings', 'wedding'), config));
+    } catch (e) {
+      console.warn('[Firebase] Erro ao salvar configuração:', e.message);
+      throw e;
+    }
+  }
+}
+
+// ===== FIREBASE AUTHENTICATION (Autenticação do Painel) =====
+
+async function signInAdmin(email, password) {
+  if (!firebaseReady || !auth) {
+    throw new Error('Firebase não inicializado ou indisponível.');
+  }
+  try {
+    const { signInWithEmailAndPassword } = window._authLib;
+    const userCredential = await firebaseWithTimeout(signInWithEmailAndPassword(auth, email, password));
+    return userCredential.user;
+  } catch (e) {
+    console.error('[Firebase Auth] Erro ao fazer login:', e.message);
+    throw e;
+  }
+}
+
+async function signOutAdmin() {
+  if (!firebaseReady || !auth) return;
+  try {
+    const { signOut } = window._authLib;
+    await firebaseWithTimeout(signOut(auth));
+  } catch (e) {
+    console.error('[Firebase Auth] Erro ao sair:', e.message);
+  }
+}
+
+async function resetAdminPassword(email) {
+  if (!firebaseReady || !auth) {
+    throw new Error('Firebase não inicializado ou indisponível.');
+  }
+  try {
+    const { sendPasswordResetEmail } = window._authLib;
+    await firebaseWithTimeout(sendPasswordResetEmail(auth, email));
+  } catch (e) {
+    console.error('[Firebase Auth] Erro ao enviar reset:', e.message);
+    throw e;
+  }
+}
+
+function onAdminStateChanged(callback) {
+  // Se Firebase não estiver pronto ainda, aguardamos
+  const checkInterval = setInterval(() => {
+    if (firebaseReady && auth) {
+      clearInterval(checkInterval);
+      const { onAuthStateChanged } = window._authLib;
+      onAuthStateChanged(auth, callback);
+    }
+  }, 100);
+  
+  // Limpeza de segurança após 15 segundos se o Firebase falhar
+  setTimeout(() => clearInterval(checkInterval), 15000);
 }

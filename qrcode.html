@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Convite Digital | Laoanny & Gabriel — 25 de Abril de 2027</title>
+  <title>Convite Digital | Laoanny & Gabriel â 25 de Abril de 2027</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
@@ -11,12 +11,12 @@
     body{font-family:'Inter',sans-serif;background:#F8F4EF;color:#2c2c2c;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;}
     .page{max-width:720px;width:100%;margin:0 auto;}
 
-    /* ── Header ── */
+    /* ââ Header ââ */
     .print-header{text-align:center;margin-bottom:2rem;}
     .print-header h1{font-family:'Dancing Script',cursive;font-size:2rem;color:#7a89a8;margin-bottom:.25rem;}
     .print-header p{font-size:.8rem;color:#888;letter-spacing:.08em;text-transform:uppercase;}
 
-    /* ── Convite Card ── */
+    /* ââ Convite Card ââ */
     .invite-card{
       background:white;border-radius:24px;
       box-shadow:0 20px 60px rgba(0,0,0,.12);
@@ -47,7 +47,7 @@
       letter-spacing:.1em;text-transform:uppercase;position:relative;z-index:1;
     }
 
-    /* ── QR Section ── */
+    /* ââ QR Section ââ */
     .qr-section{
       display:grid;grid-template-columns:auto 1fr;gap:2.5rem;
       padding:2.5rem;align-items:center;
@@ -66,7 +66,7 @@
     .qr-info .detail-icon{width:30px;height:30px;border-radius:8px;background:#EEF2F8;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
     .qr-info .detail-icon svg{width:16px;height:16px;color:#7A96C4;}
 
-    /* ── Footer do convite ── */
+    /* ââ Footer do convite ââ */
     .invite-footer{
       background:#F8F4EF;padding:1.5rem 2.5rem;
       display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
@@ -75,7 +75,7 @@
     .invite-footer p{font-size:.8rem;color:#888;line-height:1.6;}
     .invite-url{font-family:'Playfair Display',serif;font-size:.95rem;color:#7A96C4;font-style:italic;}
 
-    /* ── Ações ── */
+    /* ââ AÃ§Ãµes ââ */
     .actions{display:flex;gap:1rem;margin-top:2rem;justify-content:center;flex-wrap:wrap;}
     .btn-print{
       padding:.8rem 2rem;border-radius:50px;border:none;cursor:pointer;
@@ -93,7 +93,7 @@
 
     .tip{text-align:center;margin-top:1rem;font-size:.78rem;color:#aaa;}
 
-    /* ── Print styles ── */
+    /* ââ Print styles ââ */
     @media print{
       body{background:white;padding:0;}
       .actions,.print-header,.tip{display:none!important;}
@@ -112,72 +112,70 @@
   <div class="page">
 
     <div class="print-header">
-      <h1>Convite Digital — Casamento</h1>
+      <h1>Convite Digital â Casamento</h1>
       <p>Imprima e entregue aos seus convidados especiais</p>
     </div>
 
     <div class="invite-card">
       <!-- Topo do Convite -->
       <div class="invite-banner">
-        <div class="invite-orns">✦ ✦ ✦</div>
+        <div class="invite-orns">â¦ â¦ â¦</div>
         <div class="invite-names">
-          Laoanny
-          <span>&amp;</span>
-          Gabriel
+          <span class="bride-name-val">Laoanny</span> <span>&amp;</span> <span class="groom-name-val">Gabriel</span>
         </div>
-        <p class="invite-date">25 • Abril • 2027 • Domingo • 16h30</p>
+        <p class="invite-date wedding-date-long-val">25 de Abril de 2027</p>
       </div>
 
-      <!-- QR Code + Informações -->
+      <!-- QR Code + InformaÃ§Ãµes -->
       <div class="qr-section">
         <div class="qr-box">
           <img
             src="https://api.qrserver.com/v1/create-qr-code/?data=https%3A%2F%2Fgabrielmenezesc.github.io%2Fcasamento-anny-e-gabriel%2F&size=380x380&margin=16&color=1-1-1&bgcolor=250-250-250&ecc=H"
             alt="QR Code do Site"
           />
-          <small>Aponte a câmera</small>
+          <small>Aponte a cÃ¢mera</small>
         </div>
 
         <div class="qr-info">
-          <h2>Você está convidado!</h2>
-          <p>Acesse o site do casamento para confirmar sua presença, ver a lista de presentes e todas as informações do grande dia.</p>
+          <h2>VocÃª estÃ¡ convidado!</h2>
+          <p>Acesse o site do casamento para confirmar sua presenÃ§a, ver a lista de presentes e todas as informaÃ§Ãµes do grande dia.</p>
 
           <div class="detail-row">
             <div class="detail-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             </div>
-            <span><strong>25 de Abril de 2027</strong> - Domingo, às 16h30</span>
+            <span><strong class="wedding-date-long-val">25 de Abril de 2027</strong> - <span id="hero-time-val">16h30</span></span>
           </div>
           <div class="detail-row">
             <div class="detail-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
             </div>
-            <span><strong>Espaço Villa Rose</strong> — Samambaia Sul, Brasília</span>
+            <span><strong class="wedding-reception-val">Espaço Villa Rose</strong> - <span id="local-header-sub">Samambaia Sul, Brasília</span></span>
           </div>
           <div class="detail-row">
             <div class="detail-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             </div>
-            <span>Confirme sua presença pelo site</span>
+            <span>Confirme sua presenÃ§a pelo site</span>
           </div>
 
           <div class="invite-url">gabrielmenezesc.github.io/casamento-anny-e-gabriel</div>
         </div>
       </div>
 
-      <!-- Rodapé do Convite -->
+      <!-- RodapÃ© do Convite -->
       <div class="invite-footer">
         <p>
-          Com amor e alegria, convidamos você para celebrar<br/>
-          este momento especial conosco. <em>Sua presença é o nosso maior presente.</em>
+          Com amor e alegria, convidamos vocÃª para celebrar<br/>
+          este momento especial conosco. <em>Sua presenÃ§a Ã© o nosso maior presente.</em>
         </p>
         <p style="font-family:'Dancing Script',cursive;font-size:1.1rem;color:#7A96C4;">
-          Laoanny &amp; Gabriel ♡
+          <span class="noivos-combined-names-val">Laoanny &amp; Gabriel</span>â¡
         </p>
       </div>
     </div>
 
-    <!-- Botões de Ação -->
+    <!-- BotÃµes de AÃ§Ã£o -->
     <div class="actions">
       <button class="btn-print" onclick="window.print()">
         <svg style="display:inline-block;vertical-align:middle;margin-right:6px;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
@@ -188,7 +186,7 @@
         Compartilhar Link
       </button>
     </div>
-    <p class="tip">Para imprimir com fundo colorido: Arquivo → Imprimir → Mais configurações → ativar "Gráficos de fundo"</p>
+    <p class="tip">Para imprimir com fundo colorido: Arquivo â Imprimir â Mais configuraÃ§Ãµes â ativar "GrÃ¡ficos de fundo"</p>
 
   </div>
 
@@ -206,8 +204,14 @@
       }
     }
   </script>
+
+  <script src="./js/utils.js"></script>
+  <script src="./js/firebase.js?v=15"></script>
+  <script src="./js/site-config.js?v=18"></script>
 </body>
 </html>
+
+
 
 
 

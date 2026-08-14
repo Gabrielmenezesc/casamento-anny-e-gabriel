@@ -585,14 +585,16 @@
 
   <footer class="footer">
     <div class="footer-logo">Laoanny <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin:0 3px;color:#e85d75;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> Gabriel</div>
-    <p>25 de Abril de 2027 • Espaço Villa Rose • Brasília - DF</p>
+    <p id="footer-details-val">25 de Abril de 2027 • Espaço Villa Rose • Brasília - DF</p>
   </footer>
 
   </div>
 
   <script src="./js/utils.js"></script>
   <script src="./js/firebase.js?v=15"></script>
-  <script src="./js/app.js?v=15"></script>
+  
+  <script src="./js/site-config.js?v=18"></script>
+<script src="./js/app.js?v=15"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
       // Padrinhos Login Logic
@@ -625,7 +627,7 @@
       });
 
       const form = document.getElementById('padrinho-form');
-      form.addEventListener('submit', async (e) => {
+      form.addEventListener('submit', (e) => {
         e.preventDefault();
         const btn = form.querySelector('[type="submit"]');
         btn.disabled = true;
@@ -640,33 +642,26 @@
           message: document.getElementById('pad-message').value.trim() || '',
         };
 
-        try {
-          await saveGodparent(data);
+        // Salva no background para não ter await
+        saveGodparent(data).catch(err => console.error(err));
 
-          document.getElementById('padrinho-form-body').style.display = 'none';
-          document.getElementById('padrinho-success').style.display = 'block';
-          launchConfetti();
-          showToast('🥂 Confirmado com sucesso!', 'success');
+        document.getElementById('padrinho-form-body').style.display = 'none';
+        document.getElementById('padrinho-success').style.display = 'block';
+        if (typeof launchConfetti === 'function') launchConfetti();
+        showToast('✔️ Confirmado com sucesso!', 'success');
 
-          // Send message directly via WhatsApp to the groom
-          const noivosPhone = '5538991621135';
-          let waText = `Olá Laoanny e Gabriel! 💒\n\nConfirmei meus dados de *Padrinho/Madrinha* pelo site!\n\n`;
-          waText += `👤 *Nome:* ${data.fullName}\n`;
-          waText += `🍏 *Restrição alimentar:* ${data.foodRestrictions}\n`;
-          waText += `👤 *Acompanhante:* ${data.companion}`;
-          if (data.message) {
-            waText += `\n💬 *Recado:* "${data.message}"`;
-          }
-          
-          const encoded = encodeURIComponent(waText);
-          window.location.href = `https://api.whatsapp.com/send?phone=${noivosPhone}&text=${encoded}`;
-
-        } catch (err) {
-          console.error(err);
-          showToast('Erro ao salvar. Tente novamente.', 'error');
-          btn.disabled = false;
-          btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg> Confirmar Informações';
+        // Send message directly via WhatsApp to the groom
+        const noivosPhone = '5538991621135';
+        let waText = `Olá Laoanny e Gabriel! 💒\n\nConfirmei meus dados de *Padrinho/Madrinha* pelo site!\n\n`;
+        waText += `👤 *Nome:* ${data.fullName}\n`;
+        waText += `🍽️ *Restrição alimentar:* ${data.foodRestrictions}\n`;
+        waText += `👥 *Acompanhante:* ${data.companion}`;
+        if (data.message) {
+          waText += `\n💬 *Recado:* "${data.message}"`;
         }
+        
+        const encoded = encodeURIComponent(waText);
+        window.location.href = `https://api.whatsapp.com/send?phone=${noivosPhone}&text=${encoded}`;
       });
     });
   </script>
@@ -674,6 +669,8 @@
   <script src="./js/assistant.js?v=15" defer></script>
 </body>
 </html>
+
+
 
 
 

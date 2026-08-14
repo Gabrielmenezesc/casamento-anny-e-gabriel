@@ -2,8 +2,6 @@
 // ADMIN.JS - Painel Administrativo (Atualizado)
 // ===================================================
 
-const ADMIN_PASSWORD = 'Anny27';
-
 let adminLoggedIn = false;
 let currentAdminPanel = 'dashboard';
 let allRSVPs = [];
@@ -11,20 +9,25 @@ let allAdminGifts = [];
 let allAdminGodparents = [];
 let allPix = [];
 let allGuestList = [];
+let weddingConfig = null;
 
 document.addEventListener('DOMContentLoaded', () => {
-  checkAdminSession();
-  initAdminLogin();
+  // Inicializa o Firebase primeiro
+  initFirebase().then(() => {
+    checkAdminSession();
+    initAdminLogin();
+  });
 });
 
 // ===== Auth =====
 function checkAdminSession() {
-  const session = sessionStorage.getItem('admin_session');
-  if (session === 'active') {
-    showAdminPanel();
-  } else {
-    showLoginScreen();
-  }
+  onAdminStateChanged((user) => {
+    if (user) {
+      showAdminPanel();
+    } else {
+      showLoginScreen();
+    }
+  });
 }
 
 function initAdminLogin() {
@@ -32,15 +35,27 @@ function initAdminLogin() {
   if (!form) return;
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    const email = document.getElementById('admin-email')?.value?.trim();
     const pwd = document.getElementById('admin-password')?.value;
     const error = document.getElementById('admin-login-error');
+    const submitBtn = form.querySelector('[type="submit"]');
 
-    if (pwd === ADMIN_PASSWORD) {
-      sessionStorage.setItem('admin_session', 'active');
-      showAdminPanel();
-    } else {
+    if (!email || !pwd) {
+      showToast('⚠️ Por favor, digite seu e-mail e senha.', 'error');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '⏳ Entrando...';
+
+    try {
+      await signInAdmin(email, pwd);
+      showToast('🔓 Acesso concedido!', 'success');
+    } catch (e) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Entrar no Painel';
       if (error) {
-        error.textContent = '🔒 Senha incorreta. Tente novamente.';
+        error.textContent = '🔒 Usuário ou senha incorretos.';
         error.classList.add('visible');
         setTimeout(() => error.classList.remove('visible'), 4000);
       }
@@ -62,14 +77,11 @@ async function showAdminPanel() {
   initAdminNav();
   initAdminSearch();
   initExportButtons();
+  initWeddingConfigForm();
+  initGalleryForm();
+  initWhatsAppPanel();
 
-  // Carrega Firebase e dados em segundo plano
-  try {
-    await initFirebase();
-  } catch (e) {
-    console.warn('Firebase init falhou, usando localStorage:', e);
-  }
-
+  // Carrega dados em segundo plano
   try {
     await loadAdminData();
   } catch (e) {
@@ -78,9 +90,11 @@ async function showAdminPanel() {
   }
 }
 
-function adminLogout() {
-  sessionStorage.removeItem('admin_session');
-  showLoginScreen();
+async function adminLogout() {
+  try {
+    await signOutAdmin();
+    showToast('🚪 Sessão encerrada.', 'info');
+  } catch(e) {}
 }
 
 // ===== Load Data =====
@@ -90,9 +104,7 @@ async function loadAdminData() {
   try { allAdminGodparents = await getGodparents(); } catch(e) { console.warn('Erro Padrinhos:', e); allAdminGodparents = []; }
   try { allPix = await getPix(); } catch(e) { console.warn('Erro PIX:', e); allPix = []; }
   try { allGuestList = await getGuestList(); } catch(e) { console.warn('Erro GuestList:', e); allGuestList = []; }
-
-  let honeymoon = null;
-  try { honeymoon = await getHoneymoonSettings(); } catch(e) { console.warn('Erro Honeymoon:', e); }
+  try { weddingConfig = await getWeddingConfig(); } catch(e) { console.warn('Erro Config:', e); }
 
   // Importa a lista (a função no firebase.js filtra duplicatas automaticamente)
   try {
@@ -104,13 +116,17 @@ async function loadAdminData() {
   // Sincroniza confirmações: marca automaticamente como confirmado quem já fez RSVP
   syncGuestConfirmations();
 
-  renderDashboard(allRSVPs, allAdminGifts, honeymoon, allPix);
+  renderDashboard(allRSVPs, allAdminGifts, weddingConfig, allPix);
   renderRSVPTable(allRSVPs);
   renderGiftsTable(allAdminGifts);
   renderGodparentsTable(allAdminGodparents);
   renderPixTable(allPix);
   renderGuestListTable(allGuestList);
   renderCharts(allRSVPs, allAdminGifts);
+  
+  // Preenche campos de configurações
+  fillWeddingConfigForm();
+  fillWhatsAppStats();
 }
 
 // ===== Dashboard Stats =====
@@ -263,7 +279,7 @@ function renderGodparentsTable(godparents, filter = '') {
 }
 
 function renderPixTable(pixList) {
-  const tbody = document.getElementById('pix-table-body');
+  const tbody = document.getElementById('pix-table-body-2') || document.getElementById('pix-table-body');
   if (!tbody) return;
   if (!pixList || !pixList.length) {
     tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:2rem;color:var(--text-muted)">Nenhum PIX registrado ainda.</td></tr>';
@@ -277,7 +293,7 @@ function renderPixTable(pixList) {
         <td><span style="color:#25d366;font-weight:600;">R$ ${(parseFloat(p.valor)||0).toFixed(2).replace('.',',')}</span></td>
         <td>${d}</td>
         <td>
-          <button class="admin-action-btn admin-action-delete" onclick="deletePixRow(${index})">🗑 Excluir</button>
+          <button class="admin-action-btn admin-action-delete" onclick="deletePixRow('${p.id || index}')">🗑 Excluir</button>
         </td>
       </tr>
     `;
@@ -611,12 +627,14 @@ function renderGuestListTable(guests, filter = '') {
 async function manualConfirmGuest(guestId) {
   allGuestList = await updateGuest(guestId, { confirmed: true, confirmedAt: new Date().toISOString() });
   renderGuestListTable(allGuestList);
+  fillWhatsAppStats(); // Atualiza painel do WhatsApp também
   showToast('✅ Convidado confirmado manualmente!', 'success');
 }
 
 async function unconfirmGuest(guestId) {
   allGuestList = await updateGuest(guestId, { confirmed: false, confirmedAt: null });
   renderGuestListTable(allGuestList);
+  fillWhatsAppStats();
   showToast('↩ Confirmação desfeita.', 'info');
 }
 
@@ -624,5 +642,257 @@ async function deleteGuestRow(guestId) {
   if (!confirm('Excluir este convidado da lista?')) return;
   allGuestList = await deleteGuest(guestId);
   renderGuestListTable(allGuestList);
+  fillWhatsAppStats();
   showToast('Convidado removido da lista.', 'info');
 }
+
+// ===== CONFIGURAÇÕES GERAIS (Wedding Config Form) =====
+
+function initWeddingConfigForm() {
+  const form = document.getElementById('admin-config-form');
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const saveBtn = form.querySelector('[type="submit"]');
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = '⏳ Salvando...';
+
+    const updatedConfig = {
+      ...weddingConfig,
+      brideName: document.getElementById('cfg-bride-name').value.trim(),
+      groomName: document.getElementById('cfg-groom-name').value.trim(),
+      weddingDate: document.getElementById('cfg-wedding-date').value,
+      whatsappNumber: document.getElementById('cfg-whatsapp-number').value.trim(),
+      receptionName: document.getElementById('cfg-reception-name').value.trim(),
+      churchName: document.getElementById('cfg-church-name').value.trim(),
+      address: document.getElementById('cfg-address').value.trim(),
+      mapsLink: document.getElementById('cfg-maps-link').value.trim(),
+      pixKey: document.getElementById('cfg-pix-key').value.trim(),
+      pixReceiver: document.getElementById('cfg-pix-receiver').value.trim(),
+      pixCity: document.getElementById('cfg-pix-city').value.trim(),
+      honeymoonGoal: parseFloat(document.getElementById('cfg-honeymoon-goal').value) || 0,
+      honeymoonCollected: parseFloat(document.getElementById('cfg-honeymoon-collected').value) || 0,
+      honeymoonDescription: document.getElementById('cfg-honeymoon-description').value.trim(),
+      mainText: document.getElementById('cfg-main-text').value.trim(),
+      invitationText: document.getElementById('cfg-invitation-text').value.trim()
+    };
+
+    try {
+      await saveWeddingConfig(updatedConfig);
+      weddingConfig = updatedConfig;
+      showToast('⚙️ Configurações salvas com sucesso!', 'success');
+      
+      // Atualiza dashboard
+      renderDashboard(allRSVPs, allAdminGifts, weddingConfig, allPix);
+    } catch (err) {
+      showToast('❌ Erro ao salvar configurações. Tente novamente.', 'error');
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.innerHTML = 'Salvar Configurações';
+    }
+  });
+}
+
+function fillWeddingConfigForm() {
+  if (!weddingConfig) return;
+  
+  const setVal = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.value = val || '';
+  };
+
+  setVal('cfg-bride-name', weddingConfig.brideName);
+  setVal('cfg-groom-name', weddingConfig.groomName);
+  
+  // datetime-local precisa estar no formato YYYY-MM-DDTHH:MM
+  if (weddingConfig.weddingDate) {
+    setVal('cfg-wedding-date', weddingConfig.weddingDate.substring(0, 16));
+  }
+  
+  setVal('cfg-whatsapp-number', weddingConfig.whatsappNumber);
+  setVal('cfg-reception-name', weddingConfig.receptionName);
+  setVal('cfg-church-name', weddingConfig.churchName);
+  setVal('cfg-address', weddingConfig.address);
+  setVal('cfg-maps-link', weddingConfig.mapsLink);
+  setVal('cfg-pix-key', weddingConfig.pixKey);
+  setVal('cfg-pix-receiver', weddingConfig.pixReceiver);
+  setVal('cfg-pix-city', weddingConfig.pixCity);
+  setVal('cfg-honeymoon-goal', weddingConfig.honeymoonGoal);
+  setVal('cfg-honeymoon-collected', weddingConfig.honeymoonCollected);
+  setVal('cfg-honeymoon-description', weddingConfig.honeymoonDescription);
+  setVal('cfg-main-text', weddingConfig.mainText);
+  setVal('cfg-invitation-text', weddingConfig.invitationText);
+}
+
+// ===== GERENCIAMENTO DE GALERIA =====
+
+function initGalleryForm() {
+  const form = document.getElementById('admin-gallery-form');
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const saveBtn = form.querySelector('[type="submit"]');
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = '⏳ Salvando...';
+
+    const updatedConfig = {
+      ...weddingConfig,
+      galleryPhoto1: document.getElementById('gallery-photo-1').value.trim(),
+      galleryPhoto2: document.getElementById('gallery-photo-2').value.trim(),
+      galleryPhoto3: document.getElementById('gallery-photo-3').value.trim(),
+      galleryPhoto4: document.getElementById('gallery-photo-4').value.trim()
+    };
+
+    try {
+      await saveWeddingConfig(updatedConfig);
+      weddingConfig = updatedConfig;
+      showToast('📸 Galeria atualizada com sucesso!', 'success');
+    } catch (err) {
+      showToast('❌ Erro ao atualizar galeria.', 'error');
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.innerHTML = 'Salvar Fotos';
+    }
+  });
+}
+
+// ===== PAINEL WHATSAPP =====
+
+// Modelos de mensagens
+const WA_TEMPLATES = {
+  convite: "Olá, [NOME]! 💒\n\nEstamos muito felizes em compartilhar esse momento especial com você. Nosso casamento está chegando!\n\n📅 Data: [DATA]\n⏰ Horário: [HORARIO]\n\nPor favor, confirme sua presença pelo nosso site:\n[LINK]\n\nCom carinho,\nAnny & Gabriel",
+  lembrete: "Oi, [NOME]! ⏳\n\nPassando para lembrar que o nosso grande dia está se aproximando! Se você ainda não confirmou sua presença, por favor, faça isso pelo link abaixo para nos ajudar na organização:\n\n👉 [LINK]\n\nContamos com você! 💒",
+  confirmacao: "Olá, [NOME]! ✅\n\nRecebemos sua confirmação de presença! Ficamos imensamente felizes em saber que você celebrará conosco no dia [DATA] às [HORARIO].\n\nTodas as informações e lista de presentes estão no nosso site:\n[LINK]\n\nAté lá! 🎉",
+  agradecimento: "Querido(a) [NOME], 💜\n\nGostaríamos de agradecer imensamente pelo carinho, presença (ou presente) e por fazer parte da nossa história de amor.\n\nCom amor,\nAnny & Gabriel"
+};
+
+let currentWaTemplateType = 'convite';
+
+function initWhatsAppPanel() {
+  const editor = document.getElementById('wa-template-editor');
+  if (editor) {
+    editor.value = WA_TEMPLATES.convite;
+  }
+
+  const bindTmplBtn = (id, type) => {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.wa-tmpl-btn').forEach(b => {
+        b.style.background = '#eee';
+        b.style.color = '#333';
+      });
+      btn.style.background = 'var(--accent)';
+      btn.style.color = 'white';
+      currentWaTemplateType = type;
+      if (editor) editor.value = WA_TEMPLATES[type];
+    });
+  };
+
+  bindTmplBtn('wa-tmpl-convite', 'convite');
+  bindTmplBtn('wa-tmpl-lembrete', 'lembrete');
+  bindTmplBtn('wa-tmpl-confirmacao', 'confirmacao');
+  bindTmplBtn('wa-tmpl-agradecimento', 'agradecimento');
+
+  const waGuestSearch = document.getElementById('wa-guest-search');
+  if (waGuestSearch) {
+    waGuestSearch.addEventListener('input', debounce(() => {
+      renderWaGuestTable(allGuestList, waGuestSearch.value);
+    }, 300));
+  }
+}
+
+function fillWhatsAppStats() {
+  if (!allGuestList.length) return;
+
+  // Filtra números de telefone válidos ou preenchidos (vamos simular identificando quem tem telefone)
+  // Como a lista padrão importada em admin.js não tem telefones, vamos assumir que o casal preenche
+  const total = allGuestList.length;
+  // Para fins visuais, consideramos com telefone se tiver o campo preenchido (ou criamos telefone padrão para fins de teste)
+  const withPhone = allGuestList.filter(g => g.phone && g.phone.trim().length > 4).length;
+  const noPhone = total - withPhone;
+
+  setEl('wa-stat-total', total);
+  setEl('wa-stat-with-phone', withPhone);
+  setEl('wa-stat-no-phone', noPhone);
+
+  renderWaGuestTable(allGuestList);
+}
+
+function renderWaGuestTable(guests, filter = '') {
+  const tbody = document.getElementById('wa-guest-table-body');
+  if (!tbody) return;
+
+  const filtered = filter
+    ? guests.filter(g => g.name.toLowerCase().includes(filter.toLowerCase()))
+    : guests;
+
+  if (!filtered.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text-muted)">Nenhum convidado encontrado.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(g => {
+    const hasPhone = g.phone && g.phone.trim().length > 4;
+    const phoneDisplay = hasPhone ? sanitize(g.phone) : '<span style="color:#ef4444;">Sem Telefone</span>';
+    const lastContact = g.whatsappUltimaAcao ? new Date(g.whatsappUltimaAcao).toLocaleString('pt-BR') : '-';
+    const statusText = g.whatsappAcao ? '<span style="color:#22c55e;font-weight:600;">Enviado</span>' : '<span style="color:#888;">Pendente</span>';
+
+    return `
+      <tr>
+        <td><strong>${sanitize(g.name)}</strong></td>
+        <td>${phoneDisplay}</td>
+        <td>${lastContact}</td>
+        <td>${statusText}</td>
+        <td>
+          <button class="admin-action-btn" style="background:#25d366;color:#fff;border:none;padding:4px 10px;border-radius:8px;cursor:pointer;font-size:0.75rem;gap:4px;" onclick="sendWhatsAppTemplate('${g.id}')">💬 Enviar</button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+async function sendWhatsAppTemplate(guestId) {
+  const guest = allGuestList.find(g => g.id === guestId);
+  if (!guest) return;
+
+  // Garante que o convidado tem telefone cadastrado
+  let guestPhone = guest.phone ? guest.phone.replace(/\D/g, '') : '';
+  if (!guestPhone) {
+    const inputPhone = prompt(`Digite o número de telefone de ${guest.name} (DDD + Número, apenas números):`);
+    if (!inputPhone) return;
+    guestPhone = inputPhone.replace(/\D/g, '');
+    // Salva o telefone no Firestore
+    allGuestList = await updateGuest(guestId, { phone: inputPhone });
+    renderGuestListTable(allGuestList);
+    fillWhatsAppStats();
+  }
+
+  // Prepara a mensagem
+  const editor = document.getElementById('wa-template-editor');
+  let text = editor ? editor.value : WA_TEMPLATES[currentWaTemplateType];
+
+  const weddingDateParsed = new Date(weddingConfig?.weddingDate || '2027-04-25T16:30:00');
+  const formattedDate = weddingDateParsed.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const formattedTime = weddingDateParsed.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+  // Substitui tags
+  text = text.replace(/\[NOME\]/g, guest.name)
+             .replace(/\[DATA\]/g, formattedDate)
+             .replace(/\[HORARIO\]/g, formattedTime)
+             .replace(/\[LINK\]/g, 'https://gabrielmenezesc.github.io/casamento-anny-e-gabriel/');
+
+  // Registra a ação no Firestore
+  allGuestList = await updateGuest(guestId, { whatsappAcao: true, whatsappUltimaAcao: new Date().toISOString() });
+  renderWaGuestTable(allGuestList);
+
+  // Redireciona para o WhatsApp (Sem delay para evitar bloqueios de pop-up)
+  const encodedText = encodeURIComponent(text);
+  const waUrl = `https://api.whatsapp.com/send?phone=55${guestPhone}&text=${encodedText}`;
+  window.location.href = waUrl;
+}
+
+// Vincula globalmente para ser acessado por inline onClick
+window.sendWhatsAppTemplate = sendWhatsAppTemplate;
