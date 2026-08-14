@@ -318,19 +318,7 @@
     </div>
   </nav>
 
-  <!-- ===== LOGIN SCREEN PADRINHOS ===== -->
-  <div id="padrinhos-login-screen" style="position: fixed; inset: 0; z-index: 2000; background: var(--bg-primary); display: flex; align-items: center; justify-content: center; padding: 1rem;">
-    <div style="background: var(--bg-card); padding: 2rem; border-radius: 20px; box-shadow: var(--shadow-xl); width: 100%; max-width: 400px; text-align: center;">
-      <h1 style="font-family: var(--font-serif); color: var(--text-primary); margin-bottom: 0.5rem;">Área dos Padrinhos</h1>
-      <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.875rem;">Acesso restrito. Digite a senha para entrar.</p>
-      <form id="padrinhos-login-form">
-        <input type="password" id="padrinhos-password" placeholder="Senha" required style="width: 100%; padding: 0.75rem; border: 2px solid var(--glass-border-strong); border-radius: 8px; margin-bottom: 1rem;" />
-        <button type="submit" class="btn btn-gold w-full" style="justify-content: center;">Entrar</button>
-      </form>
-      <div id="padrinhos-login-error" style="color: var(--color-rose); margin-top: 1rem; display: none; font-size: 0.875rem;">Senha incorreta.</div>
-    </div>
-  </div>
-  <div id="padrinhos-content" style="display: none;">
+  <!-- Área dos Padrinhos aberta, sem senha -->
 
   <nav class="mobile-nav" id="mobile-nav">
     <a href="index.html" class="navbar-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Início</a>
@@ -591,78 +579,67 @@
   </div>
 
   <script src="./js/utils.js"></script>
-  <script src="./js/firebase.js?v=15"></script>
-  
-  <script src="./js/site-config.js?v=18"></script>
-<script src="./js/app.js?v=15"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      // Padrinhos Login Logic
-      const loginForm = document.getElementById('padrinhos-login-form');
-      const loginScreen = document.getElementById('padrinhos-login-screen');
-      const contentScreen = document.getElementById('padrinhos-content');
-      
-      if(sessionStorage.getItem('padrinhos_session') === 'active') {
-        loginScreen.style.display = 'none';
-        contentScreen.style.display = 'block';
+    var STORAGE_KEYS = { theme: 'wedding_theme' };
+    var Storage = {
+      get: function(k,d){ try{ var v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch(e){ return d; } },
+      set: function(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+    };
+  </script>
+  <script src="./js/app.js?v=15"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Mascara de telefone
+      var phoneInput = document.getElementById('pad-phone');
+      if (phoneInput) {
+        phoneInput.addEventListener('input', function() {
+          if (typeof maskPhone === 'function') maskPhone(this);
+        });
       }
-      
-      loginForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const pwd = document.getElementById('padrinhos-password').value;
-        if(pwd === 'adm2027') {
-          sessionStorage.setItem('padrinhos_session', 'active');
-          loginScreen.style.display = 'none';
-          contentScreen.style.display = 'block';
-        } else {
-          document.getElementById('padrinhos-login-error').style.display = 'block';
-        }
-      });
 
-      AOS.init({ duration: 700, once: true });
-      await initFirebase();
-      maskPhone(document.getElementById('pad-phone'));
-      document.getElementById('pad-phone').addEventListener('input', function() {
-        maskPhone(this);
-      });
+      // AOS
+      if (typeof AOS !== 'undefined') AOS.init({ duration: 700, once: true });
 
-      const form = document.getElementById('padrinho-form');
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const btn = form.querySelector('[type="submit"]');
-        btn.disabled = true;
-        btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite;display:inline-block;vertical-align:middle;margin-right:6px;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Salvando...';
+      // Formulario do Padrinho -> direto ao WhatsApp
+      var form = document.getElementById('padrinho-form');
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
 
-        const data = {
-          fullName: document.getElementById('pad-name').value.trim(),
-          phone: document.getElementById('pad-phone').value.trim(),
-          
-          foodRestrictions: document.getElementById('pad-food').value.trim() || 'Nenhuma',
-          companion: document.getElementById('pad-companion').value.trim() || 'Nenhum',
-          message: document.getElementById('pad-message').value.trim() || '',
-        };
+          var nome  = document.getElementById('pad-name')  ? document.getElementById('pad-name').value.trim()  : '';
+          var fone  = document.getElementById('pad-phone') ? document.getElementById('pad-phone').value.trim() : '';
 
-        // Salva no background para não ter await
-        saveGodparent(data).catch(err => console.error(err));
+          if (!nome || !fone) {
+            alert('Por favor, preencha seu nome e telefone.');
+            return;
+          }
 
-        document.getElementById('padrinho-form-body').style.display = 'none';
-        document.getElementById('padrinho-success').style.display = 'block';
-        if (typeof launchConfetti === 'function') launchConfetti();
-        showToast('✔️ Confirmado com sucesso!', 'success');
+          var food      = document.getElementById('pad-food')      ? document.getElementById('pad-food').value.trim()      : 'Nenhuma';
+          var companion = document.getElementById('pad-companion') ? document.getElementById('pad-companion').value.trim() : 'Nenhum';
+          var message   = document.getElementById('pad-message')  ? document.getElementById('pad-message').value.trim()  : '';
 
-        // Send message directly via WhatsApp to the groom
-        const noivosPhone = '5538991621135';
-        let waText = `Olá Laoanny e Gabriel! 💒\n\nConfirmei meus dados de *Padrinho/Madrinha* pelo site!\n\n`;
-        waText += `👤 *Nome:* ${data.fullName}\n`;
-        waText += `🍽️ *Restrição alimentar:* ${data.foodRestrictions}\n`;
-        waText += `👥 *Acompanhante:* ${data.companion}`;
-        if (data.message) {
-          waText += `\n💬 *Recado:* "${data.message}"`;
-        }
-        
-        const encoded = encodeURIComponent(waText);
-        window.location.href = `https://api.whatsapp.com/send?phone=${noivosPhone}&text=${encoded}`;
-      });
+          food      = food      || 'Nenhuma';
+          companion = companion || 'Nenhum';
+
+          // Monta mensagem
+          var msg = 'Ola Laoanny e Gabriel! Confirmei meus dados de Padrinho/Madrinha pelo site!\n\n';
+          msg += 'Nome: ' + nome + '\n';
+          msg += 'Telefone: ' + fone + '\n';
+          msg += 'Restricao alimentar: ' + food + '\n';
+          msg += 'Acompanhante: ' + companion;
+          if (message) { msg += '\nRecado: "' + message + '"'; }
+
+          // Mostra tela de sucesso
+          var body = document.getElementById('padrinho-form-body');
+          var succ = document.getElementById('padrinho-success');
+          if (body) body.style.display = 'none';
+          if (succ) succ.style.display = 'block';
+          if (typeof launchConfetti === 'function') launchConfetti();
+
+          // VAI DIRETO PARA O WHATSAPP
+          window.location.href = 'https://api.whatsapp.com/send?phone=5538991621135&text=' + encodeURIComponent(msg);
+        });
+      }
     });
   </script>
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>

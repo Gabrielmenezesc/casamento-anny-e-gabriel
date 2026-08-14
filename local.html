@@ -238,6 +238,13 @@
   </footer>
 
   <script src="./js/utils.js"></script>
+  <script>
+    var STORAGE_KEYS = { theme: 'wedding_theme' };
+    var Storage = {
+      get: function(k,d){ try{ var v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch(e){ return d; } },
+      set: function(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+    };
+  </script>
   <script src="./js/firebase.js?v=15"></script>
   
   <script src="./js/site-config.js?v=18"></script>
