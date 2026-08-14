@@ -148,13 +148,23 @@
     <p id="footer-details-val">25 de Abril de 2027 • Espaço Villa Rose • Brasília - DF</p>
   </footer>
 
+  <!-- Stub minimo para app.js funcionar sem firebase.js -->
+  <script>
+    var STORAGE_KEYS = { theme: 'wedding_theme' };
+    var Storage = {
+      get: function(key, fallback) {
+        try { var v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch(e) { return fallback; }
+      },
+      set: function(key, value) {
+        try { localStorage.setItem(key, JSON.stringify(value)); } catch(e) {}
+      }
+    };
+  </script>
   <script src="./js/utils.js"></script>
-  <script src="./js/convidados.js?v=20"></script>
+  <script src="./js/app.js?v=15"></script>
+  <script src="./js/convidados.js?v=21"></script>
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-  <script>document.addEventListener('DOMContentLoaded', () => AOS.init({ duration: 700, once: true }));</script>
-
-  <!-- O script inline redundante foi removido para evitar conflitos e garantir o redirecionamento imediato do WhatsApp -->
-
+  <script>document.addEventListener('DOMContentLoaded', function() { if(typeof AOS!=='undefined') AOS.init({ duration: 700, once: true }); });</script>
   <script src="./js/assistant.js?v=15" defer></script>
 </body>
 </html>
