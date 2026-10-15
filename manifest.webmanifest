@@ -1,7 +1,7 @@
 {
   "name": "Laoanny & Gabriel",
   "short_name": "Casamento",
-  "start_url": "./index.html?app=true",
+  "start_url": "./app.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",

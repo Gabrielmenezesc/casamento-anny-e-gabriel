@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>Laoanny & Gabriel | App Oficial</title>
+  
+  <meta name="theme-color" content="#1d4ed8" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+
+  <!-- App Styles Exclusivos -->
+  <link rel="stylesheet" href="./css/app.css" />
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+
+  <div class="app-viewport">
+    <!-- Imagem de Fundo do Casal com Degradê -->
+    <div class="app-hero-background">
+      <img
+        class="app-hero-img"
+        src="./assets/images/capa.jfif"
+        alt="Laoanny e Gabriel"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div class="app-hero-gradient-overlay"></div>
+    </div>
+
+    <!-- Barra de Status Superior / Menu -->
+    <header class="app-top-bar">
+      <span class="app-time-badge" id="app-clock">9:41</span>
+      <a href="index.html" class="app-menu-btn" aria-label="Abrir versão site" title="Abrir site">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </a>
+    </header>
+
+    <!-- Nomes do Casal no Topo -->
+    <div class="app-title-area">
+      <h1 class="app-couple-names">
+        <span>Laoanny</span>
+        <span class="app-heart-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </span>
+        <span>Gabriel</span>
+      </h1>
+      <p class="app-subtitle-tagline">ESTAMOS NOS CASANDO</p>
+      <div class="app-heart-divider">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Espaço reservado para visualização desobstruída dos rostos do casal -->
+    <div class="app-spacer-couple"></div>
+
+    <!-- Containers de Informações e Ações Rápidas -->
+    <div class="app-cards-container">
+      <div class="app-section-pill-title">NOSSO GRANDE DIA</div>
+
+      <!-- Card Contador Regressivo Glassmorphism -->
+      <div class="app-glass-card">
+        <div class="app-countdown-grid">
+          <div class="app-cd-unit">
+            <span class="app-cd-number" id="app-cd-days">--</span>
+            <span class="app-cd-label">DIAS</span>
+          </div>
+          <div class="app-cd-sep"></div>
+          <div class="app-cd-unit">
+            <span class="app-cd-number" id="app-cd-hours">--</span>
+            <span class="app-cd-label">HORAS</span>
+          </div>
+          <div class="app-cd-sep"></div>
+          <div class="app-cd-unit">
+            <span class="app-cd-number" id="app-cd-min">--</span>
+            <span class="app-cd-label">MINUTOS</span>
+          </div>
+          <div class="app-cd-sep"></div>
+          <div class="app-cd-unit">
+            <span class="app-cd-number" id="app-cd-sec">--</span>
+            <span class="app-cd-label">SEGUNDOS</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Painel de Data, Hora e Local -->
+      <div class="app-glass-card app-info-panel">
+        <div class="app-info-row-top">
+          <div class="app-info-split-item">
+            <div class="app-info-icon-bubble">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+            </div>
+            <div class="app-info-text-group">
+              <span class="app-info-primary" id="hero-date-val">25 de abril</span>
+              <span class="app-info-secondary" id="hero-year-val">DE 2027</span>
+            </div>
+          </div>
+
+          <div class="app-info-split-sep"></div>
+
+          <div class="app-info-split-item">
+            <div class="app-info-icon-bubble">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+            <div class="app-info-text-group">
+              <span class="app-info-primary" id="hero-time-val">16:30 horas</span>
+              <span class="app-info-secondary">CERIMÔNIA</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="app-info-row-bottom">
+          <div class="app-info-icon-bubble">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </div>
+          <div class="app-info-text-group">
+            <span class="app-info-primary" id="wedding-reception-val">Espaço Villa Rose</span>
+            <span class="app-info-secondary" id="wedding-address-val">SAMAMBAIA SUL, BRASÍLIA - DF</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grade 2 Colunas: Ver Local & Escolher Presente -->
+      <div class="app-actions-2col">
+        <a href="local.html" class="app-white-card">
+          <div class="app-white-card-content">
+            <div class="app-white-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </div>
+            <div>
+              <span class="app-white-card-title">Ver local</span>
+              <span class="app-white-card-sub">Como chegar</span>
+            </div>
+          </div>
+          <span class="app-card-chevron">›</span>
+        </a>
+
+        <a href="presentes.html" class="app-white-card">
+          <div class="app-white-card-content">
+            <div class="app-white-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 12 20 22 4 22 4 12"></polyline>
+                <rect x="2" y="7" width="20" height="5"></rect>
+                <line x1="12" y1="22" x2="12" y2="7"></line>
+                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+              </svg>
+            </div>
+            <div>
+              <span class="app-white-card-title">Presentes</span>
+              <span class="app-white-card-sub">Lista de presentes</span>
+            </div>
+          </div>
+          <span class="app-card-chevron">›</span>
+        </a>
+      </div>
+
+      <!-- Banner Azul Oficial: Presentear com PIX -->
+      <button class="app-pix-cta" data-open-pix>
+        <div class="app-pix-cta-content">
+          <div class="app-pix-cta-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+              <line x1="1" y1="10" x2="23" y2="10"></line>
+            </svg>
+          </div>
+          <div>
+            <div class="app-pix-cta-title">
+              <span>Presentear com PIX</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </div>
+            <span class="app-pix-cta-sub">De forma rápida e segura</span>
+          </div>
+        </div>
+      </button>
+
+      <!-- Card Branco: Confirmar Presença -->
+      <a href="convidados.html" class="app-confirm-cta">
+        <div class="app-confirm-content">
+          <div class="app-confirm-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="app-confirm-title">
+              <span>Confirmar presença</span>
+              <span class="app-card-chevron">›</span>
+            </div>
+            <span class="app-confirm-sub">Sua presença é muito especial</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Barra de Navegação Inferior Nativa do App -->
+  <nav class="app-bottom-dock" aria-label="Navegação do Aplicativo">
+    <a href="app.html" class="app-dock-item active">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      </svg>
+      <span>Início</span>
+    </a>
+    <a href="index.html#nossa-historia" class="app-dock-item">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+      </svg>
+      <span>Nossa História</span>
+    </a>
+    <a href="index.html#galeria" class="app-dock-item">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+        <polyline points="21 15 16 10 5 21"></polyline>
+      </svg>
+      <span>Fotos</span>
+    </a>
+    <a href="local.html" class="app-dock-item">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+      </svg>
+      <span>Detalhes</span>
+    </a>
+  </nav>
+
+  <!-- Modal PIX Completo -->
+  <div class="modal-overlay" id="modal-pix">
+    <div class="modal" role="dialog" aria-modal="true" style="max-width:440px;overflow:hidden;padding:0;border-radius:24px;background:white;max-height:92vh;overflow-y:auto;box-shadow: 0 20px 60px rgba(0,0,0,0.4);">
+      <!-- ETAPA 1: Nome + Valor -->
+      <div id="pix-step-1">
+        <div style="background:linear-gradient(135deg,#1d4ed8,#1e40af);padding:1.5rem 1.5rem 1.2rem;text-align:center;position:relative;">
+          <button class="modal-close" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,0.2);color:white;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;">✕</button>
+          <div style="font-size:2rem;margin-bottom:0.25rem;">💍</div>
+          <h2 style="color:white;font-size:1.15rem;font-weight:700;margin:0 0 0.2rem;">Presentear o Casal</h2>
+          <p style="color:rgba(255,255,255,0.85);font-size:0.8rem;margin:0;">Qualquer valor é recebido com muito amor</p>
+        </div>
+        <div style="padding:1.5rem;">
+          <p style="font-size:0.82rem;color:#64748b;margin:0 0 1.2rem;text-align:center;">Preencha os dados para ir ao QR Code</p>
+          <div style="margin-bottom:1rem;">
+            <label style="font-size:0.75rem;font-weight:700;color:#334155;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:5px;">Seu nome</label>
+            <input id="pix-sender-name" type="text" placeholder="Ex: João e Maria" style="width:100%;padding:0.8rem 1rem;border:2px solid #e2e8f0;border-radius:12px;font-size:0.95rem;font-family:inherit;outline:none;box-sizing:border-box;" />
+          </div>
+          <div style="margin-bottom:0.5rem;">
+            <label style="font-size:0.75rem;font-weight:700;color:#334155;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:5px;">Valor que deseja enviar (R$)</label>
+            <div style="position:relative;">
+              <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-weight:700;color:#64748b;font-size:1rem;">R$</span>
+              <input id="pix-amount" type="number" min="1" step="any" placeholder="0,00" style="width:100%;padding:0.8rem 1rem 0.8rem 2.5rem;border:2px solid #e2e8f0;border-radius:12px;font-size:1.1rem;font-weight:700;font-family:inherit;outline:none;box-sizing:border-box;" />
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin:0.75rem 0 1.25rem;">
+            <button onclick="document.getElementById('pix-amount').value=50"  style="flex:1;min-width:55px;padding:0.5rem;background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:8px;cursor:pointer;font-size:0.8rem;font-weight:700;color:#1d4ed8;">R$ 50</button>
+            <button onclick="document.getElementById('pix-amount').value=100" style="flex:1;min-width:55px;padding:0.5rem;background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:8px;cursor:pointer;font-size:0.8rem;font-weight:700;color:#1d4ed8;">R$ 100</button>
+            <button onclick="document.getElementById('pix-amount').value=150" style="flex:1;min-width:55px;padding:0.5rem;background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:8px;cursor:pointer;font-size:0.8rem;font-weight:700;color:#1d4ed8;">R$ 150</button>
+            <button onclick="document.getElementById('pix-amount').value=200" style="flex:1;min-width:55px;padding:0.5rem;background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:8px;cursor:pointer;font-size:0.8rem;font-weight:700;color:#1d4ed8;">R$ 200</button>
+            <button onclick="document.getElementById('pix-amount').value=300" style="flex:1;min-width:55px;padding:0.5rem;background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:8px;cursor:pointer;font-size:0.8rem;font-weight:700;color:#1d4ed8;">R$ 300</button>
+          </div>
+          <button onclick="pixGoToStep2()" style="width:100%;padding:0.95rem;background:linear-gradient(135deg,#1d4ed8,#1e40af);color:white;border:none;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;">Ver QR Code para Pagar</button>
+        </div>
+      </div>
+
+      <!-- ETAPA 2: QR Code -->
+      <div id="pix-step-2" style="display:none;">
+        <div style="background:linear-gradient(135deg,#1d4ed8,#1e40af);padding:1.25rem 1.5rem 0.85rem;text-align:center;position:relative;">
+          <button onclick="pixGoBack()" style="position:absolute;top:50%;left:1rem;transform:translateY(-50%);background:rgba(255,255,255,0.15);color:white;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:0.9rem;">←</button>
+          <button class="modal-close" style="position:absolute;top:50%;right:1rem;transform:translateY(-50%);background:rgba(255,255,255,0.15);color:white;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;">✕</button>
+          <div id="pix-preview-name" style="color:rgba(255,255,255,0.85);font-size:0.82rem;"></div>
+          <div id="pix-preview-value" style="color:white;font-size:1.6rem;font-weight:800;margin:0.2rem 0;"></div>
+          <div style="color:rgba(255,255,255,0.7);font-size:0.75rem;">para Laoanny e Gabriel</div>
+        </div>
+        <div style="background:#1e40af;padding:1.25rem 1.5rem 1.5rem;display:flex;flex-direction:column;align-items:center;">
+          <p style="color:white;font-weight:700;font-size:0.9rem;margin:0 0 0.25rem;">Use o QR Code do Pix para pagar</p>
+          <p style="color:rgba(255,255,255,0.8);font-size:0.75rem;margin:0 0 0.9rem;max-width:260px;line-height:1.4;text-align:center;">Escaneie com o app do seu banco ou copie o código</p>
+          <div style="background:white;border-radius:14px;padding:8px;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+            <img id="wedding-pix-qr" src="https://api.qrserver.com/v1/create-qr-code/?data=00020126360014BR.GOV.BCB.PIX0114%2B55389916211355204000053039865802BR5925Gabriel%20de%20Menezes%20Cardos6009SAO%20PAULO6214051025QNcP26CF6304C4BF&size=210x210&margin=6&color=0-0-0&bgcolor=255-255-255&ecc=M" alt="QR Code PIX" width="210" height="210" style="display:block;border-radius:8px;"/>
+          </div>
+          <button id="btn-pix-copy-main" onclick="pixCopyCode()" style="margin-top:0.9rem;background:white;color:#1d4ed8;border:none;border-radius:12px;padding:0.75rem 1.5rem;font-size:0.85rem;font-weight:700;cursor:pointer;width:100%;max-width:280px;text-transform:uppercase;letter-spacing:0.5px;">Copiar código do QR Code</button>
+        </div>
+        <div style="background:white;padding:1rem 1.5rem 0.75rem;">
+          <div style="display:flex;justify-content:space-between;align-items:center;background:#F8FAFC;border-radius:12px;padding:0.75rem 1rem;margin-bottom:0.75rem;border:1px solid #e2e8f0;">
+            <div>
+              <p style="font-size:0.68rem;color:#64748b;margin:0 0 2px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Chave Pix (Celular)</p>
+              <p style="font-size:0.92rem;color:#1d4ed8;font-weight:700;margin:0;" id="wedding-pix-key-val">(38) 99162-1135</p>
+            </div>
+            <button onclick="navigator.clipboard.writeText('38991621135').then(function(){var b=event.target;b.textContent='OK';setTimeout(function(){b.textContent='Copiar';},2000);})" style="background:#1d4ed8;color:white;border:none;border-radius:8px;padding:0.45rem 0.8rem;cursor:pointer;font-size:0.78rem;font-weight:700;">Copiar</button>
+          </div>
+          <button onclick="pixGoToStep3()" style="width:100%;padding:0.9rem;background:linear-gradient(135deg,#25D366,#128C7E);color:white;border:none;border-radius:14px;font-size:0.95rem;font-weight:700;cursor:pointer;margin-bottom:0.5rem;">Já paguei - Avisar os Noivos</button>
+        </div>
+      </div>
+
+      <!-- ETAPA 3: Confirmação + WhatsApp -->
+      <div id="pix-step-3" style="display:none;">
+        <div style="background:linear-gradient(135deg,#25D366,#128C7E);padding:1.5rem 1.5rem 1.2rem;text-align:center;position:relative;">
+          <button class="modal-close" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,0.2);color:white;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;">✕</button>
+          <div style="font-size:2.5rem;margin-bottom:0.4rem;">🎉</div>
+          <h2 style="color:white;font-size:1.15rem;font-weight:700;margin:0 0 0.2rem;">Obrigado pelo PIX!</h2>
+          <p style="color:rgba(255,255,255,0.9);font-size:0.82rem;margin:0;">Agora avise os noivos via WhatsApp</p>
+        </div>
+        <div style="padding:1.5rem;">
+          <div id="pix-confirm-summary" style="background:#f0fdf4;border:1.5px solid #22c55e;border-radius:14px;padding:1rem 1.2rem;margin-bottom:1.2rem;text-align:left;"></div>
+          <a id="pix-wa-link" href="#" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:0.9rem;background:linear-gradient(135deg,#25D366,#128C7E);color:white;border:none;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;text-decoration:none;box-sizing:border-box;margin-bottom:0.85rem;">
+            Compartilhar comprovante no WhatsApp
+          </a>
+          <button class="modal-close" style="width:100%;padding:0.75rem;background:#f1f5f9;color:#64748b;border:none;border-radius:12px;font-size:0.9rem;font-weight:600;cursor:pointer;">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="./js/utils.js"></script>
+  <script src="./js/firebase.js?v=17"></script>
+  <script src="./js/site-config.js?v=18"></script>
+  <script>
+    // Atualização do Relógio do Topo
+    function updateAppClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const mins = String(now.getMinutes()).padStart(2, '0');
+      const clockEl = document.getElementById('app-clock');
+      if (clockEl) clockEl.textContent = `${hours}:${mins}`;
+    }
+    updateAppClock();
+    setInterval(updateAppClock, 10000);
+
+    // Contagem Regressiva Exclusiva do App
+    const WEDDING_TARGET = new Date('2027-04-25T16:30:00-03:00');
+    function updateCountdown() {
+      const diff = WEDDING_TARGET - new Date();
+      if (diff <= 0) return;
+      const fmt = n => String(n).padStart(2, '0');
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+      const dEl = document.getElementById('app-cd-days');
+      const hEl = document.getElementById('app-cd-hours');
+      const mEl = document.getElementById('app-cd-min');
+      const sEl = document.getElementById('app-cd-sec');
+      if (dEl) dEl.textContent = fmt(d);
+      if (hEl) hEl.textContent = fmt(h);
+      if (mEl) mEl.textContent = fmt(m);
+      if (sEl) sEl.textContent = fmt(s);
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // Modal PIX
+    const modalPix = document.getElementById('modal-pix');
+    const PIX_EMV = '00020126360014BR.GOV.BCB.PIX0114+55389916211355204000053039865802BR5925Gabriel de Menezes Cardos6009SAO PAULO6214051025QNcP26CF6304C4BF';
+    const WA_NUMBER = '5538991621135';
+    let _pixName = '';
+    let _pixValue = '';
+
+    document.querySelectorAll('[data-open-pix]').forEach(b => {
+      b.addEventListener('click', () => {
+        if (modalPix) modalPix.classList.add('active');
+      });
+    });
+
+    document.querySelectorAll('#modal-pix .modal-close').forEach(b => {
+      b.addEventListener('click', () => {
+        if (modalPix) modalPix.classList.remove('active');
+        setTimeout(() => {
+          document.getElementById('pix-step-1').style.display = 'block';
+          document.getElementById('pix-step-2').style.display = 'none';
+          document.getElementById('pix-step-3').style.display = 'none';
+        }, 300);
+      });
+    });
+
+    window.pixGoToStep2 = function() {
+      const nome = document.getElementById('pix-sender-name').value.trim();
+      const valor = parseFloat(document.getElementById('pix-amount').value);
+      if (!nome) { document.getElementById('pix-sender-name').focus(); return; }
+      if (!valor || valor < 1) { document.getElementById('pix-amount').focus(); return; }
+      _pixName = nome;
+      _pixValue = valor.toFixed(2).replace('.', ',');
+      document.getElementById('pix-preview-name').textContent = 'De: ' + nome;
+      document.getElementById('pix-preview-value').textContent = 'R$ ' + _pixValue;
+      document.getElementById('pix-step-1').style.display = 'none';
+      document.getElementById('pix-step-2').style.display = 'block';
+    };
+
+    window.pixGoBack = function() {
+      document.getElementById('pix-step-2').style.display = 'none';
+      document.getElementById('pix-step-1').style.display = 'block';
+    };
+
+    window.pixCopyCode = function() {
+      navigator.clipboard.writeText(PIX_EMV).then(() => {
+        const b = document.getElementById('btn-pix-copy-main');
+        b.textContent = 'Código Copiado!';
+        setTimeout(() => { b.textContent = 'Copiar código do QR Code'; }, 3000);
+      });
+    };
+
+    window.pixGoToStep3 = function() {
+      if (!_pixName) return;
+      const msg = encodeURIComponent('CASAMENTO Laoanny e Gabriel\n\nCONFIRMAÇÃO DE PIX!\n\nRemetente: ' + _pixName + '\nValor: R$ ' + _pixValue + '\nData: ' + new Date().toLocaleDateString('pt-BR'));
+      const waUrl = 'https://api.whatsapp.com/send?phone=' + WA_NUMBER + '&text=' + msg;
+      document.getElementById('pix-wa-link').href = waUrl;
+      document.getElementById('pix-confirm-summary').innerHTML = '<p style="margin:0 0 4px;font-size:0.75rem;color:#555;font-weight:600;text-transform:uppercase;">Resumo</p><p style="margin:0 0 2px;font-size:1.15rem;font-weight:700;color:#16a34a;">R$ ' + _pixValue + '</p><p style="margin:0;font-size:0.85rem;color:#444;">De: <strong>' + _pixName + '</strong></p>';
+      
+      if (typeof savePix === 'function') {
+        savePix(_pixName, _pixValue);
+      }
+      document.getElementById('pix-step-2').style.display = 'none';
+      document.getElementById('pix-step-3').style.display = 'block';
+
+      setTimeout(() => {
+        window.open(waUrl, '_blank', 'noopener,noreferrer');
+      }, 1500);
+    };
+
+    // Registrar Service Worker para Cache e Offline
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./service-worker.js").catch(console.warn);
+    }
+  </script>
+</body>
+</html>

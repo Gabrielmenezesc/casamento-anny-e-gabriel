@@ -1,0 +1,538 @@
+/* =========================================================
+   APP.CSS - Estilos Exclusivos do Aplicativo Nativo Mobile
+   Design idêntico ao modelo da Play Store
+   ========================================================= */
+
+:root {
+  --app-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --app-font-serif: 'Playfair Display', Georgia, serif;
+  --app-font-script: 'Dancing Script', cursive;
+  --app-blue-gradient: linear-gradient(135deg, #1d4ed8, #1e40af);
+  --app-blue-card: #2563eb;
+  --app-bg: #090e17;
+  --app-card-bg: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  background-color: var(--app-bg);
+  font-family: var(--app-font-sans);
+  color: #ffffff;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body {
+  padding-bottom: 74px; /* Espaço para barra inferior fixa */
+}
+
+/* Container do App Mobile */
+.app-viewport {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--app-bg);
+}
+
+/* Imagem de Fundo Hero */
+.app-hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 65vh;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.app-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  filter: brightness(0.86) contrast(1.05);
+}
+
+.app-hero-gradient-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(15, 23, 42, 0.45) 0%,
+    rgba(15, 23, 42, 0.1) 40%,
+    rgba(10, 16, 28, 0.85) 80%,
+    #090e17 100%
+  );
+  pointer-events: none;
+}
+
+/* Barra Superior de Status / Menu */
+.app-top-bar {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem 0.5rem;
+}
+
+.app-time-badge {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  opacity: 0.95;
+}
+
+.app-menu-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.app-menu-btn:active {
+  transform: scale(0.92);
+}
+
+/* Conteúdo Superior: Nomes e Tagline */
+.app-title-area {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 0.5rem 1rem 0;
+}
+
+.app-couple-names {
+  font-family: var(--app-font-script);
+  font-size: 2.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.65);
+}
+
+.app-heart-icon {
+  color: #ef4444;
+  display: inline-flex;
+  align-items: center;
+}
+
+.app-subtitle-tagline {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  margin-top: 0.15rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+.app-heart-divider {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.35rem;
+  opacity: 0.8;
+}
+
+/* Espaço para exibição do casal na foto */
+.app-spacer-couple {
+  height: 24vh;
+  min-height: 150px;
+}
+
+/* Área de Ações e Informações (Glass & Cards) */
+.app-cards-container {
+  position: relative;
+  z-index: 10;
+  padding: 0 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+/* Título de Seção "Nosso Grande Dia" */
+.app-section-pill-title {
+  text-align: center;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  margin-bottom: -0.25rem;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+}
+
+/* Card 1: Countdown Glass */
+.app-glass-card {
+  background: rgba(15, 23, 42, 0.42);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 20px;
+  padding: 0.85rem 0.6rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.app-countdown-grid {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.app-cd-unit {
+  flex: 1;
+}
+
+.app-cd-number {
+  font-family: var(--app-font-serif);
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.1;
+  display: block;
+}
+
+.app-cd-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.75);
+  text-transform: uppercase;
+  margin-top: 0.2rem;
+}
+
+.app-cd-sep {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Informações de Data, Hora e Local */
+.app-info-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.2rem 0.25rem;
+}
+
+.app-info-row-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.app-info-split-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex: 1;
+}
+
+.app-info-icon-bubble {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.app-info-split-sep {
+  width: 1px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 0 0.5rem;
+}
+
+.app-info-text-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.app-info-primary {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.app-info-secondary {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.app-info-row-bottom {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding-top: 0.2rem;
+}
+
+/* Grid de Ações Brancos (2 colunas) */
+.app-actions-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.app-white-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 0.85rem 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.app-white-card:active {
+  transform: scale(0.97);
+}
+
+.app-white-card-content {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex: 1;
+}
+
+.app-white-card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #eff6ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2563eb;
+  flex-shrink: 0;
+}
+
+.app-white-card-title {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.app-white-card-sub {
+  display: block;
+  font-size: 0.65rem;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.app-card-chevron {
+  color: #94a3b8;
+  font-size: 1.2rem;
+  line-height: 1;
+  font-weight: 400;
+}
+
+/* Banner de Destaque PIX (Azul Gradiente) */
+.app-pix-cta {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  border-radius: 20px;
+  padding: 1.05rem 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(29, 78, 216, 0.45);
+  transition: transform 0.15s ease;
+  text-align: left;
+}
+
+.app-pix-cta:active {
+  transform: scale(0.98);
+}
+
+.app-pix-cta-content {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex: 1;
+}
+
+.app-pix-cta-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.app-pix-cta-title {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.app-pix-cta-sub {
+  display: block;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 2px;
+}
+
+/* Card Branco Largo: Confirmar Presença */
+.app-confirm-cta {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 0.95rem 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+  transition: transform 0.15s ease;
+}
+
+.app-confirm-cta:active {
+  transform: scale(0.98);
+}
+
+.app-confirm-content {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex: 1;
+}
+
+.app-confirm-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #eff6ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2563eb;
+  flex-shrink: 0;
+}
+
+.app-confirm-title {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.app-confirm-sub {
+  display: block;
+  font-size: 0.7rem;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+/* Barra de Navegação Inferior Nativa do App */
+.app-bottom-dock {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 68px;
+  background: #ffffff;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  z-index: 1000;
+  max-width: 480px;
+  margin: 0 auto;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.app-dock-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #94a3b8;
+  font-size: 0.65rem;
+  font-weight: 600;
+  gap: 0.25rem;
+  flex: 1;
+  height: 100%;
+  transition: color 0.15s ease;
+}
+
+.app-dock-item svg {
+  width: 22px;
+  height: 22px;
+  transition: transform 0.15s ease;
+}
+
+.app-dock-item.active {
+  color: #2563eb;
+  font-weight: 700;
+  position: relative;
+}
+
+.app-dock-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  width: 18px;
+  height: 3px;
+  background: #2563eb;
+  border-radius: 4px;
+}
+
+.app-dock-item:active svg {
+  transform: scale(0.9);
+}
