@@ -981,21 +981,8 @@
   <script src="./js/pwa-install.js?v=2"></script>
   <script>
     if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("./service-worker.js?t=" + Date.now()).then(function(reg) {
-        // Força checagem de nova versão no servidor toda vez que a página é aberta
-        reg.update();
-        reg.addEventListener('updatefound', function() {
-          var newWorker = reg.installing;
-          newWorker.addEventListener('statechange', function() {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              // Nova versão instalada: recarrega automaticamente
-              window.location.reload();
-            }
-          });
-        });
-      });
-      navigator.serviceWorker.addEventListener('controllerchange', function() {
-        window.location.reload();
+      navigator.serviceWorker.register("./service-worker.js").catch(function(e) {
+        console.warn("SW:", e);
       });
     }
   </script>

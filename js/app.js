@@ -16,20 +16,18 @@ document.addEventListener('DOMContentLoaded', () => {
 function initLoading() {
   const screen = document.getElementById('loading-screen');
   if (!screen) return;
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      screen.classList.add('hidden');
-      document.body.style.overflow = '';
-      // Trigger hero animations
-      document.body.classList.add('loaded');
-    }, 800);
-  });
-  // Failsafe
-  setTimeout(() => {
-    if (screen) screen.classList.add('hidden');
+  const hide = () => {
+    screen.classList.add('hidden');
     document.body.style.overflow = '';
     document.body.classList.add('loaded');
-  }, 3000);
+  };
+  // Esconde após carregar ou com timeout rápido de segurança
+  if (document.readyState === 'complete') {
+    setTimeout(hide, 200);
+  } else {
+    window.addEventListener('load', () => setTimeout(hide, 300));
+    setTimeout(hide, 1200);
+  }
 }
 
 // ===== Theme (Dark / Light) =====
