@@ -37,6 +37,11 @@
   function isGuaranteed(gift) {
     return gift.target_amount_cents != null && (gift.confirmed_amount_cents || 0) >= gift.target_amount_cents;
   }
+  function giftPhoto(gift) {
+    if (gift.category === "🏠 Eletrodomésticos e Móveis") return "./assets/images/gifts/eletrodomesticos-moveis.jpg";
+    if (gift.category === "🍳 Cozinha") return "./assets/images/gifts/cozinha.jpg";
+    return "./assets/images/gifts/casa.jpg";
+  }
   function storeOptions(gift) {
     const query = encodeURIComponent(gift.name);
     return `<div class="gift-store-options" aria-label="Opções de lojas para ${safe(gift.name)}">
@@ -62,7 +67,7 @@
       const action = guaranteed
         ? '<span class="gift-guaranteed" aria-label="Presente garantido">✓ Já garantido</span>'
         : `<button class="btn-reserve contribution-button" data-gift-id="${safe(gift.id)}">Contribuir via PIX</button>`;
-      return `<article class="gift-card${guaranteed ? " gift-card-guaranteed" : ""}"><div class="gift-card-body"><h3 class="gift-card-name">${safe(gift.name)}</h3><p class="gift-card-desc">${safe(gift.description || "Item especial para nossa nova jornada.")}</p>${progress(gift)}${external}</div><div class="gift-card-footer">${action}</div></article>`;
+      return `<article class="gift-card${guaranteed ? " gift-card-guaranteed" : ""}"><div class="gift-card-image"><img src="${giftPhoto(gift)}" alt="Foto ilustrativa de ${safe(gift.name)}" loading="lazy"></div><div class="gift-card-body"><h3 class="gift-card-name">${safe(gift.name)}</h3><p class="gift-card-desc">${safe(gift.description || "Item especial para nossa nova jornada.")}</p>${progress(gift)}${external}</div><div class="gift-card-footer">${action}</div></article>`;
     }).join("");
   }
   function modal() {
@@ -90,11 +95,18 @@
   }
   async function load() {
     if (!configured()) { gifts = window.WEDDING_GIFT_CATALOG || []; renderSummary({}); renderFilters(); renderGifts(); return; }
-    try { const [summary, catalog] = await Promise.all([request("/v1/public/summary"), request("/v1/public/gifts")]); gifts = catalog.gifts; renderSummary(summary); renderFilters(); renderGifts(); } catch (error) { renderSummary({}); console.warn("Contribuições indisponíveis:", error.message); }
+    try { const [summary, catalog] = await Promise.all([request("/v1/public/summary"), request("/v1/public/gifts")]); gifts = catalog.gifts; renderSummary(summary); renderFilters(); renderGifts(); } catch (error) {
+      // Keep the catalogue usable while a remote API is unavailable. It does
+      // not turn on PIX checkout: the configured backend is still required.
+      gifts = window.WEDDING_GIFT_CATALOG || [];
+      renderSummary({});
+      renderFilters();
+      renderGifts();
+      console.warn("Contribuições indisponíveis:", error.message);
+    }
   }
   document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("gifts-grid")?.addEventListener("click", (event) => { const button = event.target.closest(".contribution-button"); if (!button) return; if (!configured()) return showToast("A integração PIX ainda precisa ser configurada pelos noivos.", "info"); const gift = gifts.find((item) => item.id === button.dataset.giftId); if (gift) openForm(gift); });
     load(); setInterval(load, 30000);
   });
 })();
-
