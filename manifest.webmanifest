@@ -1,1 +1,25 @@
-{"name":"Laoanny & Gabriel","short_name":"Nosso casamento","start_url":"./index.html?app=true","display":"standalone","background_color":"#0f172a","theme_color":"#1d4ed8","icons":[{"src":"assets/images/capa.jpg","sizes":"512x512","type":"image/jpeg","purpose":"any maskable"}]}
+{
+  "name": "Laoanny & Gabriel",
+  "short_name": "Casamento",
+  "start_url": "./index.html?app=true",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f172a",
+  "theme_color": "#1d4ed8",
+  "description": "Aplicativo oficial do casamento de Laoanny & Gabriel",
+  "icons": [
+    {
+      "src": "./assets/images/capa.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./assets/images/capa.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any"
+    }
+  ]
+}
