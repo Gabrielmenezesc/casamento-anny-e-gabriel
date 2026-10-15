@@ -48,6 +48,15 @@
     installEvent = event;
     // Exibe a barra somente quando a instalação nativa do celular estiver 100% pronta para disparar no clique
     createMobileInstallBar();
+
+    // Se o link de instalação direta foi clicado, abre na hora a janela nativa de instalar
+    if (new URLSearchParams(window.location.search).get("install") === "true") {
+      setTimeout(() => {
+        if (installEvent) {
+          installEvent.prompt();
+        }
+      }, 300);
+    }
   });
 
   // Se o app for instalado com sucesso, remove a barra
