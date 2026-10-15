@@ -1,68 +1,83 @@
 (function () {
   let installEvent = null;
-  const isMobile = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || (window.innerWidth <= 768);
+  const isMobile = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 
-  // Se já for app instalado ou desktop, não mostra a barra
   if (isStandalone || !isMobile) return;
 
-  function createMobileInstallBar() {
-    if (document.getElementById("pwa-install-bar") || isStandalone) return;
+  function removeBar() {
+    const bar = document.getElementById('pwa-install-bar');
+    if (bar) bar.remove();
+  }
 
-    const bar = document.createElement("div");
-    bar.id = "pwa-install-bar";
-    bar.className = "pwa-install-bar";
+  function showInstructions() {
+    if (document.getElementById('pwa-ios-instructions')) return;
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const modal = document.createElement('div');
+    modal.id = 'pwa-ios-instructions';
+    modal.className = 'pwa-modal-overlay open';
+    modal.innerHTML = `
+      <div class="pwa-modal-card" role="dialog" aria-modal="true" aria-labelledby="pwa-instructions-title">
+        <button class="pwa-modal-close" aria-label="Fechar">×</button>
+        <img class="pwa-modal-app-icon" src="./assets/images/capa.jpg" alt="Laoanny e Gabriel">
+        <h2 class="pwa-modal-title" id="pwa-instructions-title">Instalar o aplicativo</h2>
+        <p class="pwa-modal-desc">${isIOS
+          ? 'No Safari, toque em Compartilhar e escolha “Adicionar à Tela de Início”.'
+          : 'Abra este link no Chrome do celular e use o menu do navegador para escolher “Instalar aplicativo” ou “Adicionar à tela inicial”.'}</p>
+      </div>`;
+    modal.querySelector('.pwa-modal-close').addEventListener('click', () => modal.remove());
+    modal.addEventListener('click', (event) => { if (event.target === modal) modal.remove(); });
+    document.body.appendChild(modal);
+  }
+
+  function createMobileInstallBar() {
+    if (document.getElementById('pwa-install-bar')) return;
+    const bar = document.createElement('div');
+    bar.id = 'pwa-install-bar';
+    bar.className = 'pwa-install-bar';
     bar.innerHTML = `
-      <div class="pwa-bar-info" onclick="triggerAppInstall()" style="cursor:pointer;">
-        <img class="pwa-bar-icon" src="./assets/images/capa.jpg" alt="App">
-        <div class="pwa-bar-text">
-          <strong>Baixar Aplicativo</strong>
-          <small>Instalar direto no seu celular</small>
-        </div>
+      <div class="pwa-bar-info" role="button" tabindex="0">
+        <img class="pwa-bar-icon" src="./assets/images/capa.jpg" alt="App do casamento">
+        <div class="pwa-bar-text"><strong>Baixar aplicativo</strong><small>Instale no seu celular</small></div>
       </div>
       <div class="pwa-bar-actions">
-        <button class="pwa-bar-btn" id="pwa-action-btn" onclick="triggerAppInstall()">Instalar App</button>
-        <button class="pwa-bar-close" onclick="document.getElementById('pwa-install-bar').remove()" aria-label="Fechar">✕</button>
-      </div>
-    `;
-
+        <button class="pwa-bar-btn" id="pwa-action-btn" type="button">Instalar</button>
+        <button class="pwa-bar-close" type="button" aria-label="Fechar">×</button>
+      </div>`;
+    const install = () => window.triggerAppInstall();
+    bar.querySelector('.pwa-bar-info').addEventListener('click', install);
+    bar.querySelector('.pwa-bar-info').addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') install(); });
+    bar.querySelector('#pwa-action-btn').addEventListener('click', install);
+    bar.querySelector('.pwa-bar-close').addEventListener('click', removeBar);
     document.body.appendChild(bar);
   }
 
-  // Ao clicar, aciona diretamente a instalação do navegador (sem nenhuma mensagem intermediária)
   window.triggerAppInstall = async function () {
-    if (installEvent) {
-      installEvent.prompt();
-      const choice = await installEvent.userChoice;
-      if (choice && choice.outcome === 'accepted') {
-        const bar = document.getElementById("pwa-install-bar");
-        if (bar) bar.remove();
-      }
-      installEvent = null;
+    if (!installEvent) {
+      showInstructions();
+      return;
     }
+    installEvent.prompt();
+    const choice = await installEvent.userChoice;
+    if (choice && choice.outcome === 'accepted') removeBar();
+    installEvent = null;
   };
 
-  // Captura o evento nativo do Android/Chrome
-  window.addEventListener("beforeinstallprompt", (event) => {
+  window.addEventListener('beforeinstallprompt', (event) => {
     event.preventDefault();
     installEvent = event;
-    // Exibe a barra somente quando a instalação nativa do celular estiver 100% pronta para disparar no clique
     createMobileInstallBar();
-
-    // Se o link de instalação direta foi clicado, abre na hora a janela nativa de instalar
-    if (new URLSearchParams(window.location.search).get("install") === "true") {
-      setTimeout(() => {
-        if (installEvent) {
-          installEvent.prompt();
-        }
-      }, 300);
+    if (new URLSearchParams(window.location.search).get('install') === 'true') {
+      window.setTimeout(() => { if (installEvent) window.triggerAppInstall(); }, 350);
     }
   });
 
-  // Se o app for instalado com sucesso, remove a barra
-  window.addEventListener("appinstalled", () => {
+  window.addEventListener('appinstalled', () => {
     installEvent = null;
-    const bar = document.getElementById("pwa-install-bar");
-    if (bar) bar.remove();
+    removeBar();
   });
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', createMobileInstallBar, { once: true });
+  else createMobileInstallBar();
 })();
+

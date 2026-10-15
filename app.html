@@ -40,16 +40,9 @@
         </svg>
         <span>Gabriel</span>
       </h1>
-      <p class="splash-tagline" id="splash-tagline">APLICATIVO OFICIAL DO CASAMENTO</p>
-      
-      <button type="button" class="splash-btn-enter" id="btn-enter-app" onclick="startAppWithAudio()">
-        <span>Entrar no Aplicativo</span>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="9 18 15 12 9 6"></polyline>
-        </svg>
-      </button>
-
-      <span class="splash-sound-hint">Toque para entrar com som e música ambiente</span>
+      <p class="splash-tagline" id="splash-tagline">25 DE ABRIL DE 2027</p>
+      <p class="splash-loading" aria-live="polite">Preparando nossa história</p>
+      <span class="splash-progress" aria-hidden="true"><span></span></span>
     </div>
   </div>
 
@@ -700,35 +693,36 @@
       if (onIcon) onIcon.style.display = playing ? 'block' : 'none';
     }
 
-    // Abertura do App pelo Splash
-    window.startAppWithAudio = function() {
-      playAppChime();
-
-      // Inicia música do casamento
-      isMusicPlaying = true;
-      if (ytPlayer && ytPlayer.playVideo) {
-        ytPlayer.playVideo();
-      }
-      updateAudioButton(true);
+    // Abertura automática: áudio só pode começar após gesto do visitante.
+    function startApp() {
+      const splash = document.getElementById('app-splash');
+      if (!splash || splash.classList.contains('splash-closing')) return;
+      splash.classList.add('splash-closing');
 
       // Transição com GSAP
       if (window.gsap) {
-        gsap.to('#splash-avatar', { scale: 1.15, duration: 0.4, ease: 'power2.out' });
+        gsap.to('#splash-avatar', { scale: 1.15, rotate: 2, duration: 0.45, ease: 'power2.out' });
         gsap.to('#app-splash', {
           opacity: 0,
           scale: 1.05,
-          duration: 0.7,
-          delay: 0.25,
+          duration: 0.8,
+          delay: 0.1,
           ease: 'power3.inOut',
           onComplete: () => {
-            document.getElementById('app-splash').classList.add('splash-closed');
+            splash.classList.add('splash-closed');
             animateHomeEntry();
           }
         });
       } else {
-        document.getElementById('app-splash').classList.add('splash-closed');
+        splash.classList.add('splash-closed');
+        animateHomeEntry();
       }
-    };
+    }
+
+    // Abertura curta, sem botão: ao terminar, o app segue para a tela inicial.
+    window.addEventListener('DOMContentLoaded', () => {
+      window.setTimeout(startApp, 2800);
+    }, { once: true });
 
     function animateHomeEntry() {
       if (!window.gsap) return;
@@ -919,3 +913,4 @@
   </script>
 </body>
 </html>
+
