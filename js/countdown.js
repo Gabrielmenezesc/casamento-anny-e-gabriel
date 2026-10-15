@@ -2,7 +2,7 @@
 // COUNTDOWN.JS - Contador Regressivo até o Casamento
 // ===================================================
 
-let WEDDING_DATE = new Date('2027-04-25T16:30:00-03:00'); // Fallback padrão
+let WEDDING_DATE = new Date('2027-04-25T17:00:00-03:00'); // Fallback padrão
 
 // Escuta a data carregada do Firestore
 window.addEventListener('weddingDateLoaded', (e) => {
@@ -73,3 +73,4 @@ function initCountdown() {
 }
 
 document.addEventListener('DOMContentLoaded', initCountdown);
+

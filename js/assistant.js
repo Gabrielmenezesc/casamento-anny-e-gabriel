@@ -10,8 +10,8 @@
   const CONFIG = {
     nome: 'Laoanny & Gabriel',
     data: '25 de Abril de 2027',
-    hora: '16h30',
-    local: 'Chácara Canto dos Pássaros, Samambaia Sul – Brasília/DF',
+    hora: '17h00',
+    local: 'Chácara Bella Vida',
     pixKey: '(38) 99162-1135',
     pixTitular: 'Gabriel Menezes',
     whatsapp: 'https://wa.me/5538991621135',
@@ -71,11 +71,9 @@
     },
 
     pix_info: {
-      msg: `💳 **Dados do PIX:**\n\nChave: **${CONFIG.pixKey}**\nTitular: ${CONFIG.pixTitular}\n\nApós pagar, fale com os noivos no WhatsApp para confirmar! 💬`,
+      msg: `💳 **Presentear com PIX:**\n\nEscolha um presente para gerar uma cobrança PIX exclusiva. O presente só é marcado como garantido após a confirmação oficial do pagamento.`,
       opts: [
-        { icon: '📋', label: 'Copiar chave PIX', action: copiarPix },
-        { icon: '💬', label: 'Falar no WhatsApp', action: () => window.open(CONFIG.whatsapp, '_blank') },
-        { icon: '🛍️', label: 'Ver lista de presentes', action: () => ir('presentes.html') },
+        { icon: '🛍️', label: 'Escolher presente', action: () => ir('presentes.html') },
         { icon: '🏠', label: 'Voltar ao menu',    next: 'inicio' },
       ]
     },
@@ -101,7 +99,7 @@
     },
 
     horario_padrinhos: {
-      msg: `🕒 **Horário especial para o cortejo:**\n\nOs padrinhos devem chegar ao local até **16h00** para a organização do cortejo.\n\nA cerimônia começa às **16h30**.\n\n⚠️ Pontualidade é muito importante! 🥰`,
+      msg: `🕒 **Horário especial para o cortejo:**\n\nOs padrinhos devem chegar ao local até **16h30** para a organização do cortejo.\n\nA cerimônia começa às **17h00**.\n\n⚠️ Pontualidade é muito importante! 🥰`,
       opts: [
         { icon: '📍', label: 'Ver endereço',    next: 'local' },
         { icon: '🎨', label: 'Ver cores',       next: 'cores' },
@@ -390,3 +388,4 @@
   }
 
 })();
+

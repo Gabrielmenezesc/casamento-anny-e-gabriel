@@ -874,7 +874,7 @@ async function sendWhatsAppTemplate(guestId) {
   const editor = document.getElementById('wa-template-editor');
   let text = editor ? editor.value : WA_TEMPLATES[currentWaTemplateType];
 
-  const weddingDateParsed = new Date(weddingConfig?.weddingDate || '2027-04-25T16:30:00');
+  const weddingDateParsed = new Date(weddingConfig?.weddingDate || '2027-04-25T17:00:00');
   const formattedDate = weddingDateParsed.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
   const formattedTime = weddingDateParsed.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
@@ -896,3 +896,4 @@ async function sendWhatsAppTemplate(guestId) {
 
 // Vincula globalmente para ser acessado por inline onClick
 window.sendWhatsAppTemplate = sendWhatsAppTemplate;
+

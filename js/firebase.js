@@ -450,17 +450,17 @@ async function importGuestBatch(guests) {
 const DEFAULT_WEDDING_CONFIG = {
   brideName: 'Laoanny',
   groomName: 'Gabriel',
-  weddingDate: '2027-04-25T16:30:00-03:00',
-  address: 'Espaço Villa Rose, Samambaia Sul, Brasília - DF',
-  churchName: 'Espaço Villa Rose',
-  receptionName: 'Espaço Villa Rose',
-  mapsLink: 'https://maps.app.goo.gl/yQ2t1m9t6vE2',
+  weddingDate: '2027-04-25T17:00:00-03:00',
+  address: 'Chácara Bella Vida — consulte a rota no mapa',
+  churchName: 'Chácara Bella Vida',
+  receptionName: 'Chácara Bella Vida',
+  mapsLink: 'https://share.google/tbiJmFnGRaXnJvgNn',
   whatsappNumber: '5538991621135',
   pixKey: '5538991621135',
   pixReceiver: 'Gabriel de Menezes Cardoso',
   pixCity: 'Brasília',
   mainText: 'Laoanny e Gabriel descobriram que o amor vai muito além das palavras - ele se revela nos gestos simples, nos sorrisos trocados e nos momentos compartilhados.',
-  invitationText: 'Celebre conosco! Laoanny e Gabriel se casam em 25 de Abril de 2027 no Espaço Villa Rose, Samambaia Sul, Brasília - DF.',
+  invitationText: 'Celebre conosco! Laoanny e Gabriel se casam em 25 de Abril de 2027, às 17 horas, na Chácara Bella Vida.',
   honeymoonGoal: 25000,
   honeymoonCollected: 3850,
   honeymoonDescription: 'Ajude-nos a realizar nossa viagem de sonhos!'
@@ -473,14 +473,15 @@ async function getWeddingConfig() {
       const snap = await firebaseWithTimeout(getDoc(doc(db, 'settings', 'wedding')));
       if (snap.exists()) {
         const data = snap.data();
-        FirebaseStorage.set('wedding_config', data);
-        return data;
+        const updated = { ...data, weddingDate: '2027-04-25T17:00:00-03:00', address: 'Chácara Bella Vida — consulte a rota no mapa', churchName: 'Chácara Bella Vida', receptionName: 'Chácara Bella Vida', mapsLink: 'https://share.google/tbiJmFnGRaXnJvgNn' };
+        FirebaseStorage.set('wedding_config', updated);
+        return updated;
       }
     } catch (e) {
       console.warn('[Firebase] Fallback getWeddingConfig:', e.message);
     }
   }
-  return FirebaseStorage.get('wedding_config', DEFAULT_WEDDING_CONFIG);
+  return { ...FirebaseStorage.get('wedding_config', DEFAULT_WEDDING_CONFIG), weddingDate: '2027-04-25T17:00:00-03:00', address: 'Chácara Bella Vida — consulte a rota no mapa', churchName: 'Chácara Bella Vida', receptionName: 'Chácara Bella Vida', mapsLink: 'https://share.google/tbiJmFnGRaXnJvgNn' };
 }
 
 async function saveWeddingConfig(config) {
@@ -548,3 +549,4 @@ function onAdminStateChanged(callback) {
   // Limpeza de segurança após 15 segundos se o Firebase falhar
   setTimeout(() => clearInterval(checkInterval), 15000);
 }
+

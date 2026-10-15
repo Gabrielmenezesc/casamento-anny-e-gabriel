@@ -34,6 +34,19 @@
     const status = confirmed >= gift.target_amount_cents ? "Meta atingida" : confirmed > 0 ? "Parcialmente financiado" : "Disponível";
     return `<div class="gift-progress"><div class="gift-progress-head"><span>${status}</span><span>${money(confirmed)} de ${money(gift.target_amount_cents)}</span></div><div class="gift-progress-track"><i style="width:${percent}%"></i></div><small>Faltam ${money(remaining)}</small></div>`;
   }
+  function isGuaranteed(gift) {
+    return gift.target_amount_cents != null && (gift.confirmed_amount_cents || 0) >= gift.target_amount_cents;
+  }
+  function storeOptions(gift) {
+    const query = encodeURIComponent(gift.name);
+    return `<div class="gift-store-options" aria-label="Opções de lojas para ${safe(gift.name)}">
+      <span>Encontrar este presente em:</span>
+      <a class="gift-store shopee" href="https://shopee.com.br/search?keyword=${query}" target="_blank" rel="noopener noreferrer">Shopee</a>
+      <a class="gift-store mercado" href="https://lista.mercadolivre.com.br/${query}" target="_blank" rel="noopener noreferrer">Mercado Livre</a>
+      <a class="gift-store amazon" href="https://www.amazon.com.br/s?k=${query}" target="_blank" rel="noopener noreferrer">Amazon</a>
+      <small class="gift-store-note">Links de consulta. A loja não informa a compra automaticamente ao site.</small>
+    </div>`;
+  }
   function renderFilters() {
     const node = document.getElementById("gift-filters"); if (!node) return;
     const categories = ["Todos", ...new Set(gifts.map((gift) => gift.category))];
@@ -44,8 +57,12 @@
     const grid = document.getElementById("gifts-grid"); if (!grid) return;
     const displayed = activeCategory === "Todos" ? gifts : gifts.filter((gift) => gift.category === activeCategory);
     grid.innerHTML = displayed.map((gift) => {
-      const external = gift.external_purchase_url ? `<a class="gift-store-link" href="${safe(gift.external_purchase_url)}" target="_blank" rel="noopener">Consultar loja</a><small class="gift-store-note">A compra externa não possui confirmação automática.</small>` : "";
-      return `<article class="gift-card"><div class="gift-card-body"><h3 class="gift-card-name">${safe(gift.name)}</h3><p class="gift-card-desc">${safe(gift.description || "Item especial para nossa nova jornada.")}</p>${progress(gift)}${external}</div><div class="gift-card-footer"><button class="btn-reserve contribution-button" data-gift-id="${safe(gift.id)}">Contribuir via PIX</button></div></article>`;
+      const guaranteed = isGuaranteed(gift);
+      const external = gift.external_purchase_url ? `<a class="gift-store-link" href="${safe(gift.external_purchase_url)}" target="_blank" rel="noopener noreferrer">Consultar loja indicada</a>` : storeOptions(gift);
+      const action = guaranteed
+        ? '<span class="gift-guaranteed" aria-label="Presente garantido">✓ Já garantido</span>'
+        : `<button class="btn-reserve contribution-button" data-gift-id="${safe(gift.id)}">Contribuir via PIX</button>`;
+      return `<article class="gift-card${guaranteed ? " gift-card-guaranteed" : ""}"><div class="gift-card-body"><h3 class="gift-card-name">${safe(gift.name)}</h3><p class="gift-card-desc">${safe(gift.description || "Item especial para nossa nova jornada.")}</p>${progress(gift)}${external}</div><div class="gift-card-footer">${action}</div></article>`;
     }).join("");
   }
   function modal() {
@@ -80,3 +97,4 @@
     load(); setInterval(load, 30000);
   });
 })();
+

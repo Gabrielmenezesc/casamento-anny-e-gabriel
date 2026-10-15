@@ -172,7 +172,7 @@
                 </svg>
               </div>
               <div class="app-info-text-group">
-                <span class="app-info-primary" id="hero-time-val">16:30 horas</span>
+                <span class="app-info-primary" id="hero-time-val">17:00 horas</span>
                 <span class="app-info-secondary">CERIMÔNIA</span>
               </div>
             </div>
@@ -186,8 +186,8 @@
               </svg>
             </div>
             <div class="app-info-text-group">
-              <span class="app-info-primary" id="wedding-reception-val">Espaço Villa Rose</span>
-              <span class="app-info-secondary" id="wedding-address-val">SAMAMBAIA SUL, BRASÍLIA - DF</span>
+              <span class="app-info-primary" id="wedding-reception-val">Chácara Bella Vida</span>
+              <span class="app-info-secondary" id="wedding-address-val">Consulte a rota no mapa</span>
             </div>
           </div>
         </div>
@@ -340,7 +340,8 @@
 
         <div class="app-card-panel">
           <h3>Local da Cerimônia & Recepção</h3>
-          <p style="margin-bottom: 1rem;">Espaço Villa Rose • Samambaia Sul, Brasília - DF</p>
+          <img src="./assets/images/chacara-bella-vida.jpg" alt="Chácara Bella Vida" style="width:100%;border-radius:16px;margin:0 0 1rem;display:block;aspect-ratio:16/9;object-fit:cover;" />
+          <p style="margin-bottom: 1rem;">Chácara Bella Vida • veja a rota no mapa</p>
 
           <div class="app-location-item">
             <div class="app-loc-icon">
@@ -348,7 +349,7 @@
             </div>
             <div>
               <strong style="display:block; font-size: 0.9rem; color: #0f172a;">25 de Abril de 2027</strong>
-              <small style="color: #64748b;">Domingo às 16:30 horas</small>
+              <small style="color: #64748b;">Domingo às 17:00 horas</small>
             </div>
           </div>
 
@@ -358,7 +359,7 @@
             </div>
             <div>
               <strong style="display:block; font-size: 0.9rem; color: #0f172a;">Endereço Completo</strong>
-              <small style="color: #64748b;">QR 122 Conjunto 5, Samambaia Sul, Brasília - DF</small>
+              <small style="color: #64748b;">Chácara Bella Vida — use a rota oficial abaixo</small>
             </div>
           </div>
 
@@ -375,14 +376,14 @@
           <!-- Mapa Embutido do Google Maps -->
           <div class="app-map-box">
             <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3837.7787373977536!2d-48.0945934!3d-15.8679092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x935a2da193f5a893%3A0xb35a963e62f3b7b!2sEspa%C3%A7o%20Villa%20Rose!5e0!3m2!1spt-BR!2sbr!4v1700000000000" 
+              src="https://www.google.com/maps?q=Ch%C3%A1cara%20Bella%20Vida&output=embed" 
               allowfullscreen="" 
               loading="lazy" 
               referrerpolicy="no-referrer-when-downgrade">
             </iframe>
           </div>
 
-          <a href="https://maps.google.com/?q=Espaço+Villa+Rose+Samambaia+Sul+Brasilia" target="_blank" rel="noopener noreferrer" class="app-nav-route-btn">
+          <a href="https://share.google/tbiJmFnGRaXnJvgNn" target="_blank" rel="noopener noreferrer" class="app-nav-route-btn">
             Abrir Rota no Google Maps / Waze
           </a>
         </div>
@@ -782,7 +783,7 @@
     setInterval(updateAppClock, 10000);
 
     // Contagem Regressiva Exclusiva
-    const WEDDING_TARGET = new Date('2027-04-25T16:30:00-03:00');
+    const WEDDING_TARGET = new Date('2027-04-25T17:00:00-03:00');
     function updateCountdown() {
       const diff = WEDDING_TARGET - new Date();
       if (diff <= 0) return;
@@ -847,7 +848,7 @@
 
     document.querySelectorAll('[data-open-pix]').forEach(b => {
       b.addEventListener('click', () => {
-        if (modalPix) modalPix.classList.add('active');
+        window.location.href = './presentes.html';
       });
     });
 
