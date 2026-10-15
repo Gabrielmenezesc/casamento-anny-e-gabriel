@@ -10,6 +10,7 @@
   <meta property="og:image" content="./assets/images/capa.webp" />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#D4A843" />
+  <link rel="manifest" href="./manifest.webmanifest" />
 
   <!-- Preload da imagem da capa para evitar flash -->
   <link rel="preload" href="./assets/images/capa.webp" as="image" fetchpriority="high" />
@@ -25,6 +26,7 @@
   <link rel="stylesheet" href="./css/home.css" />
   <link rel="stylesheet" href="./css/responsive.css" />
   <link rel="stylesheet" href="./css/assistant.css" />
+  <link rel="stylesheet" href="./css/pwa-install.css" />
 
   <!-- AOS -->
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
@@ -373,6 +375,13 @@
       <div class="hero-scroll-text">Rolar</div>
       <div class="hero-scroll-arrow"></div>
     </div>
+  </section>
+
+  <section class="wedding-video-section" aria-label="Vídeo de abertura do casal">
+    <video class="wedding-video" controls playsinline preload="metadata" poster="./assets/images/capa.webp">
+      <source src="./assets/video/abertura.mp4" type="video/mp4" />
+      Seu navegador não suporta vídeo HTML5.
+    </video>
   </section>
 
   <!-- ===== COUNTDOWN ===== -->
@@ -811,6 +820,8 @@
   <script src="./js/countdown.js"></script>
   <script src="./js/pix.js"></script>
   <script src="./js/animations.js"></script>
+  <script src="./js/pwa-install.js"></script>
+  <script>if ("serviceWorker" in navigator) navigator.serviceWorker.register("./service-worker.js");</script>
 
   <!-- Assistente Virtual -->
   <script src="./js/assistant.js?v=15" defer></script>

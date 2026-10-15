@@ -1,0 +1,11 @@
+name = "casamento-contributions"
+main = "src/index.js"
+compatibility_date = "2026-10-15"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "casamento-contributions"
+database_id = "SET_AFTER_CREATING_D1"
+
+[triggers]
+crons = ["*/10 * * * *"]

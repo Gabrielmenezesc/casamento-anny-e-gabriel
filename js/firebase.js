@@ -9,7 +9,7 @@ let db = null;
 let firebaseReady = false;
 
 // ===== Storage Helper =====
-const STORAGE_KEYS = {
+const FIREBASE_STORAGE_KEYS = {
   rsvps: 'wedding_rsvps',
   gifts: 'wedding_gifts',
   godparents: 'wedding_godparents',
@@ -17,7 +17,7 @@ const STORAGE_KEYS = {
   theme: 'wedding_theme'
 };
 
-const Storage = {
+const FirebaseStorage = {
   get(key, fallback = null) {
     try {
       const raw = localStorage.getItem(key);
@@ -57,7 +57,7 @@ async function initFirebase() {
     const { firebaseConfig } = await import('../firebase/firebase-config.js');
 
     if (!firebaseConfig || !firebaseConfig.apiKey || firebaseConfig.apiKey === 'YOUR_API_KEY') {
-      console.info('[Firebase] Sem credenciais. Usando LocalStorage.');
+      console.info('[Firebase] Sem credenciais. Usando LocalFirebaseStorage.');
       return false;
     }
 
@@ -96,8 +96,8 @@ async function saveRSVP(rsvpData) {
   if (!data.id) data.id = generateId();
 
   // 1. SEMPRE salva no localStorage primeiro (garantia)
-  const cached = Storage.get(STORAGE_KEYS.rsvps, []);
-  Storage.set(STORAGE_KEYS.rsvps, [data, ...cached.filter(r => r.id !== data.id)]);
+  const cached = FirebaseStorage.get(FIREBASE_STORAGE_KEYS.rsvps, []);
+  FirebaseStorage.set(FIREBASE_STORAGE_KEYS.rsvps, [data, ...cached.filter(r => r.id !== data.id)]);
 
   // 2. Tenta salvar no Firebase (silencioso, nunca bloqueia)
   if (firebaseReady && db) {
@@ -106,9 +106,9 @@ async function saveRSVP(rsvpData) {
       const docRef = await firebaseWithTimeout(addDoc(collection(db, 'rsvps'), data));
       data.id = docRef.id;
       // Atualiza localStorage com o ID do Firebase
-      const list = Storage.get(STORAGE_KEYS.rsvps, []);
+      const list = FirebaseStorage.get(FIREBASE_STORAGE_KEYS.rsvps, []);
       list[0] = data;
-      Storage.set(STORAGE_KEYS.rsvps, list);
+      FirebaseStorage.set(FIREBASE_STORAGE_KEYS.rsvps, list);
     } catch (e) {
       console.warn('[Firebase] Erro ao salvar RSVP (salvo localmente):', e.message);
     }
@@ -127,14 +127,14 @@ async function getRSVPs() {
       items.sort((a, b) => new Date(b.confirmedAt || 0) - new Date(a.confirmedAt || 0));
 
       // Mescla com localStorage (itens que não foram sincronizados)
-      const local = Storage.get(STORAGE_KEYS.rsvps, []);
+      const local = FirebaseStorage.get(FIREBASE_STORAGE_KEYS.rsvps, []);
       local.forEach(l => {
         if (!items.find(r => r.id === l.id || r.fullName === l.fullName)) {
           items.push(l);
         }
       });
 
-      Storage.set(STORAGE_KEYS.rsvps, items);
+      FirebaseStorage.set(FIREBASE_STORAGE_KEYS.rsvps, items);
       return items;
     } catch (e) {
       console.warn('[Firebase] Fallback getRSVPs:', e.message);
@@ -142,7 +142,7 @@ async function getRSVPs() {
   }
 
   // 2. Fallback: localStorage
-  return Storage.get(STORAGE_KEYS.rsvps, []);
+  return FirebaseStorage.get(FIREBASE_STORAGE_KEYS.rsvps, []);
 }
 
 async function deleteRSVP(id) {
@@ -154,8 +154,8 @@ async function deleteRSVP(id) {
     } catch (e) { console.warn('[Firebase] Erro ao deletar RSVP:', e.message); }
   }
   // Remove do localStorage
-  const list = Storage.get(STORAGE_KEYS.rsvps, []).filter(r => r.id !== id);
-  Storage.set(STORAGE_KEYS.rsvps, list);
+  const list = FirebaseStorage.get(FIREBASE_STORAGE_KEYS.rsvps, []).filter(r => r.id !== id);
+  FirebaseStorage.set(FIREBASE_STORAGE_KEYS.rsvps, list);
   return list;
 }
 
@@ -168,12 +168,12 @@ async function getGifts() {
       const snap = await firebaseWithTimeout(getDocs(collection(db, 'gifts')));
       if (!snap.empty) {
         const items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        Storage.set(STORAGE_KEYS.gifts, items);
+        FirebaseStorage.set(FIREBASE_STORAGE_KEYS.gifts, items);
         return items;
       }
     } catch (e) { console.warn('[Firebase] Fallback getGifts:', e.message); }
   }
-  return Storage.get(STORAGE_KEYS.gifts, INITIAL_GIFTS_DATA);
+  return FirebaseStorage.get(FIREBASE_STORAGE_KEYS.gifts, INITIAL_GIFTS_DATA);
 }
 
 async function updateGift(id, updates) {
@@ -185,10 +185,10 @@ async function updateGift(id, updates) {
     } catch (e) { console.warn('[Firebase] Erro ao atualizar presente:', e.message); }
   }
   // localStorage
-  const list = Storage.get(STORAGE_KEYS.gifts, INITIAL_GIFTS_DATA).map(g =>
+  const list = FirebaseStorage.get(FIREBASE_STORAGE_KEYS.gifts, INITIAL_GIFTS_DATA).map(g =>
     g.id === id ? { ...g, ...updates } : g
   );
-  Storage.set(STORAGE_KEYS.gifts, list);
+  FirebaseStorage.set(FIREBASE_STORAGE_KEYS.gifts, list);
   return list;
 }
 
@@ -214,9 +214,9 @@ async function initGiftsIfEmpty(defaultGifts) {
     } catch (e) { console.warn('[Firebase] Erro ao inicializar presentes:', e.message); }
   }
 
-  const local = Storage.get(STORAGE_KEYS.gifts);
+  const local = FirebaseStorage.get(FIREBASE_STORAGE_KEYS.gifts);
   if (!local || !local.length) {
-    Storage.set(STORAGE_KEYS.gifts, defaultGifts);
+    FirebaseStorage.set(FIREBASE_STORAGE_KEYS.gifts, defaultGifts);
     return defaultGifts;
   }
   return local;
@@ -229,8 +229,8 @@ async function saveGodparent(data) {
   if (!item.id) item.id = generateId();
 
   // localStorage primeiro
-  const list = Storage.get(STORAGE_KEYS.godparents, []);
-  Storage.set(STORAGE_KEYS.godparents, [item, ...list]);
+  const list = FirebaseStorage.get(FIREBASE_STORAGE_KEYS.godparents, []);
+  FirebaseStorage.set(FIREBASE_STORAGE_KEYS.godparents, [item, ...list]);
 
   // Firebase
   if (firebaseReady && db) {
@@ -238,9 +238,9 @@ async function saveGodparent(data) {
       const { collection, addDoc } = window._fsLib;
       const ref = await firebaseWithTimeout(addDoc(collection(db, 'godparents'), item));
       item.id = ref.id;
-      const updated = Storage.get(STORAGE_KEYS.godparents, []);
+      const updated = FirebaseStorage.get(FIREBASE_STORAGE_KEYS.godparents, []);
       updated[0] = item;
-      Storage.set(STORAGE_KEYS.godparents, updated);
+      FirebaseStorage.set(FIREBASE_STORAGE_KEYS.godparents, updated);
     } catch (e) { console.warn('[Firebase] Erro ao salvar padrinho:', e.message); }
   }
 
@@ -255,16 +255,16 @@ async function getGodparents() {
       const items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
 
       // Mescla com localStorage
-      const local = Storage.get(STORAGE_KEYS.godparents, []);
+      const local = FirebaseStorage.get(FIREBASE_STORAGE_KEYS.godparents, []);
       local.forEach(l => {
         if (!items.find(r => r.id === l.id)) items.push(l);
       });
 
-      Storage.set(STORAGE_KEYS.godparents, items);
+      FirebaseStorage.set(FIREBASE_STORAGE_KEYS.godparents, items);
       return items;
     } catch (e) { console.warn('[Firebase] Fallback getGodparents:', e.message); }
   }
-  return Storage.get(STORAGE_KEYS.godparents, []);
+  return FirebaseStorage.get(FIREBASE_STORAGE_KEYS.godparents, []);
 }
 
 // ===== HONEYMOON =====
@@ -276,12 +276,12 @@ async function getHoneymoonSettings() {
       const snap = await firebaseWithTimeout(getDoc(doc(db, 'settings', 'honeymoon')));
       if (snap.exists()) {
         const data = snap.data();
-        Storage.set(STORAGE_KEYS.honeymoon, data);
+        FirebaseStorage.set(FIREBASE_STORAGE_KEYS.honeymoon, data);
         return data;
       }
     } catch (e) { console.warn('[Firebase] Fallback honeymoon:', e.message); }
   }
-  return Storage.get(STORAGE_KEYS.honeymoon, {
+  return FirebaseStorage.get(FIREBASE_STORAGE_KEYS.honeymoon, {
     goal: 25000,
     currentAmount: 3850,
     pixKey: '38991621135',
@@ -291,7 +291,7 @@ async function getHoneymoonSettings() {
 }
 
 async function saveHoneymoonSettings(settings) {
-  Storage.set(STORAGE_KEYS.honeymoon, settings);
+  FirebaseStorage.set(FIREBASE_STORAGE_KEYS.honeymoon, settings);
   if (firebaseReady && db) {
     try {
       const { doc, setDoc } = window._fsLib;
@@ -310,26 +310,26 @@ async function getPix() {
       const items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
 
       // Mescla com localStorage
-      const local = Storage.get('wedding_pix', []);
+      const local = FirebaseStorage.get('wedding_pix', []);
       local.forEach(l => {
         if (!items.find(r => (r.data === l.data && r.nome === l.nome) || r.id === l.id)) {
           items.push(l);
         }
       });
 
-      Storage.set('wedding_pix', items);
+      FirebaseStorage.set('wedding_pix', items);
       return items;
     } catch (e) { console.warn('[Firebase] Fallback getPix:', e.message); }
   }
-  return Storage.get('wedding_pix', []);
+  return FirebaseStorage.get('wedding_pix', []);
 }
 
 async function savePix(nome, valor) {
   const data = { nome, valor: parseFloat(String(valor).replace(',', '.')), data: new Date().toISOString(), id: generateId() };
 
   // localStorage primeiro
-  const local = Storage.get('wedding_pix', []);
-  Storage.set('wedding_pix', [...local, data]);
+  const local = FirebaseStorage.get('wedding_pix', []);
+  FirebaseStorage.set('wedding_pix', [...local, data]);
 
   // Firebase
   if (firebaseReady && db) {
@@ -350,13 +350,13 @@ async function deletePix(indexOrId) {
     } catch (e) { console.warn('[Firebase] Erro ao deletar PIX:', e.message); }
   }
 
-  let list = Storage.get('wedding_pix', []);
+  let list = FirebaseStorage.get('wedding_pix', []);
   if (typeof indexOrId === 'number' && indexOrId >= 0 && indexOrId < list.length) {
     list.splice(indexOrId, 1);
   } else if (typeof indexOrId === 'string') {
     list = list.filter(p => p.id !== indexOrId);
   }
-  Storage.set('wedding_pix', list);
+  FirebaseStorage.set('wedding_pix', list);
   return list;
 }
 
@@ -370,20 +370,20 @@ async function getGuestList() {
       const items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
 
       // Mescla com localStorage
-      const local = Storage.get('wedding_guestlist', []);
+      const local = FirebaseStorage.get('wedding_guestlist', []);
       local.forEach(l => {
         if (!items.find(r => r.id === l.id)) items.push(l);
       });
 
-      Storage.set('wedding_guestlist', items);
+      FirebaseStorage.set('wedding_guestlist', items);
       return items;
     } catch (e) { console.warn('[Firebase] Fallback getGuestList:', e.message); }
   }
-  return Storage.get('wedding_guestlist', []);
+  return FirebaseStorage.get('wedding_guestlist', []);
 }
 
 async function saveGuestList(list) {
-  Storage.set('wedding_guestlist', list);
+  FirebaseStorage.set('wedding_guestlist', list);
   if (firebaseReady && db) {
     try {
       const { doc, setDoc } = window._fsLib;
@@ -396,10 +396,10 @@ async function saveGuestList(list) {
 
 async function updateGuest(guestId, updates) {
   // localStorage
-  const list = Storage.get('wedding_guestlist', []).map(g =>
+  const list = FirebaseStorage.get('wedding_guestlist', []).map(g =>
     g.id === guestId ? { ...g, ...updates } : g
   );
-  Storage.set('wedding_guestlist', list);
+  FirebaseStorage.set('wedding_guestlist', list);
 
   // Firebase
   if (firebaseReady && db) {
@@ -423,16 +423,16 @@ async function deleteGuest(guestId) {
       await firebaseWithTimeout(deleteDoc(doc(db, 'guestlist', guestId)));
     } catch (e) { console.warn('[Firebase] Erro ao deletar convidado:', e.message); }
   }
-  const list = Storage.get('wedding_guestlist', []).filter(g => g.id !== guestId);
-  Storage.set('wedding_guestlist', list);
+  const list = FirebaseStorage.get('wedding_guestlist', []).filter(g => g.id !== guestId);
+  FirebaseStorage.set('wedding_guestlist', list);
   return list;
 }
 
 async function importGuestBatch(guests) {
-  const existing = Storage.get('wedding_guestlist', []);
+  const existing = FirebaseStorage.get('wedding_guestlist', []);
   const newGuests = guests.filter(g => !existing.find(e => e.name.toLowerCase() === g.name.toLowerCase()));
   const combined = [...existing, ...newGuests];
-  Storage.set('wedding_guestlist', combined);
+  FirebaseStorage.set('wedding_guestlist', combined);
 
   if (firebaseReady && db) {
     try {
@@ -473,18 +473,18 @@ async function getWeddingConfig() {
       const snap = await firebaseWithTimeout(getDoc(doc(db, 'settings', 'wedding')));
       if (snap.exists()) {
         const data = snap.data();
-        Storage.set('wedding_config', data);
+        FirebaseStorage.set('wedding_config', data);
         return data;
       }
     } catch (e) {
       console.warn('[Firebase] Fallback getWeddingConfig:', e.message);
     }
   }
-  return Storage.get('wedding_config', DEFAULT_WEDDING_CONFIG);
+  return FirebaseStorage.get('wedding_config', DEFAULT_WEDDING_CONFIG);
 }
 
 async function saveWeddingConfig(config) {
-  Storage.set('wedding_config', config);
+  FirebaseStorage.set('wedding_config', config);
   if (firebaseReady && db) {
     try {
       const { doc, setDoc } = window._fsLib;

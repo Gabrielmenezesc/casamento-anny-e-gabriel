@@ -3,6 +3,7 @@
    =================================================== */
 
 /* -------- Hero - Full Screen -------- */
+.wedding-video-section{padding:3rem 1.5rem;background:var(--bg-secondary);display:flex;justify-content:center}.wedding-video{width:min(920px,100%);display:block;border-radius:var(--radius-xl);box-shadow:var(--shadow-xl);background:#0d0c0d}
 .hero {
   position: relative;
   width: 100%;
