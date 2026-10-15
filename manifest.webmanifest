@@ -1,1 +1,1 @@
-{"name":"Laoanny & Gabriel","short_name":"Nosso casamento","start_url":"./index.html","display":"standalone","background_color":"#111827","theme_color":"#D4A843","icons":[{"src":"assets/images/capa.jpg","sizes":"512x512","type":"image/jpeg","purpose":"any maskable"}]}
+{"name":"Laoanny & Gabriel","short_name":"Nosso casamento","start_url":"./index.html?app=true","display":"standalone","background_color":"#0f172a","theme_color":"#1d4ed8","icons":[{"src":"assets/images/capa.jpg","sizes":"512x512","type":"image/jpeg","purpose":"any maskable"}]}

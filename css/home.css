@@ -992,10 +992,38 @@
   background: #1d4ed8;
 }
 
-/* Exibir botões/elementos corretos dependendo da tela */
+/* Controle de exibição: Modo Site Original vs Modo App */
+html:not(.is-app) .hero-mobile-app,
+html:not(.is-app) .app-bottom-nav,
+body:not(.is-app) .hero-mobile-app,
+body:not(.is-app) .app-bottom-nav {
+  display: none !important;
+}
+
+html.is-app .hero-website-view,
+body.is-app .hero-website-view {
+  display: none !important;
+}
+
+html.is-app .navbar,
+html.is-app .mobile-nav,
+html.is-app .hero-scroll,
+body.is-app .navbar,
+body.is-app .mobile-nav,
+body.is-app .hero-scroll {
+  display: none !important;
+}
+
+html.is-app .hero,
+body.is-app .hero {
+  height: auto !important;
+  min-height: 100svh !important;
+}
+
 @media (min-width: 769px) {
   .app-bottom-nav {
     display: none !important;
   }
 }
+
 

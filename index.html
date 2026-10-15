@@ -11,6 +11,19 @@
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#D4A843" />
   <link rel="manifest" href="./manifest.webmanifest" />
+  <script>
+    (function() {
+      var isApp = window.matchMedia('(display-mode: standalone)').matches ||
+                  window.navigator.standalone === true ||
+                  new URLSearchParams(window.location.search).get('app') === 'true';
+      if (isApp) {
+        document.documentElement.classList.add('is-app');
+        document.addEventListener('DOMContentLoaded', function() {
+          document.body.classList.add('is-app');
+        });
+      }
+    })();
+  </script>
 
   <!-- Preload da imagem da capa para evitar flash -->
   <link rel="preload" href="./assets/images/capa.webp" as="image" fetchpriority="high" />
@@ -324,6 +337,59 @@
     <!-- Conteúdo centralizado -->
     <div class="hero-content">
 
+      <!-- VISÃO DO SITE ORIGINAL (Para navegadores no PC e celular) -->
+      <div class="hero-website-view">
+        <!-- Ornamento decorativo -->
+        <div class="hero-ornament">
+          <div class="hero-ornament-line"></div>
+          <div class="hero-ornament-diamond"></div>
+          <div class="hero-ornament-line"></div>
+        </div>
+
+        <!-- Nomes -->
+        <h1 class="hero-names" id="hero-title-val-web">
+          Laoanny <span class="hero-heart"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin:0 3px;color:#e85d75;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span> Gabriel
+        </h1>
+
+        <!-- Tagline -->
+        <p class="hero-tagline">Estamos nos Casando <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></p>
+
+        <!-- Data, Hora, Local -->
+        <div class="hero-info-strip">
+          <div class="hero-info-item">
+            <div class="hero-info-date" id="hero-date-val">25 de Abril</div>
+            <div class="hero-info-label" id="hero-year-val">de 2027</div>
+          </div>
+          <div class="hero-divider-dot"></div>
+          <div class="hero-info-item">
+            <div class="hero-info-date" id="hero-time-val">16:30 horas</div>
+            <div class="hero-info-label">cerimônia</div>
+          </div>
+          <div class="hero-divider-dot"></div>
+          <div class="hero-info-item">
+            <div class="hero-info-date" id="wedding-reception-val">Villa Rose</div>
+            <div class="hero-info-label" id="wedding-address-val">Samambaia Sul • Brasília - DF</div>
+          </div>
+        </div>
+
+        <!-- Botões -->
+        <div class="hero-buttons">
+          <a href="local.html" class="hero-btn hero-btn-ghost">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Ver Local
+          </a>
+          <a href="presentes.html" class="hero-btn hero-btn-ghost">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg> Escolher um Presente
+          </a>
+          <button class="hero-btn hero-btn-primary" data-open-pix>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> Presentear com PIX
+          </button>
+          <a href="convidados.html" class="hero-btn hero-btn-ghost">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Confirmar Presença
+          </a>
+        </div>
+      </div>
+
+      <!-- VISÃO EXCLUSIVA DO APP (Ativa somente no Aplicativo Instalado) -->
       <div class="hero-mobile-app">
         <!-- Cabeçalho com Nome e Tagline -->
         <div class="app-header">
