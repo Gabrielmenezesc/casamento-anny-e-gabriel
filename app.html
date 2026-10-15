@@ -24,6 +24,35 @@
 </head>
 <body>
 
+  <!-- ==========================================
+       ABERTURA CINEMÁTICA DO APP (SPLASH COM SOM)
+       ========================================== -->
+  <div id="app-splash" class="app-splash-screen">
+    <div class="splash-ambient-aura"></div>
+    <div class="splash-content">
+      <div class="splash-couple-photo-frame" id="splash-avatar">
+        <img src="./assets/images/capa.jfif" alt="Laoanny e Gabriel" />
+      </div>
+      <h1 class="splash-title" id="splash-names">
+        <span>Laoanny</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="#ef4444">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+        <span>Gabriel</span>
+      </h1>
+      <p class="splash-tagline" id="splash-tagline">APLICATIVO OFICIAL DO CASAMENTO</p>
+      
+      <button type="button" class="splash-btn-enter" id="btn-enter-app" onclick="startAppWithAudio()">
+        <span>Entrar no Aplicativo</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+
+      <span class="splash-sound-hint">Toque para entrar com som e música ambiente</span>
+    </div>
+  </div>
+
   <div class="app-viewport">
 
     <!-- ==========================================
@@ -42,16 +71,33 @@
         <div class="app-hero-gradient-overlay"></div>
       </div>
 
-      <!-- Barra de Status Superior / Menu -->
+      <!-- Barra de Status Superior / Ações -->
       <header class="app-top-bar">
         <span class="app-time-badge" id="app-clock">9:41</span>
-        <button class="app-menu-btn" onclick="openAppTab('detalhes')" aria-label="Abrir menu de detalhes">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </button>
+        
+        <div class="app-top-actions">
+          <!-- Botão de Música de Fundo no Topo -->
+          <button class="app-audio-btn" id="app-audio-toggle" onclick="toggleAppMusic()" title="Música ambiente" aria-label="Música ambiente">
+            <svg id="app-icon-music-off" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <line x1="23" y1="9" x2="17" y2="15"></line>
+              <line x1="17" y1="9" x2="23" y2="15"></line>
+            </svg>
+            <svg id="app-icon-music-on" style="display:none;" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+          </button>
+
+          <!-- Menu de Detalhes -->
+          <button class="app-menu-btn" onclick="openAppTab('detalhes')" aria-label="Abrir menu de detalhes">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+        </div>
       </header>
 
       <!-- Nomes do Casal no Topo -->
@@ -207,7 +253,7 @@
                   <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
               </div>
-              <span class="app-pix-cta-sub">De forma rápida e segura</span>
+              <span class="app-pix-sub">De forma rápida e segura</span>
             </div>
           </div>
         </button>
@@ -247,7 +293,7 @@
 
         <div class="app-card-panel">
           <div class="app-story-img-wrap">
-            <img src="./assets/images/capa.jfif" alt="Laoanny e Gabriel" />
+            <img src="./assets/images/capa.jfif" alt="Laoanny e Gabriel na Catedral de Brasília" />
           </div>
           <h3 style="font-family: var(--app-font-serif);">Dois corações, uma jornada</h3>
           <p style="font-style: italic; color: #1d4ed8; font-weight: 600; margin-bottom: 0.75rem;">
@@ -277,14 +323,14 @@
         </div>
 
         <div class="app-photo-grid">
-          <div class="app-photo-item"><img src="./assets/images/galeria_1.jpg" alt="Foto 1" loading="lazy" /></div>
-          <div class="app-photo-item"><img src="./assets/images/galeria_2.jpg" alt="Foto 2" loading="lazy" /></div>
-          <div class="app-photo-item"><img src="./assets/images/galeria_3.jpg" alt="Foto 3" loading="lazy" /></div>
-          <div class="app-photo-item"><img src="./assets/images/galeria_4.jpg" alt="Foto 4" loading="lazy" /></div>
-          <div class="app-photo-item"><img src="./assets/images/galeria_5.jpg" alt="Foto 5" loading="lazy" /></div>
-          <div class="app-photo-item"><img src="./assets/images/galeria_6.jpg" alt="Foto 6" loading="lazy" /></div>
-          <div class="app-photo-item"><img src="./assets/images/galeria_7.jpg" alt="Foto 7" loading="lazy" /></div>
-          <div class="app-photo-item"><img src="./assets/images/galeria_8.jpg" alt="Foto 8" loading="lazy" /></div>
+          <div class="app-photo-item"><img src="./assets/images/galeria_1.jpg" alt="Foto real do casal 1" loading="lazy" /></div>
+          <div class="app-photo-item"><img src="./assets/images/galeria_2.jpg" alt="Foto real do casal 2" loading="lazy" /></div>
+          <div class="app-photo-item"><img src="./assets/images/galeria_3.jpg" alt="Foto real do casal 3" loading="lazy" /></div>
+          <div class="app-photo-item"><img src="./assets/images/galeria_4.jpg" alt="Foto real do casal 4" loading="lazy" /></div>
+          <div class="app-photo-item"><img src="./assets/images/galeria_5.jpg" alt="Foto real do casal 5" loading="lazy" /></div>
+          <div class="app-photo-item"><img src="./assets/images/galeria_6.jpg" alt="Foto real do casal 6" loading="lazy" /></div>
+          <div class="app-photo-item"><img src="./assets/images/galeria_7.jpg" alt="Foto real do casal 7" loading="lazy" /></div>
+          <div class="app-photo-item"><img src="./assets/images/galeria_8.jpg" alt="Foto real do casal 8" loading="lazy" /></div>
         </div>
       </div>
     </section>
@@ -304,7 +350,9 @@
           <p style="margin-bottom: 1rem;">Espaço Villa Rose • Samambaia Sul, Brasília - DF</p>
 
           <div class="app-location-item">
-            <div class="app-loc-icon">📅</div>
+            <div class="app-loc-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
             <div>
               <strong style="display:block; font-size: 0.9rem; color: #0f172a;">25 de Abril de 2027</strong>
               <small style="color: #64748b;">Domingo às 16:30 horas</small>
@@ -312,7 +360,9 @@
           </div>
 
           <div class="app-location-item">
-            <div class="app-loc-icon">📍</div>
+            <div class="app-loc-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
             <div>
               <strong style="display:block; font-size: 0.9rem; color: #0f172a;">Endereço Completo</strong>
               <small style="color: #64748b;">QR 122 Conjunto 5, Samambaia Sul, Brasília - DF</small>
@@ -320,9 +370,11 @@
           </div>
 
           <div class="app-location-item">
-            <div class="app-loc-icon">👔</div>
+            <div class="app-loc-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>
+            </div>
             <div>
-              <strong style="display:block; font-size: 0.9rem; color: #0f172a;">Traje</strong>
+              <strong style="display:block; font-size: 0.9rem; color: #0f172a;">Traje Sugerido</strong>
               <small style="color: #64748b;">Passeio Completo / Social</small>
             </div>
           </div>
@@ -372,8 +424,8 @@
             <div class="app-form-group">
               <label for="app-guest-status">Você irá comparecer? *</label>
               <select id="app-guest-status" required>
-                <option value="sim">Sim, estarei lá com certeza! 🎉</option>
-                <option value="nao">Infelizmente não poderei ir 😢</option>
+                <option value="sim">Sim, estarei presente</option>
+                <option value="nao">Infelizmente não poderei comparecer</option>
               </select>
             </div>
 
@@ -407,20 +459,22 @@
 
         <div class="app-card-panel" style="text-align: center;">
           <h3 style="font-family: var(--app-font-serif);">Presentear o Casal</h3>
-          <p style="margin-bottom: 1rem;">
+          <p style="margin-bottom: 1.25rem;">
             Você pode presentear diretamente através do PIX oficial de forma rápida e segura:
           </p>
           <button class="app-pix-cta" data-open-pix style="margin: 0 auto 1.25rem;">
             <div class="app-pix-cta-content">
-              <div class="app-pix-cta-icon">🎁</div>
+              <div class="app-pix-cta-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+              </div>
               <div>
                 <div class="app-pix-cta-title">Enviar Presente via PIX</div>
                 <span class="app-pix-cta-sub">Chave: (38) 99162-1135</span>
               </div>
             </div>
           </button>
-          <p style="font-size: 0.78rem; color: #64748b;">
-            Ou veja a lista completa e contribua com cotas no nosso sistema oficial.
+          <p style="font-size: 0.8rem; color: #64748b;">
+            Qualquer contribuição faz toda a diferença para o nosso novo lar e a nossa Lua de Mel.
           </p>
         </div>
       </div>
@@ -468,7 +522,9 @@
       <div id="pix-step-1">
         <div style="background:linear-gradient(135deg,#1d4ed8,#1e40af);padding:1.5rem 1.5rem 1.2rem;text-align:center;position:relative;">
           <button class="modal-close" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,0.2);color:white;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;">✕</button>
-          <div style="font-size:2rem;margin-bottom:0.25rem;">💍</div>
+          <div style="display:inline-flex; align-items:center; justify-content:center; width:48px; height:48px; border-radius:50%; background:rgba(255,255,255,0.18); margin-bottom:0.4rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+          </div>
           <h2 style="color:white;font-size:1.15rem;font-weight:700;margin:0 0 0.2rem;">Presentear o Casal</h2>
           <p style="color:rgba(255,255,255,0.85);font-size:0.8rem;margin:0;">Qualquer valor é recebido com muito amor</p>
         </div>
@@ -529,7 +585,9 @@
       <div id="pix-step-3" style="display:none;">
         <div style="background:linear-gradient(135deg,#25D366,#128C7E);padding:1.5rem 1.5rem 1.2rem;text-align:center;position:relative;">
           <button class="modal-close" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,0.2);color:white;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;">✕</button>
-          <div style="font-size:2.5rem;margin-bottom:0.4rem;">🎉</div>
+          <div style="display:inline-flex; align-items:center; justify-content:center; width:52px; height:52px; border-radius:50%; background:rgba(255,255,255,0.2); margin-bottom:0.4rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
           <h2 style="color:white;font-size:1.15rem;font-weight:700;margin:0 0 0.2rem;">Obrigado pelo PIX!</h2>
           <p style="color:rgba(255,255,255,0.9);font-size:0.82rem;margin:0;">Agora avise os noivos via WhatsApp</p>
         </div>
@@ -544,12 +602,149 @@
     </div>
   </div>
 
+  <!-- Container invisível do Player de Áudio do YouTube (Música Ambiente) -->
+  <div id="app-yt-player-container" style="position:fixed; top:-9999px; left:-9999px; width:1px; height:1px; opacity:0; pointer-events:none; z-index:-9999;"></div>
+
   <!-- Scripts -->
+  <script src="./js/gsap.min.js"></script>
   <script src="./js/utils.js"></script>
   <script src="./js/firebase.js?v=17"></script>
   <script src="./js/site-config.js?v=18"></script>
   <script>
-    // Gerenciador de Navegação Interna do App (SPA - Sem ir para o site)
+    // ==========================================
+    // ÁUDIO CINEMÁTICO COM WEB AUDIO API + MÚSICA
+    // ==========================================
+    let audioCtx = null;
+    let ytPlayer = null;
+    let isMusicPlaying = false;
+
+    function playAppChime() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        if (!audioCtx) audioCtx = new AudioContext();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        // Acorde harmônico e cristalino (Círculo de quintas suaves: C5, G5, E6)
+        const notes = [523.25, 783.99, 1318.51];
+        notes.forEach((freq, idx) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime + (idx * 0.08));
+
+          gain.gain.setValueAtTime(0, audioCtx.currentTime + (idx * 0.08));
+          gain.gain.linearRampToValueAtTime(0.18, audioCtx.currentTime + (idx * 0.08) + 0.05);
+          gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + (idx * 0.08) + 1.4);
+
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+
+          osc.start(audioCtx.currentTime + (idx * 0.08));
+          osc.stop(audioCtx.currentTime + (idx * 0.08) + 1.5);
+        });
+      } catch (e) {
+        console.warn('Audio chime:', e);
+      }
+    }
+
+    // Carrega a API do YouTube para música contínua
+    function initYouTubeMusic() {
+      if (!window.YT) {
+        const tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        document.head.appendChild(tag);
+      }
+    }
+    initYouTubeMusic();
+
+    window.onYouTubeIframeAPIReady = function() {
+      ytPlayer = new YT.Player('app-yt-player-container', {
+        height: '10',
+        width: '10',
+        videoId: 'emiQz8APjy8',
+        playerVars: {
+          autoplay: 0,
+          controls: 0,
+          loop: 1,
+          playlist: 'emiQz8APjy8'
+        },
+        events: {
+          onReady: function() {
+            if (isMusicPlaying) ytPlayer.playVideo();
+          }
+        }
+      });
+    };
+
+    window.toggleAppMusic = function() {
+      if (!ytPlayer || !ytPlayer.playVideo) return;
+      if (isMusicPlaying) {
+        ytPlayer.pauseVideo();
+        isMusicPlaying = false;
+        updateAudioButton(false);
+      } else {
+        ytPlayer.playVideo();
+        isMusicPlaying = true;
+        updateAudioButton(true);
+      }
+    };
+
+    function updateAudioButton(playing) {
+      const btn = document.getElementById('app-audio-toggle');
+      const offIcon = document.getElementById('app-icon-music-off');
+      const onIcon = document.getElementById('app-icon-music-on');
+      if (btn) btn.classList.toggle('playing', playing);
+      if (offIcon) offIcon.style.display = playing ? 'none' : 'block';
+      if (onIcon) onIcon.style.display = playing ? 'block' : 'none';
+    }
+
+    // Abertura do App pelo Splash
+    window.startAppWithAudio = function() {
+      playAppChime();
+
+      // Inicia música do casamento
+      isMusicPlaying = true;
+      if (ytPlayer && ytPlayer.playVideo) {
+        ytPlayer.playVideo();
+      }
+      updateAudioButton(true);
+
+      // Transição com GSAP
+      if (window.gsap) {
+        gsap.to('#splash-avatar', { scale: 1.15, duration: 0.4, ease: 'power2.out' });
+        gsap.to('#app-splash', {
+          opacity: 0,
+          scale: 1.05,
+          duration: 0.7,
+          delay: 0.25,
+          ease: 'power3.inOut',
+          onComplete: () => {
+            document.getElementById('app-splash').classList.add('splash-closed');
+            animateHomeEntry();
+          }
+        });
+      } else {
+        document.getElementById('app-splash').classList.add('splash-closed');
+      }
+    };
+
+    function animateHomeEntry() {
+      if (!window.gsap) return;
+      gsap.from('.app-title-area', { y: -20, opacity: 0, duration: 0.6, ease: 'power2.out' });
+      gsap.from('.app-cards-container > *', {
+        y: 25,
+        opacity: 0,
+        stagger: 0.08,
+        duration: 0.6,
+        ease: 'power3.out'
+      });
+    }
+
+    // ==========================================
+    // GERENCIADOR DE NAVEGAÇÃO INTERNA DO APP (SPA)
+    // ==========================================
     window.openAppTab = function(tabName) {
       document.querySelectorAll('.app-tab-view').forEach(view => {
         view.classList.remove('active');
@@ -559,6 +754,16 @@
       if (targetView) {
         targetView.classList.add('active');
         window.scrollTo({ top: 0, behavior: 'instant' });
+
+        if (window.gsap) {
+          gsap.from(targetView.querySelectorAll('.app-card-panel, .app-photo-item'), {
+            y: 18,
+            opacity: 0,
+            stagger: 0.06,
+            duration: 0.45,
+            ease: 'power2.out'
+          });
+        }
       }
 
       document.querySelectorAll('.app-dock-item').forEach(btn => {
@@ -571,7 +776,7 @@
       }
     };
 
-    // Atualização do Relógio do Topo
+    // Relógio do Topo
     function updateAppClock() {
       const now = new Date();
       const hours = String(now.getHours()).padStart(2, '0');
@@ -582,7 +787,7 @@
     updateAppClock();
     setInterval(updateAppClock, 10000);
 
-    // Contagem Regressiva Exclusiva do App
+    // Contagem Regressiva Exclusiva
     const WEDDING_TARGET = new Date('2027-04-25T16:30:00-03:00');
     function updateCountdown() {
       const diff = WEDDING_TARGET - new Date();
@@ -605,7 +810,7 @@
     updateCountdown();
     setInterval(updateCountdown, 1000);
 
-    // Submissão do RSVP dentro do App
+    // Submissão do RSVP nativo
     window.handleAppRsvp = async function(e) {
       e.preventDefault();
       const name = document.getElementById('app-guest-name').value.trim();
@@ -627,11 +832,11 @@
             dataResposta: new Date().toISOString()
           });
         }
-        alert('Confirmação enviada com sucesso! Muito obrigado.');
+        alert('Presença confirmada com sucesso! Muito obrigado.');
         openAppTab('inicio');
       } catch (err) {
         console.error(err);
-        alert('Obrigado! Sua confirmação foi registrada.');
+        alert('Confirmação registrada! Obrigado.');
         openAppTab('inicio');
       } finally {
         btn.disabled = false;
