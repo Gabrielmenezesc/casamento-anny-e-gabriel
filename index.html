@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <title>Laoanny & Gabriel | Casamento • 25 de Abril de 2027</title>
   <meta name="description" content="Celebre conosco! Laoanny e Gabriel se casam em 25 de Abril de 2027 no Espaço Villa Rose, Samambaia Sul, Brasília - DF." />
   <meta property="og:title" content="Laoanny <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin:0 3px;color:#e85d75;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> Gabriel | Casamento" />
@@ -975,8 +978,27 @@
   <script src="./js/countdown.js"></script>
   <script src="./js/pix.js"></script>
   <script src="./js/animations.js"></script>
-  <script src="./js/pwa-install.js"></script>
-  <script>if ("serviceWorker" in navigator) navigator.serviceWorker.register("./service-worker.js");</script>
+  <script src="./js/pwa-install.js?v=2"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./service-worker.js?t=" + Date.now()).then(function(reg) {
+        // Força checagem de nova versão no servidor toda vez que a página é aberta
+        reg.update();
+        reg.addEventListener('updatefound', function() {
+          var newWorker = reg.installing;
+          newWorker.addEventListener('statechange', function() {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              // Nova versão instalada: recarrega automaticamente
+              window.location.reload();
+            }
+          });
+        });
+      });
+      navigator.serviceWorker.addEventListener('controllerchange', function() {
+        window.location.reload();
+      });
+    }
+  </script>
 
   <!-- Assistente Virtual -->
   <script src="./js/assistant.js?v=15" defer></script>
