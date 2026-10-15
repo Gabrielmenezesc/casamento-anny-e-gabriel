@@ -5,7 +5,7 @@ compatibility_date = "2026-10-15"
 [[d1_databases]]
 binding = "DB"
 database_name = "casamento-contributions"
-database_id = "SET_AFTER_CREATING_D1"
+database_id = "1b3c8189-d58f-4d05-bb8e-65b48c13085b"
 
 [triggers]
 crons = ["*/10 * * * *"]
