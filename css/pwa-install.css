@@ -1,1 +1,225 @@
-.pwa-install{position:fixed;left:1rem;bottom:1rem;z-index:9998;max-width:330px;padding:.85rem 1rem;border:1px solid rgba(212,168,67,.45);border-radius:16px;background:rgba(20,18,18,.94);box-shadow:0 8px 30px rgba(0,0,0,.25);color:#fff;display:grid;grid-template-columns:1fr auto auto;gap:.55rem;align-items:center;font-family:var(--font-sans)}.pwa-install strong{display:block;font-family:var(--font-serif);font-size:.95rem}.pwa-install small{display:block;color:#e9d9b3;font-size:.7rem;margin-top:.2rem}.pwa-install-button,.pwa-qr-button{border:0;border-radius:9px;padding:.5rem .65rem;cursor:pointer;font-size:.72rem;font-weight:700}.pwa-install-button{background:var(--color-gold);color:#fff}.pwa-qr-button{background:transparent;color:#f4dfaa;border:1px solid rgba(255,255,255,.3)}.pwa-install-close{position:absolute;right:.2rem;top:.05rem;border:0;background:transparent;color:#fff;font-size:1.15rem;cursor:pointer}.pwa-qr{display:none;grid-column:1/-1;justify-items:center;padding-top:.35rem}.pwa-qr img{width:150px;border-radius:8px;background:#fff;padding:5px}.pwa-qr a{color:#f4dfaa;font-size:.72rem;margin-top:.4rem}@media(max-width:640px){.pwa-install{left:.7rem;bottom:1rem;max-width:calc(100vw - 1.4rem)}}.pwa-install.show-qr .pwa-qr{display:grid}
+/* PWA Install Notification & Modal Styles */
+.pwa-install-bar {
+  position: fixed;
+  bottom: 74px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 1.5rem);
+  max-width: 440px;
+  background: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 18px;
+  padding: 0.65rem 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  z-index: 9980;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+  animation: slideUpFade 0.4s ease forwards;
+}
+
+@keyframes slideUpFade {
+  from { opacity: 0; transform: translate(-50%, 20px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.pwa-bar-info {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex: 1;
+}
+
+.pwa-bar-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.pwa-bar-text {
+  text-align: left;
+}
+
+.pwa-bar-text strong {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.pwa-bar-text small {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  color: #94a3b8;
+}
+
+.pwa-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.pwa-bar-btn {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+  white-space: nowrap;
+}
+
+.pwa-bar-close {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+}
+
+/* Modal de Instalação e QR Code */
+.pwa-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.pwa-modal-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.pwa-modal-card {
+  background: #ffffff;
+  border-radius: 28px;
+  width: 100%;
+  max-width: 360px;
+  padding: 1.75rem 1.5rem;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  transform: scale(0.92);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.pwa-modal-overlay.open .pwa-modal-card {
+  transform: scale(1);
+}
+
+.pwa-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.1rem;
+  background: #f1f5f9;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pwa-modal-app-icon {
+  width: 68px;
+  height: 68px;
+  border-radius: 18px;
+  object-fit: cover;
+  margin: 0 auto 0.75rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  border: 2px solid #ffffff;
+}
+
+.pwa-modal-title {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.25rem;
+}
+
+.pwa-modal-desc {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-bottom: 1.25rem;
+  line-height: 1.4;
+}
+
+.pwa-qr-box {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 1rem;
+  display: inline-block;
+  margin-bottom: 1rem;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.pwa-qr-box img {
+  display: block;
+  border-radius: 10px;
+  margin: 0 auto;
+}
+
+.pwa-qr-help {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  color: #94a3b8;
+  margin-top: 0.4rem;
+}
+
+.pwa-modal-btn-install {
+  width: 100%;
+  padding: 0.85rem;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.pwa-ios-instructions {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: 12px;
+  padding: 0.65rem 0.8rem;
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  color: #166534;
+  text-align: left;
+  line-height: 1.4;
+}

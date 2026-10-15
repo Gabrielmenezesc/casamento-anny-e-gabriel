@@ -34,6 +34,15 @@ function initCountdown() {
 
     const fmt = n => String(n).padStart(2, '0');
 
+    const dEl = document.getElementById('app-cd-days');
+    const hEl = document.getElementById('app-cd-hours');
+    const mEl = document.getElementById('app-cd-min');
+    const sEl = document.getElementById('app-cd-sec');
+    if (dEl) dEl.textContent = fmt(days);
+    if (hEl) hEl.textContent = fmt(hours);
+    if (mEl) mEl.textContent = fmt(minutes);
+    if (sEl) sEl.textContent = fmt(seconds);
+
     el.innerHTML = `
       <div class="countdown-grid">
         <div class="countdown-item">
