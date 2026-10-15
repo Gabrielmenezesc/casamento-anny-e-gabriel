@@ -1018,6 +1018,32 @@ html.is-app .hero,
 body.is-app .hero {
   height: auto !important;
   min-height: 100svh !important;
+  background: #0b1528 !important;
+}
+
+/* No app, oculta seções do site longo para manter a tela limpa e focada no app */
+html.is-app .wedding-video-section,
+html.is-app .countdown-section,
+html.is-app .story-section,
+html.is-app .gallery-section,
+html.is-app .cta-section,
+html.is-app .footer,
+html.is-app .music-btn,
+html.is-app .music-tooltip,
+body.is-app .wedding-video-section,
+body.is-app .countdown-section,
+body.is-app .story-section,
+body.is-app .gallery-section,
+body.is-app .cta-section,
+body.is-app .footer,
+body.is-app .music-btn,
+body.is-app .music-tooltip {
+  display: none !important;
+}
+
+html.is-app body {
+  background: #0b1528 !important;
+  padding-bottom: 70px !important;
 }
 
 @media (min-width: 769px) {
@@ -1025,5 +1051,6 @@ body.is-app .hero {
     display: none !important;
   }
 }
+
 
 
