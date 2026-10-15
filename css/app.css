@@ -49,7 +49,25 @@ body {
   background-color: var(--app-bg);
 }
 
-/* Imagem de Fundo Hero */
+/* Telas / Abas do App */
+.app-tab-view {
+  display: none;
+  width: 100%;
+  min-height: calc(100vh - 74px);
+  min-height: calc(100svh - 74px);
+  animation: fadeIn 0.25s ease forwards;
+}
+
+.app-tab-view.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Imagem de Fundo Hero na Home */
 .app-hero-background {
   position: absolute;
   top: 0;
@@ -323,6 +341,9 @@ body {
   text-decoration: none;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+  border: none;
+  cursor: pointer;
+  text-align: left;
 }
 
 .app-white-card:active {
@@ -434,9 +455,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  text-decoration: none;
+  border: none;
+  width: 100%;
+  cursor: pointer;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
   transition: transform 0.15s ease;
+  text-align: left;
 }
 
 .app-confirm-cta:active {
@@ -478,6 +502,206 @@ body {
   margin-top: 2px;
 }
 
+/* =========================================================
+   ESTILOS DAS ABAS INTERNAS DO APLICATIVO
+   ========================================================= */
+
+.app-subview-container {
+  padding: 1.25rem 1rem 2rem;
+  color: #ffffff;
+}
+
+.app-subview-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.app-subview-back-btn {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background 0.2s;
+}
+
+.app-subview-title {
+  font-family: var(--app-font-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* Cards Brancos nas Telas Internas */
+.app-card-panel {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 1.25rem;
+  color: #0f172a;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  margin-bottom: 1rem;
+}
+
+.app-card-panel h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #0f172a;
+}
+
+.app-card-panel p {
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.6;
+}
+
+/* História */
+.app-story-img-wrap {
+  width: 100%;
+  height: 220px;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.app-story-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Galeria de Fotos no App */
+.app-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.app-photo-item {
+  aspect-ratio: 1;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #1e293b;
+  position: relative;
+}
+
+.app-photo-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+}
+
+.app-photo-item:active img {
+  transform: scale(1.05);
+}
+
+/* Detalhes do Local no App */
+.app-map-box {
+  width: 100%;
+  height: 240px;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.app-map-box iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.app-location-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.app-loc-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #eff6ff;
+  color: #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.app-nav-route-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.85rem;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-decoration: none;
+  margin-top: 0.75rem;
+}
+
+/* Formulário RSVP no App */
+.app-form-group {
+  margin-bottom: 1rem;
+}
+
+.app-form-group label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 0.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.app-form-group input,
+.app-form-group select {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.app-form-group input:focus,
+.app-form-group select:focus {
+  border-color: #2563eb;
+}
+
+.app-btn-submit-rsvp {
+  width: 100%;
+  padding: 0.9rem;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
 /* Barra de Navegação Inferior Nativa do App */
 .app-bottom-dock {
   position: fixed;
@@ -501,13 +725,15 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-decoration: none;
+  border: none;
+  background: transparent;
   color: #94a3b8;
   font-size: 0.65rem;
   font-weight: 600;
   gap: 0.25rem;
   flex: 1;
   height: 100%;
+  cursor: pointer;
   transition: color 0.15s ease;
 }
 
