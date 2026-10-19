@@ -60,9 +60,6 @@ body { padding-bottom: 0; }
 .mercado-pago-checkout strong { font-size:.83rem; }
 .mercado-pago-checkout small { margin-top:.15rem; font-size:.68rem; color:#31567e; }
 .mercado-pago-checkout > span:last-child { margin-left:auto; font-size:1.45rem; }
-.mp-checkout-view { height: calc(100dvh - 76px); padding-bottom: 0; display:flex; flex-direction:column; }
-.mp-checkout-note { margin:.35rem 1rem .65rem; text-align:center; color:#64748b; font-size:.78rem; }
-.mercado-pago-frame { display:block; flex:1; width:100%; border:0; background:#fff; }
 ul, ol { list-style: none; }
 /* The former generic PIX modal could record a payment manually. PIX now belongs to each gift. */
 #modal-pix { display: none !important; }
