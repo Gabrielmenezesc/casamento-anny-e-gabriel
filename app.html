@@ -467,22 +467,23 @@
         <div class="app-subview-header"><button class="app-subview-back-btn" onclick="openAppTab('inicio')" aria-label="Voltar">←</button><h2 class="app-subview-title">PIX</h2></div>
         <div class="app-card-panel app-pix-area">
           <h3>Presenteie via PIX</h3>
-          <p>Escolha o pagamento direto pelo Mercado Pago ou gere um PIX exclusivo para copiar e pagar no banco de sua preferência.</p>
-          <a class="mercado-pago-checkout" href="https://link.mercadopago.com.br/descubraobrasil" target="_blank" rel="noopener noreferrer" aria-label="Pagar agora pelo Mercado Pago">
+          <p>Toque no botão para abrir o checkout oficial do Mercado Pago dentro do aplicativo e concluir o pagamento por PIX.</p>
+          <button class="mercado-pago-checkout" type="button" onclick="openMercadoPagoCheckout()" aria-label="Gerar PIX pelo Mercado Pago">
             <span class="mercado-pago-checkout-mark">MP</span>
-            <span><strong>Pagar agora com Mercado Pago</strong><small>Abre o checkout seguro diretamente</small></span>
+            <span><strong>Gerar PIX pelo Mercado Pago</strong><small>Checkout seguro dentro do app</small></span>
             <span aria-hidden="true">›</span>
-          </a>
-          <div class="pix-divider"><span>ou gere um PIX Copia e Cola</span></div>
-          <form id="direct-pix-form" class="direct-pix-form">
-            <label>Valor em reais<input name="amount" type="number" min="1" step="0.01" inputmode="decimal" placeholder="Ex.: 100,00" required></label>
-            <label>E-mail para o provedor de pagamento<input name="email" type="email" autocomplete="email" placeholder="voce@email.com" required></label>
-            <button class="app-btn-submit-rsvp" type="submit">Gerar PIX Copia e Cola</button>
-          </form>
-          <p id="direct-pix-status" class="direct-pix-status" aria-live="polite"></p>
+          </button>
           <button class="app-btn-submit-rsvp" type="button" onclick="openAppTab('presentes')">Ver lista de presentes</button>
           <button class="app-btn-submit-rsvp" type="button" style="margin-top:.7rem;background:#fff;color:#2563eb;border:1px solid #bfdbfe" onclick="enableWeddingNotifications()">Receber avisos no app</button>
         </div>
+      </div>
+    </section>
+
+    <section id="view-checkout" class="app-tab-view">
+      <div class="app-subview-container mp-checkout-view">
+        <div class="app-subview-header"><button class="app-subview-back-btn" onclick="closeMercadoPagoCheckout()" aria-label="Voltar ao PIX">←</button><h2 class="app-subview-title">Pagamento seguro</h2></div>
+        <p class="mp-checkout-note">Checkout oficial do Mercado Pago</p>
+        <iframe id="mercado-pago-frame" class="mercado-pago-frame" title="Checkout oficial Mercado Pago" allow="payment; clipboard-write" referrerpolicy="strict-origin-when-cross-origin"></iframe>
       </div>
     </section>
 
@@ -801,6 +802,16 @@
       if (dockBtn) {
         dockBtn.classList.add('active');
       }
+    };
+
+    const MERCADO_PAGO_CHECKOUT_URL = 'https://link.mercadopago.com.br/descubraobrasil';
+    window.openMercadoPagoCheckout = function() {
+      const frame = document.getElementById('mercado-pago-frame');
+      if (frame && frame.src !== MERCADO_PAGO_CHECKOUT_URL) frame.src = MERCADO_PAGO_CHECKOUT_URL;
+      openAppTab('checkout');
+    };
+    window.closeMercadoPagoCheckout = function() {
+      openAppTab('pix');
     };
 
     // Relógio do Topo

@@ -54,14 +54,15 @@ body { padding-bottom: 0; }
 .direct-pix-form label { display: grid; gap: .35rem; font-size: .82rem; font-weight: 700; color: #334155; }
 .direct-pix-form input { width: 100%; box-sizing: border-box; border: 1px solid #cbd5e1; border-radius: 10px; padding: .75rem; font: inherit; }
 .direct-pix-status { min-height: 1.25rem; font-size: .82rem; color: #b91c1c !important; }
-.mercado-pago-checkout { display:flex; align-items:center; gap:.7rem; width:100%; box-sizing:border-box; padding:.85rem; border-radius:12px; color:#0f3d73; background:#fff159; box-shadow:0 5px 13px rgba(15,61,115,.14); text-decoration:none; text-align:left; }
+.mercado-pago-checkout { display:flex; align-items:center; gap:.7rem; width:100%; box-sizing:border-box; border:0; padding:.85rem; border-radius:12px; color:#0f3d73; background:#fff159; box-shadow:0 5px 13px rgba(15,61,115,.14); text-decoration:none; text-align:left; cursor:pointer; font:inherit; }
 .mercado-pago-checkout-mark { display:grid; place-items:center; flex:0 0 auto; width:34px; height:34px; border-radius:50%; background:#0f3d73; color:#fff159; font-size:.68rem; font-weight:800; }
 .mercado-pago-checkout strong, .mercado-pago-checkout small { display:block; }
 .mercado-pago-checkout strong { font-size:.83rem; }
 .mercado-pago-checkout small { margin-top:.15rem; font-size:.68rem; color:#31567e; }
 .mercado-pago-checkout > span:last-child { margin-left:auto; font-size:1.45rem; }
-.pix-divider { display:flex; align-items:center; gap:.6rem; margin:1rem 0 .2rem; color:#94a3b8; font-size:.7rem; }
-.pix-divider::before, .pix-divider::after { content:""; height:1px; flex:1; background:#e2e8f0; }
+.mp-checkout-view { height: calc(100dvh - 76px); padding-bottom: 0; display:flex; flex-direction:column; }
+.mp-checkout-note { margin:.35rem 1rem .65rem; text-align:center; color:#64748b; font-size:.78rem; }
+.mercado-pago-frame { display:block; flex:1; width:100%; border:0; background:#fff; }
 ul, ol { list-style: none; }
 /* The former generic PIX modal could record a payment manually. PIX now belongs to each gift. */
 #modal-pix { display: none !important; }

@@ -1,4 +1,4 @@
-const json = (data, status = 200) => new Response(JSON.stringify(data), { status, headers: { "content-type": "application/json", "access-control-allow-origin": "https://gabrielmenezesc.github.io", "access-control-allow-methods": "GET,POST,OPTIONS" } });
+const json = (data, status = 200) => new Response(JSON.stringify(data), { status, headers: { "content-type": "application/json", "access-control-allow-origin": "https://gabrielmenezesc.github.io", "access-control-allow-methods": "GET,POST,OPTIONS", "access-control-allow-headers": "Content-Type" } });
 const id = () => crypto.randomUUID();
 const now = () => new Date().toISOString();
 const cents = (value) => Math.round(Number(value || 0) * 100);
