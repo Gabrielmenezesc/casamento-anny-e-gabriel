@@ -467,7 +467,13 @@
         <div class="app-subview-header"><button class="app-subview-back-btn" onclick="openAppTab('inicio')" aria-label="Voltar">←</button><h2 class="app-subview-title">PIX</h2></div>
         <div class="app-card-panel app-pix-area">
           <h3>Presenteie via PIX</h3>
-          <p>Digite o valor e gere um PIX exclusivo para copiar e pagar no banco de sua preferência.</p>
+          <p>Escolha o pagamento direto pelo Mercado Pago ou gere um PIX exclusivo para copiar e pagar no banco de sua preferência.</p>
+          <a class="mercado-pago-checkout" href="https://link.mercadopago.com.br/descubraobrasil" target="_blank" rel="noopener noreferrer" aria-label="Pagar agora pelo Mercado Pago">
+            <span class="mercado-pago-checkout-mark">MP</span>
+            <span><strong>Pagar agora com Mercado Pago</strong><small>Abre o checkout seguro diretamente</small></span>
+            <span aria-hidden="true">›</span>
+          </a>
+          <div class="pix-divider"><span>ou gere um PIX Copia e Cola</span></div>
           <form id="direct-pix-form" class="direct-pix-form">
             <label>Valor em reais<input name="amount" type="number" min="1" step="0.01" inputmode="decimal" placeholder="Ex.: 100,00" required></label>
             <label>E-mail para o provedor de pagamento<input name="email" type="email" autocomplete="email" placeholder="voce@email.com" required></label>
