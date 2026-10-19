@@ -21,6 +21,7 @@
   <!-- App Styles Exclusivos -->
   <link rel="stylesheet" href="./css/app.css" />
   <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/contributions.css" />
 </head>
 <body>
 
@@ -376,7 +377,7 @@
           <!-- Mapa Embutido do Google Maps -->
           <div class="app-map-box">
             <iframe 
-              src="https://www.google.com/maps?q=Ch%C3%A1cara%20Bella%20Vida&output=embed" 
+              src="https://www.google.com/maps?q=Ch%C3%A1cara%20Bella%20Vida&output=embed"
               allowfullscreen="" 
               loading="lazy" 
               referrerpolicy="no-referrer-when-downgrade">
@@ -451,25 +452,30 @@
           <h2 class="app-subview-title">Lista de Presentes</h2>
         </div>
 
-        <div class="app-card-panel" style="text-align: center;">
-          <h3 style="font-family: var(--app-font-serif);">Presentear o Casal</h3>
-          <p style="margin-bottom: 1.25rem;">
-            Você pode presentear diretamente através do PIX oficial de forma rápida e segura:
-          </p>
-          <button class="app-pix-cta" data-open-pix style="margin: 0 auto 1.25rem;">
-            <div class="app-pix-cta-content">
-              <div class="app-pix-cta-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
-              </div>
-              <div>
-                <div class="app-pix-cta-title">Enviar Presente via PIX</div>
-                <span class="app-pix-cta-sub">Chave: (38) 99162-1135</span>
-              </div>
-            </div>
-          </button>
-          <p style="font-size: 0.8rem; color: #64748b;">
-            Qualquer contribuição faz toda a diferença para o nosso novo lar e a nossa Lua de Mel.
-          </p>
+        <div class="app-card-panel app-gifts-intro">
+          <h3>Escolha um presente</h3>
+          <p>Consulte as opções de loja ou contribua para o item escolhido. A área de PIX fica separada.</p>
+          <div id="contribution-summary" class="contribution-summary"></div>
+          <div id="gift-filters" class="gift-filters" aria-label="Filtrar presentes"></div>
+          <div id="gifts-grid" class="gifts-grid app-gifts-grid" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-pix" class="app-tab-view">
+      <div class="app-subview-container">
+        <div class="app-subview-header"><button class="app-subview-back-btn" onclick="openAppTab('inicio')" aria-label="Voltar">←</button><h2 class="app-subview-title">PIX</h2></div>
+        <div class="app-card-panel app-pix-area">
+          <h3>Presenteie via PIX</h3>
+          <p>Digite o valor e gere um PIX exclusivo para copiar e pagar no banco de sua preferência.</p>
+          <form id="direct-pix-form" class="direct-pix-form">
+            <label>Valor em reais<input name="amount" type="number" min="1" step="0.01" inputmode="decimal" placeholder="Ex.: 100,00" required></label>
+            <label>E-mail para o provedor de pagamento<input name="email" type="email" autocomplete="email" placeholder="voce@email.com" required></label>
+            <button class="app-btn-submit-rsvp" type="submit">Gerar PIX Copia e Cola</button>
+          </form>
+          <p id="direct-pix-status" class="direct-pix-status" aria-live="polite"></p>
+          <button class="app-btn-submit-rsvp" type="button" onclick="openAppTab('presentes')">Ver lista de presentes</button>
+          <button class="app-btn-submit-rsvp" type="button" style="margin-top:.7rem;background:#fff;color:#2563eb;border:1px solid #bfdbfe" onclick="enableWeddingNotifications()">Receber avisos no app</button>
         </div>
       </div>
     </section>
@@ -506,6 +512,10 @@
         <line x1="16" y1="17" x2="8" y2="17"></line>
       </svg>
       <span>Detalhes</span>
+    </button>
+    <button class="app-dock-item" id="dock-btn-presentes" onclick="openAppTab('presentes')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8V3M7 5l5-2 5 2"/></svg>
+      <span>Presentes</span>
     </button>
   </nav>
 
@@ -604,6 +614,10 @@
   <script src="./js/utils.js"></script>
   <script src="./js/firebase.js?v=17"></script>
   <script src="./js/site-config.js?v=18"></script>
+  <script src="./js/contributions-config.js"></script>
+  <script src="./js/gift-catalog.js"></script>
+  <script src="./js/contributions.js"></script>
+  <script src="./js/app-notifications.js"></script>
   <script>
     // ==========================================
     // ÁUDIO CINEMÁTICO COM WEB AUDIO API + MÚSICA
@@ -711,12 +725,12 @@
           ease: 'power3.inOut',
           onComplete: () => {
             splash.classList.add('splash-closed');
-            animateHomeEntry();
+            openRequestedAppTab();
           }
         });
       } else {
         splash.classList.add('splash-closed');
-        animateHomeEntry();
+        openRequestedAppTab();
       }
     }
 
@@ -737,6 +751,16 @@
       });
     }
 
+    function openRequestedAppTab() {
+      const requested = window.location.hash.replace('#', '');
+      const valid = ['historia', 'fotos', 'detalhes', 'confirmar', 'presentes', 'pix'];
+      if (valid.includes(requested)) {
+        openAppTab(requested);
+        return;
+      }
+      animateHomeEntry();
+    }
+
     // ==========================================
     // GERENCIADOR DE NAVEGAÇÃO INTERNA DO APP (SPA)
     // ==========================================
@@ -748,7 +772,9 @@
       const targetView = document.getElementById('view-' + tabName);
       if (targetView) {
         targetView.classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'instant' });
+        // Each app view owns its own scroll area. `utils.js` also exposes a
+        // helper named scrollTo, so avoid calling the global browser method.
+        targetView.scrollTop = 0;
 
         if (window.gsap) {
           gsap.from(targetView.querySelectorAll('.app-card-panel, .app-photo-item'), {
@@ -848,7 +874,7 @@
 
     document.querySelectorAll('[data-open-pix]').forEach(b => {
       b.addEventListener('click', () => {
-        window.location.href = './presentes.html';
+        openAppTab('pix');
       });
     });
 
@@ -914,4 +940,3 @@
   </script>
 </body>
 </html>
-

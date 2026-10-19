@@ -107,6 +107,27 @@
   }
   document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("gifts-grid")?.addEventListener("click", (event) => { const button = event.target.closest(".contribution-button"); if (!button) return; if (!configured()) return showToast("A integração PIX ainda precisa ser configurada pelos noivos.", "info"); const gift = gifts.find((item) => item.id === button.dataset.giftId); if (gift) openForm(gift); });
+    document.getElementById("direct-pix-form")?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const status = document.getElementById("direct-pix-status");
+      const data = new FormData(form);
+      const amountCents = Math.round(Number(String(data.get("amount")).replace(",", ".")) * 100);
+      if (!Number.isInteger(amountCents) || amountCents < 100) { status.textContent = "Informe um valor de pelo menos R$ 1,00."; return; }
+      if (!configured()) { status.textContent = "O serviço PIX ainda não está configurado."; return; }
+      const button = form.querySelector("button[type=submit]");
+      button.disabled = true; button.textContent = "Gerando PIX…"; status.textContent = "";
+      try {
+        const charge = await request("/v1/charges", { method: "POST", body: JSON.stringify({ gift_id: "g_pix_livre", amount_cents: amountCents, payer_email: data.get("email") }) });
+        openForm({ id: "g_pix_livre", name: "Presente via PIX" });
+        showCharge(charge);
+        form.reset();
+      } catch (error) {
+        status.textContent = error.message || "Não foi possível gerar o PIX agora.";
+      } finally {
+        button.disabled = false; button.textContent = "Gerar PIX Copia e Cola";
+      }
+    });
     load(); setInterval(load, 30000);
   });
 })();

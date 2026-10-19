@@ -36,6 +36,28 @@ body {
   padding-bottom: 74px; /* Espaço para barra inferior fixa */
 }
 
+/* The app owns its viewport: internal views scroll without exposing a browser bar. */
+html, body { overflow: hidden; }
+body { padding-bottom: 0; }
+.app-viewport { height: 100dvh; min-height: 100dvh; max-height: 100dvh; }
+.app-tab-view.active { height: calc(100dvh - 76px); min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding-bottom: 92px; scrollbar-width: none; -ms-overflow-style: none; }
+.app-tab-view.active::-webkit-scrollbar { width: 0; height: 0; display: none; }
+.app-bottom-dock { padding-bottom: max(8px, env(safe-area-inset-bottom)); }
+.app-bottom-dock .app-dock-item { min-width: 0; flex: 1; }
+.app-bottom-dock .app-dock-item span { font-size: 0.58rem; }
+.app-gifts-intro { text-align: left; }
+.app-gifts-intro > p { margin: .45rem 0 1rem; color: #64748b; }
+.app-gifts-grid { grid-template-columns: 1fr; }
+.app-pix-area { text-align: center; }
+.app-pix-area p { color: #64748b; line-height: 1.55; margin: .65rem 0 1.25rem; }
+.direct-pix-form { display: grid; gap: .8rem; text-align: left; margin: 1rem 0; }
+.direct-pix-form label { display: grid; gap: .35rem; font-size: .82rem; font-weight: 700; color: #334155; }
+.direct-pix-form input { width: 100%; box-sizing: border-box; border: 1px solid #cbd5e1; border-radius: 10px; padding: .75rem; font: inherit; }
+.direct-pix-status { min-height: 1.25rem; font-size: .82rem; color: #b91c1c !important; }
+ul, ol { list-style: none; }
+/* The former generic PIX modal could record a payment manually. PIX now belongs to each gift. */
+#modal-pix { display: none !important; }
+
 /* =========================================================
    SPLASH SCREEN DE ABERTURA COM EFEITO CINEMÁTICO & SOM
    ========================================================= */

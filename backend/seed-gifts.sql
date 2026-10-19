@@ -65,4 +65,4 @@ INSERT OR IGNORE INTO gifts (id,name,category,description,target_amount_cents) V
 INSERT OR IGNORE INTO gifts (id,name,category,description,target_amount_cents) VALUES ('g_065','Espelho','📦 Diversos','Item especial para nossa nova jornada.',NULL);
 INSERT OR IGNORE INTO gifts (id,name,category,description,target_amount_cents) VALUES ('g_066','Relógio de parede','📦 Diversos','Item especial para nossa nova jornada.',NULL);
 INSERT OR IGNORE INTO gifts (id,name,category,description,target_amount_cents) VALUES ('g_067','Organizadores','📦 Diversos','Item especial para nossa nova jornada.',NULL);
-
+INSERT OR IGNORE INTO gifts (id,name,category,description,target_amount_cents) VALUES ('g_pix_livre','Presente via PIX','PIX','Contribuição livre para o casal.',NULL);

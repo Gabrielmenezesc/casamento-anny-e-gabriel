@@ -46,7 +46,14 @@ export default {
       if (request.method === "POST" && url.pathname === "/v1/charges") {
         const body = await request.json(); const amount = Number(body.amount_cents);
         if (!Number.isSafeInteger(amount) || amount < 100 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.payer_email || "")) return json({ message: "Dados de contribuição inválidos." }, 400);
-        const gift = await env.DB.prepare("SELECT id,name FROM gifts WHERE id=?").bind(body.gift_id).first(); if (!gift) return json({ message: "Presente não encontrado." }, 404);
+        let gift = await env.DB.prepare("SELECT id,name FROM gifts WHERE id=?").bind(body.gift_id).first();
+        // A contribuição livre is still recorded as a real, traceable gift.
+        // This also makes existing databases work without a manual seed step.
+        if (!gift && body.gift_id === "g_pix_livre") {
+          await env.DB.prepare("INSERT OR IGNORE INTO gifts(id,name,category,description,target_amount_cents) VALUES(?,?,?,?,NULL)").bind("g_pix_livre", "Presente via PIX", "PIX", "Contribuição livre para o casal.").run();
+          gift = await env.DB.prepare("SELECT id,name FROM gifts WHERE id=?").bind("g_pix_livre").first();
+        }
+        if (!gift) return json({ message: "Presente não encontrado." }, 404);
         const chargeId = id(); const expires = new Date(Date.now() + 30 * 60 * 1000).toISOString();
         const payment = await provider("/v1/payments", env, { method: "POST", headers: { "X-Idempotency-Key": chargeId }, body: JSON.stringify({ transaction_amount: amount / 100, description: `Contribuição: ${gift.name}`, payment_method_id: "pix", payer: { email: body.payer_email }, external_reference: chargeId, notification_url: `${env.PUBLIC_API_URL}/webhooks/mercadopago`, metadata: { contribution_id: chargeId, gift_id: gift.id }, date_of_expiration: expires }) });
         await env.DB.prepare("INSERT INTO charges(id,gift_id,requested_amount_cents,provider_payment_id,external_reference,status,payer_email,expires_at) VALUES(?,?,?,?,?,?,?,?)").bind(chargeId, gift.id, amount, String(payment.id), chargeId, payment.status, body.payer_email, expires).run();
