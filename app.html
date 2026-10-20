@@ -316,28 +316,27 @@
           <h2 class="app-subview-title">Galeria de Fotos</h2>
         </div>
 
-        <a class="app-book-card" href="https://gabriel-laoanny-livro.tavareslaoanny2.chatgpt.site" target="_blank" rel="noopener noreferrer" aria-label="Abrir nosso livro de histórias">
-          <span class="app-book-icon" aria-hidden="true">📖</span>
-          <span class="app-book-copy">
-            <strong>Nosso Livro de Histórias</strong>
-            <small>Veja o livro que criamos para celebrar nossa história</small>
-          </span>
-          <span class="app-book-arrow" aria-hidden="true">↗</span>
-        </a>
+        <div class="app-book-showcase" id="app-book-showcase">
+          <button class="app-3d-book" type="button" onclick="openMemoryBook()" aria-label="Abrir o livro de Gabriel e Laoanny">
+            <span class="app-3d-book-pages"></span>
+            <span class="app-3d-book-cover">
+              <span class="app-3d-book-kicker">MEMÓRIAS DE UM AMOR</span>
+              <strong>Gabriel<br><i>&amp;</i> Laoanny</strong>
+              <small>Uma história de nós</small>
+              <span class="app-3d-book-flower">✦</span>
+            </span>
+          </button>
+          <h3>Nosso Livro de Histórias</h3>
+          <p>Toque na capa para abrir as nossas memórias.</p>
+          <button class="app-book-open-button" type="button" onclick="openMemoryBook()">Abrir nossa história <span>→</span></button>
+        </div>
 
-        <div class="app-photo-grid">
-          <div class="app-photo-item"><img src="./assets/images/galeria_1.jpg" alt="Foto real do casal 1" loading="lazy" /></div>
-          <div class="app-photo-item"><img src="./assets/images/galeria_2.jpg" alt="Foto real do casal 2" loading="lazy" /></div>
-          <div class="app-photo-item"><img src="./assets/images/galeria_3.jpg" alt="Foto real do casal 3" loading="lazy" /></div>
-          <div class="app-photo-item"><img src="./assets/images/galeria_4.jpg" alt="Foto real do casal 4" loading="lazy" /></div>
-          <div class="app-photo-item"><img src="./assets/images/galeria_5.jpg" alt="Foto real do casal 5" loading="lazy" /></div>
-          <div class="app-photo-item"><img src="./assets/images/galeria_6.jpg" alt="Foto real do casal 6" loading="lazy" /></div>
-          <div class="app-photo-item"><img src="./assets/images/galeria_7.jpg" alt="Foto real do casal 7" loading="lazy" /></div>
-          <div class="app-photo-item"><img src="./assets/images/galeria_8.jpg" alt="Foto real do casal 8" loading="lazy" /></div>
+        <div class="app-book-reader" id="app-book-reader" hidden>
+          <button class="app-subview-back-btn app-book-close" type="button" onclick="closeMemoryBook()" aria-label="Voltar para a capa do livro">←</button>
+          <iframe id="app-book-frame" title="Livro de Gabriel e Laoanny" loading="lazy" allow="fullscreen" src="about:blank"></iframe>
         </div>
       </div>
     </section>
-
     <!-- ==========================================
          ABA 4: DETALHES & LOCAL (NATIVA DO APP)
          ========================================== -->
@@ -873,6 +872,19 @@
         e.target.reset(); appPersonType.dispatchEvent(new Event('change')); openAppTab('inicio');
       } catch (err) { alert(err.message || 'Não foi possível registrar a confirmação. Tente novamente.'); }
       finally { btn.disabled = false; btn.textContent = 'Confirmar Agora'; }
+    };
+    window.openMemoryBook = function () {
+      const showcase = document.getElementById('app-book-showcase');
+      const reader = document.getElementById('app-book-reader');
+      const frame = document.getElementById('app-book-frame');
+      if (!frame.src || frame.src === 'about:blank') frame.src = './livro/index.html';
+      showcase.hidden = true;
+      reader.hidden = false;
+      reader.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    window.closeMemoryBook = function () {
+      document.getElementById('app-book-reader').hidden = true;
+      document.getElementById('app-book-showcase').hidden = false;
     };
     // Modal PIX
     const modalPix = document.getElementById('modal-pix');
