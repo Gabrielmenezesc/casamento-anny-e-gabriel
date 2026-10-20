@@ -16,6 +16,23 @@ function onlyDigits(value) { return String(value || "").replace(/\D/g, ""); }
 function ageOnWedding(birthDate) { const birth = new Date(`${birthDate}T12:00:00Z`); const wedding = new Date("2027-04-25T12:00:00Z"); let age = wedding.getUTCFullYear() - birth.getUTCFullYear(); if (wedding.getUTCMonth() < birth.getUTCMonth() || (wedding.getUTCMonth() === birth.getUTCMonth() && wedding.getUTCDate() < birth.getUTCDate())) age--; return age; }
 function validBirthDate(value) { return /^\d{4}-\d{2}-\d{2}$/.test(value || "") && !Number.isNaN(new Date(`${value}T12:00:00Z`).getTime()); }
 
+async function notifyRsvpWhatsApp(rsvp, env) {
+  const token = env.WHATSAPP_ACCESS_TOKEN, phoneNumberId = env.WHATSAPP_PHONE_NUMBER_ID, recipient = env.WHATSAPP_RECIPIENT || "5538991621135", template = env.WHATSAPP_TEMPLATE_NAME;
+  if (!token || !phoneNumberId || !template) return { status: "disabled", error: "Integração do WhatsApp ainda não configurada." };
+  const endpoint = `https://graph.facebook.com/${env.WHATSAPP_GRAPH_API_VERSION || "v23.0"}/${encodeURIComponent(phoneNumberId)}/messages`;
+  const values = [rsvp.fullName, rsvp.phone, rsvp.personType === "child" ? "Criança" : "Adulto", rsvp.birthDate || "Não informado"];
+  const payload = { messaging_product: "whatsapp", to: recipient, type: "template", template: { name: template, language: { code: "pt_BR" }, components: [{ type: "body", parameters: values.map((text) => ({ type: "text", text })) }] } };
+  const response = await fetch(endpoint, { method: "POST", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(body?.error?.message || `WhatsApp respondeu ${response.status}`);
+  return { status: "accepted", providerMessageId: body?.messages?.[0]?.id || null };
+}
+async function recordRsvpNotification(rsvp, env) {
+  const timestamp = now(); let result;
+  try { result = await notifyRsvpWhatsApp(rsvp, env); } catch (error) { result = { status: "failed", error: String(error.message || error) }; }
+  await env.DB.prepare("INSERT INTO rsvp_notifications(id,rsvp_identity_key,status,provider_message_id,last_error,attempts,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(rsvp_identity_key) DO UPDATE SET status=excluded.status,provider_message_id=excluded.provider_message_id,last_error=excluded.last_error,attempts=rsvp_notifications.attempts + 1,updated_at=excluded.updated_at").bind(id(), rsvp.identityKey, result.status, result.providerMessageId || null, result.error || null, 1, timestamp, timestamp).run();
+  return result;
+}
 async function reconcilePayment(paymentId, env, eventId, rawEvent) {
   const payment = await provider(`/v1/payments/${encodeURIComponent(paymentId)}`, env);
   const charge = await env.DB.prepare("SELECT * FROM charges WHERE provider_payment_id = ?").bind(String(payment.id)).first();
@@ -51,7 +68,8 @@ export default {
         const identityKey = `${personType}:${fullName.toLocaleLowerCase("pt-BR")}:${phone}:${birthDate || ""}`;
         const timestamp = now(); const rsvpId = id();
         await env.DB.prepare("INSERT INTO rsvps(id,full_name,phone,email,person_type,birth_date,identity_key,identity_confirmed_at,notes,confirmed_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(identity_key) DO UPDATE SET full_name=excluded.full_name,email=excluded.email,identity_confirmed_at=excluded.identity_confirmed_at,notes=excluded.notes,updated_at=excluded.updated_at").bind(rsvpId, fullName, phone, email || null, personType, birthDate, identityKey, timestamp, notes || null, timestamp, timestamp).run();
-        return json({ ok: true, id: rsvpId, confirmed_at: timestamp });
+        const notification = await recordRsvpNotification({ fullName, phone, personType, birthDate, identityKey }, env);
+        return json({ ok: true, id: rsvpId, confirmed_at: timestamp, notification_status: notification.status });
       }
       if (request.method === "GET" && url.pathname === "/v1/public/summary") {
         const pix = await env.DB.prepare("SELECT COALESCE(SUM(net_amount_cents),0) amount, COUNT(*) count FROM contributions WHERE status IN ('confirmed','partially_refunded')").first();

@@ -32,3 +32,14 @@ CREATE TABLE IF NOT EXISTS rsvps (
   updated_at TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS rsvps_confirmed_idx ON rsvps(confirmed_at);
+CREATE TABLE IF NOT EXISTS rsvp_notifications (
+  id TEXT PRIMARY KEY,
+  rsvp_identity_key TEXT NOT NULL UNIQUE,
+  status TEXT NOT NULL CHECK(status IN ('pending','accepted','failed','disabled')),
+  provider_message_id TEXT,
+  last_error TEXT,
+  attempts INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS rsvp_notifications_status_idx ON rsvp_notifications(status, updated_at);
