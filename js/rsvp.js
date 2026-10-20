@@ -29,6 +29,11 @@
     });
     const body = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(body.message || 'Não foi possível registrar a confirmação.');
-    return body;
+    return { ...body, rsvp: { fullName, phone, personType, birthDate: personType === 'child' ? input.birth_date : null } };
+  };
+  window.openWhatsAppRsvpConfirmation = function (rsvp) {
+    const kind = rsvp.personType === 'child' ? 'Criança (até 9 anos, idade validada)' : 'Adulto';
+    const message = `Olá! Nova confirmação de presença no casamento.\n\nNome: ${rsvp.fullName}\nTelefone: ${rsvp.phone}\nTipo: ${kind}\n\nConfirmação registrada pelo site.`;
+    window.location.assign(`https://wa.me/5538991621135?text=${encodeURIComponent(message)}`);
   };
 })();

@@ -22,7 +22,7 @@
       button.disabled = true;
       button.textContent = 'Confirmando...';
       try {
-        await window.submitWeddingRSVP({
+        var result = await window.submitWeddingRSVP({
           full_name: byId('rsvp-name').value,
           phone: byId('rsvp-phone').value,
           email: byId('rsvp-email').value,
@@ -31,6 +31,7 @@
           identity_confirmed: byId('rsvp-identity-confirmation').checked,
           notes: byId('rsvp-notes').value
         });
+        window.openWhatsAppRsvpConfirmation(result.rsvp);
         form.hidden = true;
         byId('rsvp-success').classList.add('show');
         var nameTarget = document.querySelector('.rsvp-success-name');

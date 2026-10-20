@@ -622,7 +622,7 @@
   <script src="./js/firebase.js?v=17"></script>
   <script src="./js/site-config.js?v=18"></script>
   <script src="./js/contributions-config.js"></script>
-  <script src="./js/rsvp.js"></script>
+  <script src="./js/rsvp.js?v=2"></script>
   <script src="./js/gift-catalog.js"></script>
   <script src="./js/contributions.js"></script>
   <script src="./js/app-notifications.js"></script>
@@ -858,8 +858,9 @@
       try {
         const status = document.getElementById('app-guest-status').value;
         if (status === 'nao') { alert('Agradecemos por nos avisar.'); openAppTab('inicio'); return; }
-        await window.submitWeddingRSVP({ full_name: document.getElementById('app-guest-name').value, phone: document.getElementById('app-guest-phone').value, person_type: appPersonType.value, birth_date: appBirthdate.value, identity_confirmed: document.getElementById('app-identity-confirmation').checked });
-        alert('Presença confirmada com sucesso. Obrigado!');
+        const result = await window.submitWeddingRSVP({ full_name: document.getElementById('app-guest-name').value, phone: document.getElementById('app-guest-phone').value, person_type: appPersonType.value, birth_date: appBirthdate.value, identity_confirmed: document.getElementById('app-identity-confirmation').checked });
+        window.openWhatsAppRsvpConfirmation(result.rsvp);
+        alert('Presença confirmada. A conversa do WhatsApp será aberta com a mensagem pronta para envio.');
         e.target.reset(); appPersonType.dispatchEvent(new Event('change')); openAppTab('inicio');
       } catch (err) { alert(err.message || 'Não foi possível registrar a confirmação. Tente novamente.'); }
       finally { btn.disabled = false; btn.textContent = 'Confirmar Agora'; }
