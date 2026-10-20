@@ -970,3 +970,24 @@ ul, ol { list-style: none; }
   transform: scale(0.9);
 }
 
+
+/* Livro digital na galeria */
+.app-book-card {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  padding: 1rem;
+  margin: 0 0 1rem;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #fff7ed, #ffffff);
+  border: 1px solid rgba(234, 88, 12, .18);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, .08);
+  color: #0f172a;
+  text-decoration: none;
+}
+.app-book-icon { font-size: 1.8rem; }
+.app-book-copy { display: grid; gap: .18rem; flex: 1; }
+.app-book-copy strong { font-family: var(--app-font-serif); font-size: 1rem; }
+.app-book-copy small { color: #64748b; line-height: 1.35; }
+.app-book-arrow { font-size: 1.25rem; color: #ea580c; }
+.app-book-card:active { transform: scale(.985); }
