@@ -313,27 +313,11 @@
       <div class="app-subview-container">
         <div class="app-subview-header">
           <button class="app-subview-back-btn" onclick="openAppTab('inicio')" aria-label="Voltar">←</button>
-          <h2 class="app-subview-title">Galeria de Fotos</h2>
+          <h2 class="app-subview-title">Nosso Livro</h2>
         </div>
 
-        <div class="app-book-showcase" id="app-book-showcase">
-          <button class="app-3d-book" type="button" onclick="openMemoryBook()" aria-label="Abrir o livro de Gabriel e Laoanny">
-            <span class="app-3d-book-pages"></span>
-            <span class="app-3d-book-cover">
-              <span class="app-3d-book-kicker">MEMÓRIAS DE UM AMOR</span>
-              <strong>Gabriel<br><i>&amp;</i> Laoanny</strong>
-              <small>Uma história de nós</small>
-              <span class="app-3d-book-flower">✦</span>
-            </span>
-          </button>
-          <h3>Nosso Livro de Histórias</h3>
-          <p>Toque na capa para abrir as nossas memórias.</p>
-          <button class="app-book-open-button" type="button" onclick="openMemoryBook()">Abrir nossa história <span>→</span></button>
-        </div>
-
-        <div class="app-book-reader" id="app-book-reader" hidden>
-          <button class="app-subview-back-btn app-book-close" type="button" onclick="closeMemoryBook()" aria-label="Voltar para a capa do livro">←</button>
-          <iframe id="app-book-frame" title="Livro de Gabriel e Laoanny" loading="lazy" allow="fullscreen" src="about:blank"></iframe>
+        <div class="app-book-reader" id="app-book-reader">
+          <iframe id="app-book-frame" title="Livro de Gabriel e Laoanny" loading="eager" allow="fullscreen" src="./livro/index.html"></iframe>
         </div>
       </div>
     </section>
@@ -511,13 +495,12 @@
       </svg>
       <span>Nossa História</span>
     </button>
-    <button class="app-dock-item" id="dock-btn-fotos" onclick="openAppTab('fotos')">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-        <circle cx="8.5" cy="8.5" r="1.5"></circle>
-        <polyline points="21 15 16 10 5 21"></polyline>
+    <button class="app-dock-item" id="dock-btn-fotos" onclick="openAppTab('fotos')" aria-label="Abrir nosso livro">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
       </svg>
-      <span>Fotos</span>
+      <span>Livro</span>
     </button>
     <button class="app-dock-item" id="dock-btn-detalhes" onclick="openAppTab('detalhes')">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -872,19 +855,6 @@
         e.target.reset(); appPersonType.dispatchEvent(new Event('change')); openAppTab('inicio');
       } catch (err) { alert(err.message || 'Não foi possível registrar a confirmação. Tente novamente.'); }
       finally { btn.disabled = false; btn.textContent = 'Confirmar Agora'; }
-    };
-    window.openMemoryBook = function () {
-      const showcase = document.getElementById('app-book-showcase');
-      const reader = document.getElementById('app-book-reader');
-      const frame = document.getElementById('app-book-frame');
-      if (!frame.src || frame.src === 'about:blank') frame.src = './livro/index.html';
-      showcase.hidden = true;
-      reader.hidden = false;
-      reader.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    };
-    window.closeMemoryBook = function () {
-      document.getElementById('app-book-reader').hidden = true;
-      document.getElementById('app-book-showcase').hidden = false;
     };
     // Modal PIX
     const modalPix = document.getElementById('modal-pix');
