@@ -18,3 +18,17 @@ CREATE TABLE IF NOT EXISTS webhook_events (event_id TEXT PRIMARY KEY, provider T
 CREATE TABLE IF NOT EXISTS external_orders (id TEXT PRIMARY KEY, gift_id TEXT NOT NULL REFERENCES gifts(id), provider TEXT NOT NULL, provider_order_id TEXT NOT NULL, payment_status TEXT NOT NULL, delivery_status TEXT, confirmed_at TEXT, UNIQUE(provider, provider_order_id));
 CREATE INDEX IF NOT EXISTS charges_status_idx ON charges(status, created_at);
 CREATE INDEX IF NOT EXISTS contributions_gift_idx ON contributions(gift_id, status);
+CREATE TABLE IF NOT EXISTS rsvps (
+  id TEXT PRIMARY KEY,
+  full_name TEXT NOT NULL,
+  phone TEXT NOT NULL,
+  email TEXT,
+  person_type TEXT NOT NULL CHECK(person_type IN ('adult','child')),
+  birth_date TEXT,
+  identity_key TEXT NOT NULL UNIQUE,
+  identity_confirmed_at TEXT NOT NULL,
+  notes TEXT,
+  confirmed_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS rsvps_confirmed_idx ON rsvps(confirmed_at);

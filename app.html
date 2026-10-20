@@ -425,15 +425,23 @@
             </div>
 
             <div class="app-form-group">
-              <label for="app-guest-count">Quantidade de Pessoas</label>
-              <select id="app-guest-count">
-                <option value="1">1 pessoa (Apenas eu)</option>
-                <option value="2">2 pessoas (Eu e acompanhante)</option>
-                <option value="3">3 pessoas (Família)</option>
-                <option value="4">4 pessoas ou mais</option>
+              <label for="app-person-type">Quem está confirmando? *</label>
+              <select id="app-person-type" required>
+                <option value="adult">Adulto</option>
+                <option value="child">Criança (até 9 anos)</option>
               </select>
+              <small style="display:block;margin-top:.4rem;color:#64748b;">Uma confirmação por pessoa.</small>
             </div>
 
+            <div class="app-form-group" id="app-birthdate-group" hidden>
+              <label for="app-birthdate">Data de nascimento da criança *</label>
+              <input type="date" id="app-birthdate" max="2026-10-20" />
+            </div>
+
+            <label style="display:flex;gap:.55rem;align-items:flex-start;font-size:.88rem;line-height:1.4;margin:.3rem 0 1rem;cursor:pointer;">
+              <input type="checkbox" id="app-identity-confirmation" required style="margin-top:.2rem;" />
+              <span>Confirmo que os dados identificam somente a pessoa que está sendo confirmada.</span>
+            </label>
             <button type="submit" class="app-btn-submit-rsvp" id="btn-submit-rsvp">
               Confirmar Agora
             </button>
@@ -614,6 +622,7 @@
   <script src="./js/firebase.js?v=17"></script>
   <script src="./js/site-config.js?v=18"></script>
   <script src="./js/contributions-config.js"></script>
+  <script src="./js/rsvp.js"></script>
   <script src="./js/gift-catalog.js"></script>
   <script src="./js/contributions.js"></script>
   <script src="./js/app-notifications.js"></script>
@@ -830,40 +839,31 @@
     updateCountdown();
     setInterval(updateCountdown, 1000);
 
-    // Submissão do RSVP nativo
+    // Confirmação individual de presença no servidor
+    const appPersonType = document.getElementById('app-person-type');
+    const appBirthdateGroup = document.getElementById('app-birthdate-group');
+    const appBirthdate = document.getElementById('app-birthdate');
+    appPersonType.addEventListener('change', () => {
+      const isChild = appPersonType.value === 'child';
+      appBirthdateGroup.hidden = !isChild;
+      appBirthdate.required = isChild;
+      if (!isChild) appBirthdate.value = '';
+    });
+
     window.handleAppRsvp = async function(e) {
       e.preventDefault();
-      const name = document.getElementById('app-guest-name').value.trim();
-      const phone = document.getElementById('app-guest-phone').value.trim();
-      const status = document.getElementById('app-guest-status').value;
-      const count = document.getElementById('app-guest-count').value;
-
       const btn = document.getElementById('btn-submit-rsvp');
       btn.disabled = true;
-      btn.textContent = 'Enviando...';
-
+      btn.textContent = 'Confirmando...';
       try {
-        if (typeof addGuest === 'function') {
-          await addGuest({
-            nome: name,
-            telefone: phone,
-            status: status === 'sim' ? 'confirmado' : 'recusado',
-            acompanhantes: parseInt(count, 10) - 1,
-            dataResposta: new Date().toISOString()
-          });
-        }
-        alert('Presença confirmada com sucesso! Muito obrigado.');
-        openAppTab('inicio');
-      } catch (err) {
-        console.error(err);
-        alert('Confirmação registrada! Obrigado.');
-        openAppTab('inicio');
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'Confirmar Agora';
-      }
+        const status = document.getElementById('app-guest-status').value;
+        if (status === 'nao') { alert('Agradecemos por nos avisar.'); openAppTab('inicio'); return; }
+        await window.submitWeddingRSVP({ full_name: document.getElementById('app-guest-name').value, phone: document.getElementById('app-guest-phone').value, person_type: appPersonType.value, birth_date: appBirthdate.value, identity_confirmed: document.getElementById('app-identity-confirmation').checked });
+        alert('Presença confirmada com sucesso. Obrigado!');
+        e.target.reset(); appPersonType.dispatchEvent(new Event('change')); openAppTab('inicio');
+      } catch (err) { alert(err.message || 'Não foi possível registrar a confirmação. Tente novamente.'); }
+      finally { btn.disabled = false; btn.textContent = 'Confirmar Agora'; }
     };
-
     // Modal PIX
     const modalPix = document.getElementById('modal-pix');
     const PIX_EMV = '00020126360014BR.GOV.BCB.PIX0114+55389916211355204000053039865802BR5925Gabriel de Menezes Cardos6009SAO PAULO6214051025QNcP26CF6304C4BF';

@@ -11,6 +11,10 @@ async function provider(path, env, init = {}) {
 async function hmac(secret, text) { const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]); const bytes = new Uint8Array(await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(text))); return [...bytes].map((byte) => byte.toString(16).padStart(2, "0")).join(""); }
 async function validSignature(request, dataId, env) { const values = Object.fromEntries((request.headers.get("x-signature") || "").split(",").map((item) => item.trim().split("=")).filter(([key, value]) => key && value)); const requestId = request.headers.get("x-request-id") || ""; if (!values.ts || !values.v1 || !requestId || !dataId) return false; const manifest = `id:${String(dataId).toLowerCase()};request-id:${requestId};ts:${values.ts};`; return (await hmac(env.MP_WEBHOOK_SECRET, manifest)) === values.v1; }
 function label(status) { return ({ pending: "Aguardando confirmação oficial do PIX.", approved: "Pagamento confirmado. Obrigado pelo carinho!", cancelled: "Cobrança cancelada.", rejected: "Pagamento não aprovado.", refunded: "Pagamento devolvido." })[status] || "Cobrança encerrada."; }
+function normalizeName(value) { return String(value || "").trim().replace(/\s+/g, " "); }
+function onlyDigits(value) { return String(value || "").replace(/\D/g, ""); }
+function ageOnWedding(birthDate) { const birth = new Date(`${birthDate}T12:00:00Z`); const wedding = new Date("2027-04-25T12:00:00Z"); let age = wedding.getUTCFullYear() - birth.getUTCFullYear(); if (wedding.getUTCMonth() < birth.getUTCMonth() || (wedding.getUTCMonth() === birth.getUTCMonth() && wedding.getUTCDate() < birth.getUTCDate())) age--; return age; }
+function validBirthDate(value) { return /^\d{4}-\d{2}-\d{2}$/.test(value || "") && !Number.isNaN(new Date(`${value}T12:00:00Z`).getTime()); }
 
 async function reconcilePayment(paymentId, env, eventId, rawEvent) {
   const payment = await provider(`/v1/payments/${encodeURIComponent(paymentId)}`, env);
@@ -34,6 +38,21 @@ export default {
     if (request.method === "OPTIONS") return json({});
     const url = new URL(request.url);
     try {
+      if (request.method === "POST" && url.pathname === "/v1/rsvps") {
+        const body = await request.json();
+        const fullName = normalizeName(body.full_name); const phone = onlyDigits(body.phone);
+        const personType = body.person_type === "child" ? "child" : body.person_type === "adult" ? "adult" : "";
+        const birthDate = body.birth_date || null;
+        const email = String(body.email || "").trim(); const notes = String(body.notes || "").trim();
+        if (fullName.split(" ").length < 2 || fullName.length > 120 || phone.length < 10 || phone.length > 13 || !personType || body.identity_confirmed !== true) return json({ message: "Dados de identificação inválidos." }, 400);
+        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json({ message: "E-mail inválido." }, 400);
+        if (personType === "child" && (!validBirthDate(birthDate) || ageOnWedding(birthDate) < 0 || ageOnWedding(birthDate) > 9)) return json({ message: "Crianças devem ter até 9 anos na data do casamento." }, 400);
+        if (personType === "adult" && birthDate) return json({ message: "Data de nascimento é exclusiva para confirmação de criança." }, 400);
+        const identityKey = `${personType}:${fullName.toLocaleLowerCase("pt-BR")}:${phone}:${birthDate || ""}`;
+        const timestamp = now(); const rsvpId = id();
+        await env.DB.prepare("INSERT INTO rsvps(id,full_name,phone,email,person_type,birth_date,identity_key,identity_confirmed_at,notes,confirmed_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(identity_key) DO UPDATE SET full_name=excluded.full_name,email=excluded.email,identity_confirmed_at=excluded.identity_confirmed_at,notes=excluded.notes,updated_at=excluded.updated_at").bind(rsvpId, fullName, phone, email || null, personType, birthDate, identityKey, timestamp, notes || null, timestamp, timestamp).run();
+        return json({ ok: true, id: rsvpId, confirmed_at: timestamp });
+      }
       if (request.method === "GET" && url.pathname === "/v1/public/summary") {
         const pix = await env.DB.prepare("SELECT COALESCE(SUM(net_amount_cents),0) amount, COUNT(*) count FROM contributions WHERE status IN ('confirmed','partially_refunded')").first();
         const physical = await env.DB.prepare("SELECT COUNT(*) count FROM external_orders WHERE payment_status='paid'").first();

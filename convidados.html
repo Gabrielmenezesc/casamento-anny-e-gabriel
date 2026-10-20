@@ -92,28 +92,27 @@
               <input class="form-input" type="email" id="rsvp-email" placeholder="seu@email.com" autocomplete="email" />
             </div>
 
-            <div class="form-input-row">
-              <div class="form-group">
-                <label class="form-label">Adultos <span style="display:block; font-size: 0.65rem; color: var(--text-muted); font-weight: 400; text-transform: none; letter-spacing: 0; margin-top: 2px;">(Máximo 2)</span></label>
-                <div class="counter-field">
-                  <button type="button" class="counter-btn" id="adults-dec">−</button>
-                  <span class="counter-value" id="adults-count">1</span>
-                  <button type="button" class="counter-btn" id="adults-inc">+</button>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Crianças <span style="display:block; font-size: 0.65rem; color: var(--text-muted); font-weight: 400; text-transform: none; letter-spacing: 0; margin-top: 2px;">(Até 9 anos, necessário comprovação de idade)</span></label>
-                <div class="counter-field">
-                  <button type="button" class="counter-btn" id="children-dec">−</button>
-                  <span class="counter-value" id="children-count">0</span>
-                  <button type="button" class="counter-btn" id="children-inc">+</button>
-                </div>
-              </div>
+            <div class="form-group">
+              <label class="form-label" for="rsvp-person-type">Quem está confirmando? *</label>
+              <select class="form-input" id="rsvp-person-type" required>
+                <option value="adult">Adulto</option>
+                <option value="child">Criança (até 9 anos)</option>
+              </select>
+              <small style="display:block; margin-top:6px; color:var(--text-muted);">Cada pessoa deve enviar a própria confirmação.</small>
             </div>
 
-            <!-- Container para nomes adicionais -->
-            <div id="additional-guests-container" style="margin-bottom: 1rem;"></div>
+            <div class="form-group" id="rsvp-birthdate-group" hidden>
+              <label class="form-label" for="rsvp-birthdate">Data de nascimento da criança *</label>
+              <input class="form-input" type="date" id="rsvp-birthdate" max="2026-10-20" />
+              <small style="display:block; margin-top:6px; color:var(--text-muted);">Aceitamos crianças que tenham até 9 anos na data do casamento.</small>
+            </div>
 
+            <div class="form-group" style="margin-top:.25rem;">
+              <label style="display:flex; gap:.6rem; align-items:flex-start; cursor:pointer; font-size:.9rem; line-height:1.45;">
+                <input type="checkbox" id="rsvp-identity-confirmation" required style="margin-top:.2rem;" />
+                <span>Confirmo que os dados acima identificam somente a pessoa que está sendo confirmada.</span>
+              </label>
+            </div>
             <div class="form-group">
               <label class="form-label" for="rsvp-notes">Observações (alergias, dieta especial...)</label>
               <textarea class="form-input form-textarea" id="rsvp-notes" placeholder="Compartilhe algo importante que devemos saber..."></textarea>
@@ -162,7 +161,9 @@
   </script>
   <script src="./js/utils.js"></script>
   <script src="./js/app.js?v=15"></script>
-  <script src="./js/convidados.js?v=21"></script>
+  <script src="./js/contributions-config.js"></script>
+  <script src="./js/rsvp.js"></script>
+  <script src="./js/convidados.js?v=22"></script>
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script>document.addEventListener('DOMContentLoaded', function() { if(typeof AOS!=='undefined') AOS.init({ duration: 700, once: true }); });</script>
   <script src="./js/assistant.js?v=15" defer></script>
